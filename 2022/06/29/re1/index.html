@@ -20,30 +20,46 @@
     var CONFIG = {"hostname":"jonathanbest7.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="一位逆向菜狗">
-<meta property="og:type" content="website">
-<meta property="og:title" content="bj777的blog">
-<meta property="og:url" content="https://jonathanbest7.github.io/index.html">
+  <meta name="description" content="re1好久没整博客了，因为博客的文件被我不小心手欠删了，但一直有写，后面有时间就传上去！中间打了很多比赛，也被虐的很惨，稍微复现几道题。 Destdog3的几道题1、go这个题目就看出来是一个go语言的逆向，go语言的逆向首先看字符串是否恢复，如果没恢复就要用到某些插件了，其次找main_main这个函数，这个函数的入口如果直接能搜到，那就很好，没搜到也没关系，我们自己写个程序从start跟到ma">
+<meta property="og:type" content="article">
+<meta property="og:title" content="re1">
+<meta property="og:url" content="https://jonathanbest7.github.io/2022/06/29/re1/index.html">
 <meta property="og:site_name" content="bj777的blog">
-<meta property="og:description" content="一位逆向菜狗">
+<meta property="og:description" content="re1好久没整博客了，因为博客的文件被我不小心手欠删了，但一直有写，后面有时间就传上去！中间打了很多比赛，也被虐的很惨，稍微复现几道题。 Destdog3的几道题1、go这个题目就看出来是一个go语言的逆向，go语言的逆向首先看字符串是否恢复，如果没恢复就要用到某些插件了，其次找main_main这个函数，这个函数的入口如果直接能搜到，那就很好，没搜到也没关系，我们自己写个程序从start跟到ma">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220629233706561.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220629233806232.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220629233838199.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220629233926322.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220629234339050.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220629234427308.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220629234631877.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220629234838667.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220629235012930.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220630170408100.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220630170420207.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220630170754591.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220630170645456.png">
+<meta property="article:published_time" content="2022-06-29T15:27:38.000Z">
+<meta property="article:modified_time" content="2022-06-30T09:09:20.921Z">
 <meta property="article:author" content="bj777">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220629233706561.png">
 
-<link rel="canonical" href="https://jonathanbest7.github.io/">
+<link rel="canonical" href="https://jonathanbest7.github.io/2022/06/29/re1/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>bj777的blog</title>
+  <title>re1 | bj777的blog</title>
   
 
 
@@ -157,9 +173,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -175,10 +192,9 @@
       <meta itemprop="name" content="bj777的blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/29/re1/" class="post-title-link" itemprop="url">re1</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          re1
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -208,7 +224,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="re1"><a href="#re1" class="headerlink" title="re1"></a>re1</h1><p>好久没整博客了，因为博客的文件被我不小心手欠删了，但一直有写，后面有时间就传上去！中间打了很多比赛，也被虐的很惨，稍微复现几道题。</p>
+        <h1 id="re1"><a href="#re1" class="headerlink" title="re1"></a>re1</h1><p>好久没整博客了，因为博客的文件被我不小心手欠删了，但一直有写，后面有时间就传上去！中间打了很多比赛，也被虐的很惨，稍微复现几道题。</p>
 <h2 id="Destdog3的几道题"><a href="#Destdog3的几道题" class="headerlink" title="Destdog3的几道题"></a>Destdog3的几道题</h2><h3 id="1、go"><a href="#1、go" class="headerlink" title="1、go"></a>1、go</h3><p>这个题目就看出来是一个go语言的逆向，go语言的逆向首先看字符串是否恢复，如果没恢复就要用到某些插件了，其次找main_main这个函数，这个函数的入口如果直接能搜到，那就很好，没搜到也没关系，我们自己写个程序从start跟到main_main来看一看。</p>
 <p>如果没有任何修改的话，我们进入程序直接f5是这个场面，一直跟进函数</p>
 <p><img src="/../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220629233706561.png" alt="image-20220629233706561"></p>
@@ -249,91 +265,30 @@
 
 <p>结果小端序就对了。</p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://jonathanbest7.github.io/2022/06/23/hello-world/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/bitbug_favicon.ico">
-      <meta itemprop="name" content="bj777">
-      <meta itemprop="description" content="一位逆向菜狗">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bj777的blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/23/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-06-23 01:06:21" itemprop="dateCreated datePublished" datetime="2022-06-23T01:06:21+08:00">2022-06-23</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/23/hello-world/" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -386,6 +341,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#re1"><span class="nav-text">re1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Destdog3%E7%9A%84%E5%87%A0%E9%81%93%E9%A2%98"><span class="nav-text">Destdog3的几道题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81go"><span class="nav-text">1、go</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ttttea"><span class="nav-text">ttttea</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
