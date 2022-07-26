@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bitbug_favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bitbug_favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jonathanbest7.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Base64编码详解：这么几个月了，最近做了好多题，也有好多很隐蔽的base64，所以有必要深刻的了解一下base64的编码原理了。 一、base64编码规则：第一步，将待转换的字符串每三个字节分为一组，每个字节占8bit，那么共有24个二进制位。第二步，将上面的24个二进制位每6个一组，共分为4组。第三步，在每组前面添加两个0，每组由6个变为8个二进制位，总共32个二进制位，即四个字节。第四步，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RSA-BASE64-AES">
+<meta property="og:url" content="https://jonathanbest7.github.io/2021/12/30/RSA-BASE64-AES/index.html">
+<meta property="og:site_name" content="bj777的blog">
+<meta property="og:description" content="Base64编码详解：这么几个月了，最近做了好多题，也有好多很隐蔽的base64，所以有必要深刻的了解一下base64的编码原理了。 一、base64编码规则：第一步，将待转换的字符串每三个字节分为一组，每个字节占8bit，那么共有24个二进制位。第二步，将上面的24个二进制位每6个一组，共分为4组。第三步，在每组前面添加两个0，每组由6个变为8个二进制位，总共32个二进制位，即四个字节。第四步，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/RSA-BASE64-AES/image-20211230225536687.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/RSA-BASE64-AES/image-20211230230239216.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/RSA-BASE64-AES/image-20220102104413475.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/RSA-BASE64-AES/image-20220102105751411.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/RSA-BASE64-AES/image-20220102110114528.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/RSA-BASE64-AES/image-20220102114413545.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/RSA-BASE64-AES/image-20220102121452605.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/RSA-BASE64-AES/image-20220102123222633.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/RSA-BASE64-AES/image-20220102122830101.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/RSA-BASE64-AES/image-20220102124119529.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/RSA-BASE64-AES/image-20220102124750895.png">
+<meta property="article:published_time" content="2021-12-30T14:43:23.000Z">
+<meta property="article:modified_time" content="2022-07-17T16:52:07.728Z">
+<meta property="article:author" content="bj777">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jonathanbest7.github.io/blog/source/_posts/RSA-BASE64-AES/image-20211230225536687.png">
+
+<link rel="canonical" href="https://jonathanbest7.github.io/2021/12/30/RSA-BASE64-AES/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>RSA-BASE64-AES | bj777的blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bj777的blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录学习每一瞬间</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">25</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonathanbest7.github.io/2021/12/30/RSA-BASE64-AES/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/bitbug_favicon.ico">
+      <meta itemprop="name" content="bj777">
+      <meta itemprop="description" content="一位逆向菜狗">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bj777的blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RSA-BASE64-AES
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-30 22:43:23" itemprop="dateCreated datePublished" datetime="2021-12-30T22:43:23+08:00">2021-12-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-18 00:52:07" itemprop="dateModified" datetime="2022-07-18T00:52:07+08:00">2022-07-18</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Base64编码详解："><a href="#Base64编码详解：" class="headerlink" title="Base64编码详解："></a>Base64编码详解：</h1><p>这么几个月了，最近做了好多题，也有好多很隐蔽的base64，所以有必要深刻的了解一下base64的编码原理了。</p>
+<h2 id="一、base64编码规则："><a href="#一、base64编码规则：" class="headerlink" title="一、base64编码规则："></a>一、base64编码规则：</h2><p>第一步，将待转换的字符串每三个字节分为一组，每个字节占8bit，那么共有24个二进制位。<br>第二步，将上面的24个二进制位每6个一组，共分为4组。<br>第三步，在每组前面添加两个0，每组由6个变为8个二进制位，总共32个二进制位，即四个字节。<br>第四步，根据Base64编码对照表（见下图）获得对应的值。<br><img src="/../../../blog/source/_posts/RSA-BASE64-AES/image-20211230225536687.png"></p>
+<p>就是先转换成二进制，分6分切开，再在前面补两个0，变成9位，算索引，找表即可。</p>
+<p>第一步：“M”、“a”、”n”对应的ASCII码值分别为77，97，110，对应的二进制值是01001101、01100001、01101110。如图第二三行所示，由此组成一个24位的二进制字符串。<br>第二步：如图红色框，将24位每6位二进制位一组分成四组。<br>第三步：在上面每一组前面补两个0，扩展成32个二进制位，此时变为四个字节：00010011、00010110、00000101、00101110。分别对应的值（Base64编码索引）为：19、22、5、46。<br>第四步：用上面的值在Base64编码表中进行查找，分别对应：T、W、F、u。因此“Man”Base64编码之后就变为：TWFu。</p>
+<p>那么有时候会出现“&#x3D;&#x3D;”是什么情况呢？</p>
+<h2 id="二、base64的补位"><a href="#二、base64的补位" class="headerlink" title="二、base64的补位"></a>二、base64的补位</h2><p>当只有一个字符时，不足24位，那么后面就需要补0，不存在的位就需要” &#x3D; “来取代。</p>
+<p><img src="/../../../blog/source/_posts/RSA-BASE64-AES/image-20211230230239216.png"></p>
+<p>上图很好的表示了补位。</p>
+<h2 id="三、base58，base32，base16"><a href="#三、base58，base32，base16" class="headerlink" title="三、base58，base32，base16"></a>三、base58，base32，base16</h2><p>base64是切成6份，base32是切成5份，同理base16切成4份。</p>
+<p>base58编码方式显然是不一样的，采用辗转相除:</p>
+<p>如要将1234转换为58进制；</p>
+<p>第一步：1234除于58，商21，余数为16，查表得H</p>
+<p>第二步：21除于58，商0，余数为21，查表得N</p>
+<p>所以得到base58编码为：NH</p>
+<h2 id="四、代码表示"><a href="#四、代码表示" class="headerlink" title="四、代码表示"></a>四、代码表示</h2><p>base64的C语言的代码有很明显的特征，我们只需要找到“ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+&#x2F;”字符串即可，有时候又会变表，那么我们给出一个python变表脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">t1=<span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span></span><br><span class="line">t2=<span class="string">&#x27;nopqrstuvwxyzabcdefghijklm0123456789ABCDEFGHIJKL+/MNOPQRSTUVWXYZ&#x27;</span></span><br><span class="line">data=<span class="string">&quot;OBufaa21Td86rWS8Wob8iGhZYocbr5vxZfcCoWv3&quot;</span></span><br><span class="line">result = <span class="string">&#x27;&#x27;</span></span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> ch <span class="keyword">in</span> data:</span><br><span class="line">  result += t1[t2.index(ch)]</span><br><span class="line">result = <span class="built_in">bytearray</span>(base64.b64decode(result+<span class="string">&quot;==&quot;</span>))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(result)):</span><br><span class="line">    flag+=<span class="built_in">chr</span>(result[i])</span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="RSA详细介绍："><a href="#RSA详细介绍：" class="headerlink" title="RSA详细介绍："></a>RSA详细介绍：</h1><p>在极客的时候做了好几道RSA的题，现在来详细介绍一下。</p>
+<p>RSA是一种非对称加密。</p>
+<h2 id="一、生成密钥过程"><a href="#一、生成密钥过程" class="headerlink" title="一、生成密钥过程"></a>一、生成密钥过程</h2><p>首先选择两个不相等的质数，分别为p和q，然后算出p<em>q为n，n就是密钥长度。计算欧拉函数，如果n是质数，则 φ(n)&#x3D;n-1，所以φ(3233) &#x3D; φ(61x53) &#x3D; φ(61)φ(53)&#x3D;60x52&#x3D;3120。接下来选择一个整数e，且e与φ(n)互质。然后计算模反元素，所谓“模反元素”就是指有一个整数d，可以使得ed除以φ(n)的余数为1，公式表示：</em>e<strong>d*≡1(*m**o</strong>d<strong>φ*(<em>n</em>))，即*e</strong>d<em>–</em>k<em><em>φ</em>(<em>n</em>)&#x3D;1，所以公钥是</em><em>(n,e)**,私钥*</em>(n,d)**，则公钥可以发布，私钥自己留着。</p>
+<h2 id="二、反解密钥过程"><a href="#二、反解密钥过程" class="headerlink" title="二、反解密钥过程"></a>二、反解密钥过程</h2><p>直接给出脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> libnum <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">n=<span class="number">103461035900816914121390101299049044413950405173712170434161686539878160984549</span></span><br><span class="line">c=<span class="number">0xad939ff59f6e70bcbfad406f2494993757eee98b91bc244184a377520d06fc35</span></span><br><span class="line">e=<span class="number">65537</span></span><br><span class="line">p=<span class="number">366669102002966856876605669837014229419</span></span><br><span class="line">q=<span class="number">282164587459512124844245113950593348271</span></span><br><span class="line">phi=(p-<span class="number">1</span>)*(q-<span class="number">1</span>)</span><br><span class="line">d=gmpy2.invert(e,phi)</span><br><span class="line">flag=<span class="built_in">pow</span>(c,<span class="built_in">int</span>(d),n)</span><br><span class="line"><span class="built_in">print</span>(n2s(flag))</span><br></pre></td></tr></table></figure>
+
+<h1 id="AES详细介绍："><a href="#AES详细介绍：" class="headerlink" title="AES详细介绍："></a>AES详细介绍：</h1><p>是一种常见的对称加密方式：加密和解密用到的密钥是相同的，这种加密方式加密速度非常快，适合经常发送数据的场合。缺点是密钥的传输比较麻烦。AES加密由明文，密钥，加密函数，密文，AES解密函数组成。加密函数是将明文和密钥作为参数传进函数中的，</p>
+<h2 id="一、加密"><a href="#一、加密" class="headerlink" title="一、加密"></a>一、加密</h2><p>AES为分组密码，分组密码也就是把明文分成一组一组的，每组长度相等，每次加密一组数据，直到加密完整个明文。在AES标准规范中，分组长度只能是128位，也就是说，每个分组为16个字节（每个字节8位）。</p>
+<p><img src="/../../../blog/source/_posts/RSA-BASE64-AES/image-20220102104413475.png"></p>
+<p>假设这里使用128位的密钥，加密10轮</p>
+<p>设P位明文，我们知道明文是16个字节，我们将这16个字节搞成4×4的矩阵，矩阵的排列顺序为从上到下、从左至右。再将明文矩阵换成对应ascii码成为状态矩阵.</p>
+<p><img src="/../../../blog/source/_posts/RSA-BASE64-AES/image-20220102105751411.png"></p>
+<p>密钥的加密是不一样的</p>
+<p>128位密钥也是用字节为单位的矩阵表示，矩阵的每一列被称为1个32位比特字。通过密钥编排函数该密钥矩阵被扩展成一个44个字组成的序列W[0],W[1], … ,W[43],该序列的前4个元素W[0],W[1],W[2],W[3]是原始密钥，用于加密运算中的初始密钥加（下面介绍）;后面40个字分为10组，每组4个字（128比特）分别用于10轮加密运算中的轮密钥加，如下图所示：</p>
+<p><img src="/../../../blog/source/_posts/RSA-BASE64-AES/image-20220102110114528.png"></p>
+<p>AES加密分为4个步骤：字节代换、行位移、列混合和轮密钥加</p>
+<h3 id="1、字节代换"><a href="#1、字节代换" class="headerlink" title="1、字节代换"></a>1、字节代换</h3><p>AES字节代换是一个查表的操作。AES定义了一个S盒和逆S盒。</p>
+<p>S盒是一个16×16的表格，我们怎么进行查取呢，一个字节是8位，我们取高4位作为行值，低4位作为列值，按照表格进行查询，然后替换。</p>
+<h3 id="2、行移位"><a href="#2、行移位" class="headerlink" title="2、行移位"></a>2、行移位</h3><p>行移位是一个简单的左循环移位操作。当密钥长度为128比特时，状态矩阵的第0行左移0字节，第1行左移1字节，第2行左移2字节，第3行左移3字节，如下图所示：</p>
+<p><img src="/../../../blog/source/_posts/RSA-BASE64-AES/image-20220102114413545.png"></p>
+<h3 id="3、列混合"><a href="#3、列混合" class="headerlink" title="3、列混合"></a>3、列混合</h3><p> 列混合的操作是通过矩阵相乘实现，但乘法实际上是异或</p>
+<p><img src="/../../../blog/source/_posts/RSA-BASE64-AES/image-20220102121452605.png"></p>
+<p><img src="/../../../blog/source/_posts/RSA-BASE64-AES/image-20220102123222633.png"></p>
+<h3 id="4、轮密钥加"><a href="#4、轮密钥加" class="headerlink" title="4、轮密钥加"></a>4、轮密钥加</h3><p>使用P和密钥进行异或，以列位单位，对应位置异或，对应下标相等异或。</p>
+<p><img src="/../../../blog/source/_posts/RSA-BASE64-AES/image-20220102122830101.png"></p>
+<h2 id="二、密钥扩展"><a href="#二、密钥扩展" class="headerlink" title="二、密钥扩展"></a>二、密钥扩展</h2><p>我们知道密钥总共存在44列，前4列是我们给出的16位密钥分成的4列，那么后面40列每4列是经过一轮AES函数所搞出来的</p>
+<p>这个44矩阵的每一列的4个字节组成一个字，矩阵4列的4个字依次命名为W[0]、W[1]、W[2]和W[3]，它们构成一个以字为单位的数组W。例如，设密钥K为”abcdefghijklmnop”,则K0 &#x3D; ‘a’,K1 &#x3D; ‘b’, K2 &#x3D; ‘c’,K3 &#x3D; ‘d’,W[0] &#x3D; “abcd”。<br>接着，对W数组扩充40个新列，构成总共44列的扩展密钥数组。新列以如下的递归方式产生：<br>1.如果i不是4的倍数，那么第i列由如下等式确定：<br>W[i]&#x3D;W[i-4]⨁W[i-1]<br>2.如果i是4的倍数，那么第i列由如下等式确定：<br>W[i]&#x3D;W[i-4]⨁T(W[i-1])<br>其中，T是一个有点复杂的函数。<br>函数T由3部分组成：字循环、字节代换和轮常量异或，这3部分的作用分别如下。<br>a.字循环：将1个字中的4个字节循环左移1个字节。即将输入字[b0, b1, b2, b3]变换成[b1,b2,b3,b0]。<br>b.字节代换：对字循环的结果使用S盒进行字节代换。<br>c.轮常量异或：将前两步的结果同轮常量Rcon[j]进行异或，其中j表示轮数。<br>轮常量Rcon[j]是一个字，其值见下表。</p>
+<p><img src="/../../../blog/source/_posts/RSA-BASE64-AES/image-20220102124119529.png"></p>
+<p>下面举个例子：<br>设初始的128位密钥为：<br>3C A1 0B 21 57 F0 19 16 90 2E 13 80 AC C1 07 BD<br>那么4个初始值为：<br>W[0] &#x3D; 3C A1 0B 21<br>W[1] &#x3D; 57 F0 19 16<br>W[2] &#x3D; 90 2E 13 80<br>W[3] &#x3D; AC C1 07 BD<br>下面求扩展的第1轮的子密钥(W[4],W[5],W[6],W[7])。<br>由于4是4的倍数，所以：<br>W[4] &#x3D; W[0] ⨁ T(W[3])<br>T(W[3])的计算步骤如下：</p>
+<p>循环地将W[3]的元素移位：AC C1 07 BD变成C1 07 BD AC;<br>将 C1 07 BD AC 作为S盒的输入，输出为78 C5 7A 91;<br>将78 C5 7A 91与第一轮轮常量Rcon[1]进行异或运算，将得到79 C5 7A 91，因此，T(W[3])&#x3D;79 C5 7A 91，故<br>W[4] &#x3D; 3C A1 0B 21 ⨁ 79 C5 7A 91 &#x3D; 45 64 71 B0<br>其余的3个子密钥段的计算如下：<br>W[5] &#x3D; W[1] ⨁ W[4] &#x3D; 57 F0 19 16 ⨁ 45 64 71 B0 &#x3D; 12 94 68 A6<br>W[6] &#x3D; W[2] ⨁ W[5] &#x3D;90 2E 13 80 ⨁ 12 94 68 A6 &#x3D; 82 BA 7B 26<br>W[7] &#x3D; W[3] ⨁ W[6] &#x3D; AC C1 07 BD ⨁ 82 BA 7B 26 &#x3D; 2E 7B 7C 9B<br>所以，第一轮的密钥为 45 64 71 B0 12 94 68 A6 82 BA 7B 26 2E 7B 7C 9B。</p>
+<h2 id="三、解密"><a href="#三、解密" class="headerlink" title="三、解密"></a>三、解密</h2><h3 id="1、字节代换-1"><a href="#1、字节代换-1" class="headerlink" title="1、字节代换"></a>1、字节代换</h3><p>查逆S盒</p>
+<h3 id="2、行移位-1"><a href="#2、行移位-1" class="headerlink" title="2、行移位"></a>2、行移位</h3><p>行移位的逆变换是将状态矩阵中的每一行执行相反的移位操作，例如AES-128中，状态矩阵的第0行右移0字节，第1行右移1字节，第2行右移2字节，第3行右移3字节。</p>
+<h3 id="3、列混合-1"><a href="#3、列混合-1" class="headerlink" title="3、列混合"></a>3、列混合</h3><p><img src="/../../../blog/source/_posts/RSA-BASE64-AES/image-20220102124750895.png"></p>
+<p>左乘的为逆变换矩阵，逆变换矩阵与变换矩阵乘积为单位矩阵</p>
+<h3 id="4、轮密钥加-1"><a href="#4、轮密钥加-1" class="headerlink" title="4、轮密钥加"></a>4、轮密钥加</h3><p>轮密钥加的逆运算同正向的轮密钥加运算完全一致</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/30/noraml14-17/" rel="prev" title="noraml14-17">
+      <i class="fa fa-chevron-left"></i> noraml14-17
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/26/CSAPP/" rel="next" title="CSAPP-1">
+      CSAPP-1 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Base64%E7%BC%96%E7%A0%81%E8%AF%A6%E8%A7%A3%EF%BC%9A"><span class="nav-text">Base64编码详解：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81base64%E7%BC%96%E7%A0%81%E8%A7%84%E5%88%99%EF%BC%9A"><span class="nav-text">一、base64编码规则：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81base64%E7%9A%84%E8%A1%A5%E4%BD%8D"><span class="nav-text">二、base64的补位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81base58%EF%BC%8Cbase32%EF%BC%8Cbase16"><span class="nav-text">三、base58，base32，base16</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E4%BB%A3%E7%A0%81%E8%A1%A8%E7%A4%BA"><span class="nav-text">四、代码表示</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="nav-text">RSA详细介绍：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%94%9F%E6%88%90%E5%AF%86%E9%92%A5%E8%BF%87%E7%A8%8B"><span class="nav-text">一、生成密钥过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%8F%8D%E8%A7%A3%E5%AF%86%E9%92%A5%E8%BF%87%E7%A8%8B"><span class="nav-text">二、反解密钥过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AES%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="nav-text">AES详细介绍：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%8A%A0%E5%AF%86"><span class="nav-text">一、加密</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E5%AD%97%E8%8A%82%E4%BB%A3%E6%8D%A2"><span class="nav-text">1、字节代换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E8%A1%8C%E7%A7%BB%E4%BD%8D"><span class="nav-text">2、行移位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E5%88%97%E6%B7%B7%E5%90%88"><span class="nav-text">3、列混合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E8%BD%AE%E5%AF%86%E9%92%A5%E5%8A%A0"><span class="nav-text">4、轮密钥加</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%AF%86%E9%92%A5%E6%89%A9%E5%B1%95"><span class="nav-text">二、密钥扩展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E8%A7%A3%E5%AF%86"><span class="nav-text">三、解密</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E5%AD%97%E8%8A%82%E4%BB%A3%E6%8D%A2-1"><span class="nav-text">1、字节代换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E8%A1%8C%E7%A7%BB%E4%BD%8D-1"><span class="nav-text">2、行移位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E5%88%97%E6%B7%B7%E5%90%88-1"><span class="nav-text">3、列混合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E8%BD%AE%E5%AF%86%E9%92%A5%E5%8A%A0-1"><span class="nav-text">4、轮密钥加</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bj777"
+      src="/images/bitbug_favicon.ico">
+  <p class="site-author-name" itemprop="name">bj777</p>
+  <div class="site-description" itemprop="description">一位逆向菜狗</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jonathanbest7" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jonathanbest7" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/506611735@qq.com" title="E-Mail → 506611735@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/bang-ji-1" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;bang-ji-1" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bj777</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
