@@ -27,12 +27,12 @@
 <meta property="og:site_name" content="bj777的blog">
 <meta property="og:description" content="normal14-17normal141234567891011121314151617181920212223242526272829int64 __fastcall main(int a1, char **a2, char **a3)&amp;#123;  char v4[16]; &#x2F;&#x2F; [rsp+0h] [rbp-4A0h] BYREF  char v5[16]; &#x2F;&#x2F; [rsp+10h] [rbp">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jonathanbest7.github.io/noraml14-17/image-20220102135850508.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2021/12/30/noraml14-17/image-20220102135850508.png">
 <meta property="article:published_time" content="2021-12-30T10:51:03.000Z">
 <meta property="article:modified_time" content="2022-01-02T10:48:03.245Z">
 <meta property="article:author" content="bj777">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jonathanbest7.github.io/noraml14-17/image-20220102135850508.png">
+<meta name="twitter:image" content="https://jonathanbest7.github.io/2021/12/30/noraml14-17/image-20220102135850508.png">
 
 <link rel="canonical" href="https://jonathanbest7.github.io/2021/12/30/noraml14-17/">
 
@@ -137,7 +137,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">25</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">27</span></a>
 
   </li>
   </ul>
@@ -242,7 +242,7 @@
 <p>我们运行程序输入密码，回出现一个文件里面存有flag</p>
 <p><strong>Flag{N0_M0re_Free_Bugs}</strong></p>
 <h2 id="normal17"><a href="#normal17" class="headerlink" title="normal17"></a>normal17</h2><p>刚开始没法反编译，</p>
-<p><img src="/noraml14-17/image-20220102135850508.png"></p>
+<p><img src="/2021/12/30/noraml14-17/image-20220102135850508.png"></p>
 <p>我们找到这里，是栈帧不平衡导致的，将pop处的改为0x0，即可。修改的原则是，只需在出现负数的那个地方的上一行，按alt+k,调整成跟这个数一摸一样的值就可以了。</p>
 <p>我们找到main函数</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl <span class="title function_">main_0</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span></span><br><span class="line">&#123;</span><br><span class="line">  HANDLE Thread; <span class="comment">// [esp+D0h] [ebp-14h]</span></span><br><span class="line">  HANDLE hObject; <span class="comment">// [esp+DCh] [ebp-8h]</span></span><br><span class="line"></span><br><span class="line">  sub_4110FF();</span><br><span class="line">  ::hObject = CreateMutexW(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">  j_strcpy(Destination, &amp;Source);</span><br><span class="line">  hObject = CreateThread(<span class="number">0</span>, <span class="number">0</span>, StartAddress, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">  Thread = CreateThread(<span class="number">0</span>, <span class="number">0</span>, sub_41119F, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">  CloseHandle(hObject);</span><br><span class="line">  CloseHandle(Thread);</span><br><span class="line">  <span class="keyword">while</span> ( dword_418008 != <span class="number">-1</span> )</span><br><span class="line">    ;</span><br><span class="line">  sub_411190();</span><br><span class="line">  CloseHandle(::hObject);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -372,7 +372,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

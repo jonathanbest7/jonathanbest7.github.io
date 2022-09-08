@@ -27,149 +27,149 @@
 <meta property="og:site_name" content="bj777的blog">
 <meta property="og:description" content="CSAPP-1:计算机系统漫游1.1位与上下文源程序是由0和1的位组成的序列，8位为1字节，对于程序是如何运行的：我们写的c语言每一个字符都用ascii来表示，被叫做文本文件。通过这个实例我们知道，在计算机中所有信息都是由一串比特所构成。 1.2高级到低级 我们的源代码由上图所示进行编译，预处理阶段是进行引用头文件，编译阶段是编译成汇编语言，文件后缀是.s，汇编阶段是编译成机器语言，这是最底层的语">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-1/image-20220126182535717.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-1/image-20220126183312872.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-1/image-20220126224743971.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-1/image-20220126225811627.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-1/image-20220126225849940.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-1/image-20220126230455324.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-1/image-20220126231637917.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-1/image-20220126231645698.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-1/image-20220126232302742.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-1/image-20220126232446158.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-1/image-20220126233152306.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-1/image-20220126233221807.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/CSAPP-1/image-20220126233440876.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220205103509225.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220205103625702.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220205104800188.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220205110346437.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220205110708464.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220205112220948.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220207140008362.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220207140353073.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220207140403917.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220207141727279.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220207144402298.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220207151533153.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220207161439255.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220207161453816.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220207162119452.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220207162845253.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220207163635330.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220207164514250.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220207164803252.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220208220140308.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220208220651497.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220208221508778.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220208222422119.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220209102633405.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220209102650709.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220209102721969.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-2/image-20220209102820327.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220303220910142.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220303221116240.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220303224704891.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220304123732270.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220304123936154.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220304125453591.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220304125624929.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220304130326450.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220304132847111.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309135243852.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309135548164.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309140304334.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309140646395.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309140823490.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309141045501.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309141213694.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309141343757.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309141348611.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309142149530.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309142155379.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309142541692.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309142756951.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309151916807.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309152719554.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309152817073.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309152806881.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309153035920.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309153400037.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309153435851.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309153441198.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309153801221.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309161412343.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309163604767.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309164838805.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309164845071.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309164852994.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309165031493.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309165157591.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309165457631.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309165638590.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309165653801.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309165753954.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309170014341.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309170420708.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309170500224.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-3/image-20220309170518471.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-LAB/image-20220303172619689.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-LAB/image-20220303172745254.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-LAB/image-20220303172937753.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-LAB/image-20220303181512313.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-LAB/image-20220303181600058.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-LAB/image-20220303185344874.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-LAB/image-20220303185414142.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-LAB/image-20220303194719642.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-LAB/image-20220303194725447.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-LAB/image-20220303205629062.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-LAB/image-20220303212529967.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220317175712426.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220317175850287.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220317175859399.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220317185459019.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220317191156258.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330144554826.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330150855839.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330151839295.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330152051016.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330195229301.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330195407058.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330195411404.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330161638664.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330161932306.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330164410397.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330182320641.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330182504346.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330184616086.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330184631787.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330190117921.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330191054571.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330192218540.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220330192224264.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220407161312042.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220407161502198.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220407161528243.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220407164830759.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220407165613175.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220407171051825.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220407190742632.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220407190946484.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220407194955709.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220409213205635.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220409214918203.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220409215023731.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220409220108931.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220410205254755.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220410205657029.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220410205814914.png">
-<meta property="og:image" content="https://jonathanbest7.github.io/blog/source/_posts/csapp-s2e/image-20220410210008538.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-1/image-20220126182535717.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-1/image-20220126183312872.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-1/image-20220126224743971.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-1/image-20220126225811627.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-1/image-20220126225849940.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-1/image-20220126230455324.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-1/image-20220126231637917.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-1/image-20220126231645698.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-1/image-20220126232302742.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-1/image-20220126232446158.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-1/image-20220126233152306.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-1/image-20220126233221807.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/26/CSAPP/image-20220126233440876.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220205103509225.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220205103625702.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220205104800188.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220205110346437.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220205110708464.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220205112220948.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220207140008362.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220207140353073.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220207140403917.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220207141727279.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220207144402298.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220207151533153.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220207161439255.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220207161453816.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220207162119452.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220207162845253.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220207163635330.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220207164514250.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220207164803252.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220208220140308.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220208220651497.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220208221508778.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220208222422119.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220209102633405.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220209102650709.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220209102721969.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-2/image-20220209102820327.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220303220910142.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220303221116240.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220303224704891.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220304123732270.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220304123936154.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220304125453591.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220304125624929.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220304130326450.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220304132847111.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309135243852.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309135548164.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309140304334.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309140646395.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309140823490.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309141045501.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309141213694.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309141343757.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309141348611.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309142149530.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309142155379.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309142541692.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309142756951.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309151916807.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309152719554.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309152817073.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309152806881.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309153035920.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309153400037.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309153435851.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309153441198.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309153801221.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309161412343.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309163604767.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309164838805.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309164845071.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309164852994.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309165031493.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309165157591.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309165457631.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309165638590.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309165653801.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309165753954.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309170014341.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309170420708.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309170500224.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-3/image-20220309170518471.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-LAB/image-20220303172619689.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-LAB/image-20220303172745254.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-LAB/image-20220303172937753.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-LAB/image-20220303181512313.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-LAB/image-20220303181600058.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-LAB/image-20220303185344874.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-LAB/image-20220303185414142.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-LAB/image-20220303194719642.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-LAB/image-20220303194725447.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-LAB/image-20220303205629062.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-LAB/image-20220303212529967.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220317175712426.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220317175850287.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220317175859399.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220317185459019.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220317191156258.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330144554826.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330150855839.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330151839295.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330152051016.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330195229301.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330195407058.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330195411404.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330161638664.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330161932306.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330164410397.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330182320641.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330182504346.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330184616086.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330184631787.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330190117921.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330191054571.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330192218540.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220330192224264.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220407161312042.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220407161502198.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220407161528243.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220407164830759.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220407165613175.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220407171051825.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220407190742632.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220407190946484.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220407194955709.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220409213205635.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220409214918203.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220409215023731.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220409220108931.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220410205254755.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220410205657029.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220410205814914.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/csapp-s2e/image-20220410210008538.png">
 <meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20220412135816648.png">
 <meta property="article:published_time" content="2022-01-26T10:19:59.000Z">
 <meta property="article:modified_time" content="2022-07-17T16:36:28.164Z">
 <meta property="article:author" content="bj777">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jonathanbest7.github.io/blog/source/_posts/CSAPP-1/image-20220126182535717.png">
+<meta name="twitter:image" content="https://jonathanbest7.github.io/2022/01/blog/source/_posts/CSAPP-1/image-20220126182535717.png">
 
 <link rel="canonical" href="https://jonathanbest7.github.io/2022/01/26/CSAPP/">
 
@@ -274,7 +274,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">25</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">27</span></a>
 
   </li>
   </ul>
@@ -350,11 +350,11 @@
 
       
         <h1 id="CSAPP-1-计算机系统漫游"><a href="#CSAPP-1-计算机系统漫游" class="headerlink" title="CSAPP-1:计算机系统漫游"></a>CSAPP-1:计算机系统漫游</h1><h2 id="1-1位与上下文"><a href="#1-1位与上下文" class="headerlink" title="1.1位与上下文"></a>1.1位与上下文</h2><p>源程序是由0和1的位组成的序列，8位为1字节，对于程序是如何运行的：我们写的c语言每一个字符都用ascii来表示，被叫做文本文件。通过这个实例我们知道，在计算机中所有信息都是由一串比特所构成。</p>
-<h2 id="1-2高级到低级"><a href="#1-2高级到低级" class="headerlink" title="1.2高级到低级"></a>1.2高级到低级</h2><p><img src="/../../../blog/source/_posts/CSAPP-1/image-20220126182535717.png"></p>
+<h2 id="1-2高级到低级"><a href="#1-2高级到低级" class="headerlink" title="1.2高级到低级"></a>1.2高级到低级</h2><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-1/image-20220126182535717.png"></p>
 <p>我们的源代码由上图所示进行编译，预处理阶段是进行引用头文件，编译阶段是编译成汇编语言，文件后缀是.s，汇编阶段是编译成机器语言，这是最底层的语言，链接阶段，是将我们引用头文件中的函数进行调用。</p>
 <p>在linux上我们在terminal中输入gcc -o file.c进行编译</p>
 <h2 id="1-3处理器读写并解释储存在内存中的指令"><a href="#1-3处理器读写并解释储存在内存中的指令" class="headerlink" title="1.3处理器读写并解释储存在内存中的指令"></a>1.3处理器读写并解释储存在内存中的指令</h2><p>在UNIX系统上运行可执行文件，我们需要shell：shell是命令届时请，它输出提示符，我们输入命令，如果该命令行的第一个单词不是shell内置的命令，那么shell会认为这是个文件，运行后等待下一个指令的输入。</p>
-<h3 id="1-3-1系统的硬件"><a href="#1-3-1系统的硬件" class="headerlink" title="1.3.1系统的硬件"></a>1.3.1系统的硬件</h3><p><img src="/../../../blog/source/_posts/CSAPP-1/image-20220126183312872.png"></p>
+<h3 id="1-3-1系统的硬件"><a href="#1-3-1系统的硬件" class="headerlink" title="1.3.1系统的硬件"></a>1.3.1系统的硬件</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-1/image-20220126183312872.png"></p>
 <h4 id="1-总线"><a href="#1-总线" class="headerlink" title="1.总线"></a>1.总线</h4><p>总线是贯穿系统的一组电子管道，它可以用来携带信息字节，从而穿梭在各个部件之间串联起来整个系统。通常被设计成传送定长的字节块，我们成为字。字是一个参数，一般有32位和64位。</p>
 <h4 id="2、I-x2F-O设备"><a href="#2、I-x2F-O设备" class="headerlink" title="2、I&#x2F;O设备"></a>2、I&#x2F;O设备</h4><p>这是输入输出的设备每个设备都通过适配器或者控制器与总线相连。</p>
 <p>适配器是一块插在主板上的卡，如显示屏。</p>
@@ -365,112 +365,112 @@
 <p>存储：从寄存器copy一个字节或一个字到主存，覆盖原来内容</p>
 <p>操作：把两个寄存器的值copy到算数逻辑单元（ALU）中，ALU进行运算，并把结果给一个寄存器，覆盖其内容</p>
 <p>跳转：从指令本身抽取一个字，并将该字copy到pc中，覆盖pc中的值</p>
-<h3 id="1-3-2运行程序"><a href="#1-3-2运行程序" class="headerlink" title="1.3.2运行程序"></a>1.3.2运行程序</h3><p><img src="/../../../blog/source/_posts/CSAPP-1/image-20220126224743971.png"></p>
+<h3 id="1-3-2运行程序"><a href="#1-3-2运行程序" class="headerlink" title="1.3.2运行程序"></a>1.3.2运行程序</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-1/image-20220126224743971.png"></p>
 <p>当我在shell中按下回车，代码被加载到主存，处理器执行程序机器语言，将字符串从主存复制到寄存器中，由寄存器在显示到显示设备中</p>
 <h3 id="1-4高速缓存"><a href="#1-4高速缓存" class="headerlink" title="1.4高速缓存"></a>1.4高速缓存</h3><p>机械原理：较大存储设备要比较小存储设备运行的慢，而快速设备“造价”高，所以如何加快且消耗少。处理器存储信息少，速度fast，主存相反，我们采用高速缓存存储器，作为暂时集结区，比如cpu上L1高速缓存容量数万字节，访问速度和寄存器差不多，一个数百w的L2存储器通过总线连接到处理器，虽然L2不是那么fast，但仍比原来fast10倍。L1，L2是由静态随机访问存储器SRAM硬件技术实现，利用率高速缓存的局部性原理</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-1/image-20220126225811627.png"></p>
-<h3 id="1-5存储设备形成层次结构"><a href="#1-5存储设备形成层次结构" class="headerlink" title="1.5存储设备形成层次结构"></a>1.5存储设备形成层次结构</h3><p><img src="/../../../blog/source/_posts/CSAPP-1/image-20220126225849940.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-1/image-20220126225811627.png"></p>
+<h3 id="1-5存储设备形成层次结构"><a href="#1-5存储设备形成层次结构" class="headerlink" title="1.5存储设备形成层次结构"></a>1.5存储设备形成层次结构</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-1/image-20220126225849940.png"></p>
 <p>上一级是下一级的高速缓存。</p>
 <h3 id="1-6操作系统功能"><a href="#1-6操作系统功能" class="headerlink" title="1.6操作系统功能"></a>1.6操作系统功能</h3><p>两个功能：1、防止硬件被失控的app滥用</p>
 <p>2、向应用程序提供简单的机制来控制复杂且不同的低级硬件设备，操作系统通过抽象的概念实现功能</p>
 <h4 id="1-6-1进程"><a href="#1-6-1进程" class="headerlink" title="1.6.1进程"></a>1.6.1进程</h4><p>进程是操作系统对一个正在进行的程序的一种抽象，在一个系统上可以同时运行多个进程，而每个进程都在使用hardware，即我们的CPU是在不断进行交错执行，如下图。</p>
 <p>操作系统保持跟踪进程运行所需的所有状态信息，这种状态称为上下文，切到另一个程序叫做上下文切换，保存上面进程恢复下面进程</p>
 <p>一个进程转移另一个进程是由内核kernel管理的，shell是进程，但kernel并不是进程，他是系统管理全部进程所用代码和数据结构的集合</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-1/image-20220126230455324.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-1/image-20220126230455324.png"></p>
 <h4 id="1-6-2线程"><a href="#1-6-2线程" class="headerlink" title="1.6.2线程"></a>1.6.2线程</h4><p>一般认为一个进程只有一个线程控制，但实际上一个进程由多个线程控制。</p>
 <h4 id="1-6-3虚拟内存"><a href="#1-6-3虚拟内存" class="headerlink" title="1.6.3虚拟内存"></a>1.6.3虚拟内存</h4><p>虚拟内存是个抽象概念，为每个进程提供给假象，，每个进程看到的内存都一样，成为虚拟地址空间</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-1/image-20220126231637917.png"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-1/image-20220126231645698.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-1/image-20220126231637917.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-1/image-20220126231645698.png"></p>
 <h4 id="1-6-4文件"><a href="#1-6-4文件" class="headerlink" title="1.6.4文件"></a>1.6.4文件</h4><p>文件就是字节序列，所有的输入输出甚至设备都能看成文件。</p>
 <h3 id="1-7系统之间利用网络通信"><a href="#1-7系统之间利用网络通信" class="headerlink" title="1.7系统之间利用网络通信"></a>1.7系统之间利用网络通信</h3><p>如果将网络视为一个I&#x2F;O设备，那么能得到下面的图片。</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-1/image-20220126232302742.png"></p>
-<h4 id="1-8-1Amdahl定律"><a href="#1-8-1Amdahl定律" class="headerlink" title="1.8.1Amdahl定律"></a>1.8.1Amdahl定律</h4><p><img src="/../../../blog/source/_posts/CSAPP-1/image-20220126232446158.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-1/image-20220126232302742.png"></p>
+<h4 id="1-8-1Amdahl定律"><a href="#1-8-1Amdahl定律" class="headerlink" title="1.8.1Amdahl定律"></a>1.8.1Amdahl定律</h4><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-1/image-20220126232446158.png"></p>
 <h4 id="1-8-2并发和并行"><a href="#1-8-2并发和并行" class="headerlink" title="1.8.2并发和并行"></a>1.8.2并发和并行</h4><p>并发是指一个同时具有多个活动的系统</p>
 <p>并行是指用并发使一个系统运行更快</p>
 <h4 id="1-线程级并发"><a href="#1-线程级并发" class="headerlink" title="1.线程级并发"></a>1.线程级并发</h4><p>使用线程我们能在一个进程中执行多个控制流</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-1/image-20220126233152306.png"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-1/image-20220126233221807.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-1/image-20220126233152306.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-1/image-20220126233221807.png"></p>
 <h5 id="1-8-3指令级并行"><a href="#1-8-3指令级并行" class="headerlink" title="1.8.3指令级并行"></a>1.8.3指令级并行</h5><p>如果cpu能达到比一个周期一条指令更快的执行速度，就称为超标量处理器。</p>
-<h5 id="1-8-4单指令、多数据并行"><a href="#1-8-4单指令、多数据并行" class="headerlink" title="1.8.4单指令、多数据并行"></a>1.8.4单指令、多数据并行</h5><p><img src="/CSAPP-1/image-20220126233440876.png"></p>
+<h5 id="1-8-4单指令、多数据并行"><a href="#1-8-4单指令、多数据并行" class="headerlink" title="1.8.4单指令、多数据并行"></a>1.8.4单指令、多数据并行</h5><p><img src="/2022/01/26/CSAPP/image-20220126233440876.png"></p>
 <h1 id="csapp-2：信息的表示和处理"><a href="#csapp-2：信息的表示和处理" class="headerlink" title="csapp-2：信息的表示和处理"></a>csapp-2：信息的表示和处理</h1><h2 id="2-1、信息存储"><a href="#2-1、信息存储" class="headerlink" title="2.1、信息存储"></a>2.1、信息存储</h2><p>大多数计算器采用8位的块，或者字节，作为最小的可寻址的内存单位，而不是访问内存中单独的位。机器级程序将内存视为非常大的字节数组，成为虚拟内存。</p>
 <p>程序对象：包括程序数据、指令和控制信息。</p>
 <h3 id="2-1-1、16进制表示法"><a href="#2-1-1、16进制表示法" class="headerlink" title="2.1.1、16进制表示法"></a>2.1.1、16进制表示法</h3><p>二进制转换16进制，先分成4个一组，如果不足四个，最左侧可以不足4位前方补0，然后每4个转换成一个16进制数。</p>
 <h4 id="2-1-2、字数据大小"><a href="#2-1-2、字数据大小" class="headerlink" title="2.1.2、字数据大小"></a>2.1.2、字数据大小</h4><p>每个计算机都有一个字长，指明指针数据的标称大小，因为虚拟地址是以这一个字来编码的，字长决定系统参数也就是虚拟地址空间的最大大小</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220205103509225.png"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220205103625702.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220205103509225.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220205103625702.png"></p>
 <p>char虽然是单字节，但也能存储整数值，long在32位是4字节，在64是8字节，int32_t和int64_t分别是4和8字节，float是单精度，double是双精度，分别4字节和8字节</p>
 <h3 id="2-1-3、寻址和字节顺序"><a href="#2-1-3、寻址和字节顺序" class="headerlink" title="2.1.3、寻址和字节顺序"></a>2.1.3、寻址和字节顺序</h3><p>小端序和大端序：</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220205104800188.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220205104800188.png"></p>
 <p>通过实验我们知道，在linux 32、windows和linux 64用的都是小端序，sun用的是大端序</p>
 <h3 id="2-1-4、字符串"><a href="#2-1-4、字符串" class="headerlink" title="2.1.4、字符串"></a>2.1.4、字符串</h3><p>字符串在任何系统上都是一样的</p>
-<h3 id="2-1-5、代码"><a href="#2-1-5、代码" class="headerlink" title="2.1.5、代码"></a>2.1.5、代码</h3><p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220205110346437.png"></p>
-<h3 id="2-1-6、布尔代数"><a href="#2-1-6、布尔代数" class="headerlink" title="2.1.6、布尔代数"></a>2.1.6、布尔代数</h3><p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220205110708464.png"></p>
+<h3 id="2-1-5、代码"><a href="#2-1-5、代码" class="headerlink" title="2.1.5、代码"></a>2.1.5、代码</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220205110346437.png"></p>
+<h3 id="2-1-6、布尔代数"><a href="#2-1-6、布尔代数" class="headerlink" title="2.1.6、布尔代数"></a>2.1.6、布尔代数</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220205110708464.png"></p>
 <p>&amp;：位上都是1才是1，其余是0</p>
 <p>|：有1就是1，全0才是0</p>
 <p>^：相同就是0</p>
 <p>~：取反</p>
 <h3 id="2-1-7、c语言中的移位运算"><a href="#2-1-7、c语言中的移位运算" class="headerlink" title="2.1.7、c语言中的移位运算"></a>2.1.7、c语言中的移位运算</h3><p>向左移动x位，去掉前x位右边补0</p>
 <p>向右移动分两种情况</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220205112220948.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220205112220948.png"></p>
 <p>加法的优先级高于移位，牵扯到移位要加括号</p>
-<h2 id="2-2、整数表示"><a href="#2-2、整数表示" class="headerlink" title="2.2、整数表示"></a>2.2、整数表示</h2><p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220207140008362.png"></p>
-<h3 id="2-2-1、整形数据类型"><a href="#2-2-1、整形数据类型" class="headerlink" title="2.2.1、整形数据类型"></a>2.2.1、整形数据类型</h3><p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220207140353073.png"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220207140403917.png"></p>
+<h2 id="2-2、整数表示"><a href="#2-2、整数表示" class="headerlink" title="2.2、整数表示"></a>2.2、整数表示</h2><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220207140008362.png"></p>
+<h3 id="2-2-1、整形数据类型"><a href="#2-2-1、整形数据类型" class="headerlink" title="2.2.1、整形数据类型"></a>2.2.1、整形数据类型</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220207140353073.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220207140403917.png"></p>
 <p>注意负数是比正数多一位的，因为有0.</p>
 <h3 id="2-2-2、无符号数的编码-B2U"><a href="#2-2-2、无符号数的编码-B2U" class="headerlink" title="2.2.2、无符号数的编码(B2U)"></a>2.2.2、无符号数的编码(B2U)</h3><p>无符号数的编码是具有唯一性的，每一个二进制都完全等于一个整数，反过来同理。</p>
 <h3 id="2-2-3、补码编码（B2T"><a href="#2-2-3、补码编码（B2T" class="headerlink" title="2.2.3、补码编码（B2T)"></a>2.2.3、补码编码（B2T)</h3><p>表示负数，采用补码，当第一位是1，那么这个数就是负数，如果是0，那么这个表示正数</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220207141727279.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220207141727279.png"></p>
 <p>第一位是1，那么第1位就是负数，剩下的是整数相加</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220207144402298.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220207144402298.png"></p>
 <h3 id="2-2-4、有符号数和无符号数转换"><a href="#2-2-4、有符号数和无符号数转换" class="headerlink" title="2.2.4、有符号数和无符号数转换"></a>2.2.4、有符号数和无符号数转换</h3><p>规则是，先把数据转换成二进制，如果是转换层无符号数，那么就按其标准转换，即不看第一位</p>
 <p>如果是转换成有符号数，我们要考虑补码</p>
 <h3 id="2-2-5、c中的有符号和无符号数"><a href="#2-2-5、c中的有符号和无符号数" class="headerlink" title="2.2.5、c中的有符号和无符号数"></a>2.2.5、c中的有符号和无符号数</h3><p>创建无符号数必须要在字符后加‘u’或者’U’,其他声明都是有符号。当在运算时，一个是有符号，另一个没有符号，那么会强制把有符号转换成无符号，并假设两个数都是非负，在大于小于的比较中</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220207151533153.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220207151533153.png"></p>
 <h3 id="2-2-6、拓展一个数字的位显示"><a href="#2-2-6、拓展一个数字的位显示" class="headerlink" title="2.2.6、拓展一个数字的位显示"></a>2.2.6、拓展一个数字的位显示</h3><p>将无符号数转换成一个更大的数据类型，我们只需要在开头加0，这叫做零拓展</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220207161439255.png"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220207161453816.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220207161439255.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220207161453816.png"></p>
 <p>前提是全部是有符号数</p>
 <h3 id="2-2-7、截断数字"><a href="#2-2-7、截断数字" class="headerlink" title="2.2.7、截断数字"></a>2.2.7、截断数字</h3><p>截断无符号数：</p>
 <p>留下后k位（k位截断数）</p>
 <p>截断补码数：</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220207162119452.png"></p>
-<h2 id="2-3整数运算"><a href="#2-3整数运算" class="headerlink" title="2.3整数运算"></a>2.3整数运算</h2><p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220207162845253.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220207162119452.png"></p>
+<h2 id="2-3整数运算"><a href="#2-3整数运算" class="headerlink" title="2.3整数运算"></a>2.3整数运算</h2><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220207162845253.png"></p>
 <p>从上述文字，我们知道，当x，y在定义域内，但x+y可不一定，若x+y溢出了区域，我们直接将二进制的第一位移除，或者用整数减去x定义域的最大值。判断是否溢出，用x+y是否小于x。</p>
 <p>2.3.2、补码加法</p>
 <p>与上面是一样的，如果超出则减去，低于则加上位数，即加法后的结果不能够超出本身的位数，否则截断！</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220207163635330.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220207163635330.png"></p>
 <p>2.3.3、补码的非</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220207164514250.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220207164514250.png"></p>
 <p>x&#x3D;-（-x（非）+1）（负号）</p>
 <p>2.3.4、无符号乘法</p>
 <p>超出范围，用截断。</p>
 <p>2.3.5、补码乘法</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220207164803252.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220207164803252.png"></p>
 <p>一样</p>
 <p>2.3.6、乘常数</p>
 <p>在位的模式下进行左移位，如果溢出，截断即可。乘法的使用代价是加法等的10倍</p>
 <p>2.3.7、除以2的幂</p>
 <p>除以2的幂我们需要将数据右移，无符号和补码数需要使用逻辑移位和算数移位来达到目的。</p>
 <p>对于补码数，分为两种情况，若最高位0，即正数，直接移位，若是1，左侧补1，其他位右移即可。</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220208220140308.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220208220140308.png"></p>
 <p>如果用x&#x2F;2**k,那么如果是小数,那么就向下取整</p>
 <p>2.4  浮点数</p>
 <p>2.4.1 二进制小数</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220208220651497.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220208220651497.png"></p>
 <p>上述例子很好的反映了什么是二进制小数.</p>
 <p>2.4.2 IEEE浮点表示</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220208221508778.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220208221508778.png"></p>
 <p>简单来说就是,将一个数分为三段,先看第一个值判断是正数还是负数,第三个部分是从右侧开始的0一直到左侧不为0的数,剩余的为第二部分.</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220208222422119.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220208222422119.png"></p>
 <p>2.4.3 数字示例</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220209102633405.png"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220209102650709.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220209102633405.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220209102650709.png"></p>
 <p>2.4.4、舍入</p>
 <p>有4种规则</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220209102721969.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220209102721969.png"></p>
 <p>2.4.5、c语言的浮点数</p>
 <p>默认32位int</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-2/image-20220209102820327.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-2/image-20220209102820327.png"></p>
 <h1 id="CSAPP-3"><a href="#CSAPP-3" class="headerlink" title="CSAPP-3"></a>CSAPP-3</h1><p>从这章开始，开始接触汇编和机器语言！这章比上一章看的舒服点。</p>
 <h2 id="3-1、程序编码"><a href="#3-1、程序编码" class="headerlink" title="3.1、程序编码"></a>3.1、程序编码</h2><p>在linux系统编码c语言指令需要掌握：</p>
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">linux</span>&gt; gcc -Og -o p <span class="built_in">p1</span>.c</span><br></pre></td></tr></table></figure>
@@ -480,33 +480,33 @@
 <p>条件码寄存器保存最近执行的算数或者逻辑运算，如实现if或while语句</p>
 <p>一组向量寄存器可存放一个或多个整数或浮点数</p>
 <h2 id="3-2数据格式"><a href="#3-2数据格式" class="headerlink" title="3.2数据格式"></a>3.2数据格式</h2><p>在intel中规定字代表16位，双字代表32位，四字代表64位</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220303220910142.png"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220303221116240.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220303220910142.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220303221116240.png"></p>
 <p>计算机永远是占用内存越小越好，比如一个数是int，只用不到4位，那么这个数就是按4个位算。用不到32位。</p>
 <h2 id="3-3、操作数"><a href="#3-3、操作数" class="headerlink" title="3.3、操作数"></a>3.3、操作数</h2><p>三种操作数：</p>
 <p>1.立即数，用$555表示</p>
 <p>2.寄存器，16位寄存器用低字节寄存器作为操作数</p>
 <p>3.内存引用，用【】表示内存引用</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220303224704891.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220303224704891.png"></p>
 <p>这样的运算是需要掌握的</p>
 <h3 id="3-3-1、数据传送指令"><a href="#3-3-1、数据传送指令" class="headerlink" title="3.3.1、数据传送指令"></a>3.3.1、数据传送指令</h3><p>mov指令，mov a，b：是将a传送到b。</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220304123732270.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220304123732270.png"></p>
 <p>我们把指令后的第一个数据称为源操作数，第二个数据为目的操作数，下面是5种用法</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220304123936154.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220304123936154.png"></p>
 <p>访问寄存器比访问内存快，所以一般将局部变量保存在寄存器中</p>
 <h3 id="3-3-2、压入和弹出栈数据"><a href="#3-3-2、压入和弹出栈数据" class="headerlink" title="3.3.2、压入和弹出栈数据"></a>3.3.2、压入和弹出栈数据</h3><p>栈是一种数据结构，可以添加或者删除值，要遵循后进先出的原则，用push将数据压入栈中，用pop删除数据，存在属性：弹出之永远是最近被压入而且仍然在栈中的值。，永远记得这个只有一个操作数：</p>
 <p>push %rbp完全等价于sub 8，%rsp    mov %rbp， （%rsp），也就是说在push的时候就已经开辟了空间</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220304125453591.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220304125453591.png"></p>
 <h2 id="3-4、算数和逻辑操作"><a href="#3-4、算数和逻辑操作" class="headerlink" title="3.4、算数和逻辑操作"></a>3.4、算数和逻辑操作</h2><p>add一样也是4个指令addb，addw，addl，addq</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220304125624929.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220304125624929.png"></p>
 <p>其中lea主要是加载地址，上述所有运算几乎都是将源操作数与目的操作数进行运算后存入目的操作数。</p>
 <h3 id="3-4-1、加载有效地址"><a href="#3-4-1、加载有效地址" class="headerlink" title="3.4.1、加载有效地址"></a>3.4.1、加载有效地址</h3><p>lea目的操作数必须是一个寄存器</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220304130326450.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220304130326450.png"></p>
 <h3 id="3-4-2、一元和二元操作数"><a href="#3-4-2、一元和二元操作数" class="headerlink" title="3.4.2、一元和二元操作数"></a>3.4.2、一元和二元操作数</h3><p>这个操作数既是源操作数还是目的操作数，比如inc（%rsp）让栈顶+1，相当于++</p>
 <p>二元操作，第二个操作数既是源又是目的，很像x-&#x3D;y    sub %rax,%rdx是让rdx-rax的值</p>
 <h3 id="3-4-3、移位操作"><a href="#3-4-3、移位操作" class="headerlink" title="3.4.3、移位操作"></a>3.4.3、移位操作</h3><p>左移：sal，shl无差别</p>
 <p>右移：sar（算数移位）shr（逻辑移位）</p>
-<h3 id="3-4-4、特殊算数操作"><a href="#3-4-4、特殊算数操作" class="headerlink" title="3.4.4、特殊算数操作"></a>3.4.4、特殊算数操作</h3><p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220304132847111.png"></p>
+<h3 id="3-4-4、特殊算数操作"><a href="#3-4-4、特殊算数操作" class="headerlink" title="3.4.4、特殊算数操作"></a>3.4.4、特殊算数操作</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220304132847111.png"></p>
 <h2 id="3-5、控制"><a href="#3-5、控制" class="headerlink" title="3.5、控制"></a>3.5、控制</h2><h3 id="3-5-1、条件码"><a href="#3-5-1、条件码" class="headerlink" title="3.5.1、条件码"></a>3.5.1、条件码</h3><p>CF：进位标志。最近的操作使最高位产生进位。可用来检查无符号操作的溢出</p>
 <p>ZF：零标志。最近的操作得出结果为0.</p>
 <p>SF：符号标志。最近的操作得到的结果为负数。</p>
@@ -517,33 +517,33 @@
 <p>1.可以根据条件码的某种组合，将一个字节设为0或者1</p>
 <p>2.可以跳转到程序的其他部分</p>
 <p>3.可以有条件的传送数据</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309135243852.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309135243852.png"></p>
 <h3 id="3-5-3、跳转指令"><a href="#3-5-3、跳转指令" class="headerlink" title="3.5.3、跳转指令"></a>3.5.3、跳转指令</h3><p>jmp是无条件跳转</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309135548164.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309135548164.png"></p>
 <h3 id="3-5-4、跳转编码"><a href="#3-5-4、跳转编码" class="headerlink" title="3.5.4、跳转编码"></a>3.5.4、跳转编码</h3><p>分为两种，最常用的是PC相对的，会将跳转指令的地址与紧邻在跳转指令后面的那条指令的差作为编码，还有一种是给出绝对地址，用4个字节直接跳转到目标地址</p>
 <h3 id="3-5-5、用条件控制来实现条件分支"><a href="#3-5-5、用条件控制来实现条件分支" class="headerlink" title="3.5.5、用条件控制来实现条件分支"></a>3.5.5、用条件控制来实现条件分支</h3><p>类似于goto的写法，就是先对比，对比来决定是否goto</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309140304334.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309140304334.png"></p>
 <h3 id="3-5-6、用条件传送来实现条件分支"><a href="#3-5-6、用条件传送来实现条件分支" class="headerlink" title="3.5.6、用条件传送来实现条件分支"></a>3.5.6、用条件传送来实现条件分支</h3><p>上面用条件控制实现是非常低效的。我们这种方法是将两种结果都进行计算，然后再根据条件满足与否来选择结果</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309140646395.png"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309140823490.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309140646395.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309140823490.png"></p>
 <h3 id="3-5-7、循环"><a href="#3-5-7、循环" class="headerlink" title="3.5.7、循环"></a>3.5.7、循环</h3><p>上述是讲的if这样的判断，但其实循环跟上面的原理是差不多的</p>
 <p>先看do-while</p>
 <p>这个底层的逻辑跟上层逻辑是一样的，先do然后判断</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309141045501.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309141045501.png"></p>
 <p>while函数与do-while是不同的，先对while中的参数进行求值，然后根据条件码进行是否进入循环体的判断</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309141213694.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309141213694.png"></p>
 <p>当然还有第二种方法，称之为guard-do，先用条件分支，如果初始条件不成立就跳过循环，然后变成do-while循环</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309141343757.png"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309141348611.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309141343757.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309141348611.png"></p>
 <p>for循环程序先对第一个参数求值，然后进入循环，再循环中测试第二个参数，在判断是否进入第三个参数是否继续到循环里执行2，通过不同的优化等级，也有两种汇编来执行，不再赘述。</p>
 <p>switch语句，switch可通过一个整数索引值进行多重分支，通过跳转表来实现，相当于跳转表是数组，然后那个整数值就是索引值</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309142149530.png"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309142155379.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309142149530.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309142155379.png"></p>
 <p>jmp指令的操作数前有*代表是见解跳转。rodata叫做只读数据。</p>
 <h2 id="3-6、过程"><a href="#3-6、过程" class="headerlink" title="3.6、过程"></a>3.6、过程</h2><p>过程是一种抽象，提供一种封装代码方法，简单来说就是由一组参数经过过程来产生一个返回值过程有很多种：函数，方法，子过程，子例程，处理函数等</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309142541692.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309142541692.png"></p>
 <h3 id="3-6-1、运行时栈"><a href="#3-6-1、运行时栈" class="headerlink" title="3.6.1、运行时栈"></a>3.6.1、运行时栈</h3><p>栈是后进先出的，在过程p调用q过程的时候：</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309142756951.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309142756951.png"></p>
 <p>在x86-64过程中，若需要的存储空间超过寄存器能存放的大小时，就会在栈上分配空间，这个过程叫<strong>栈帧</strong></p>
 <p>一般的在过程中超过6个参数就需要栈了</p>
 <h3 id="3-6-2、转移控制"><a href="#3-6-2、转移控制" class="headerlink" title="3.6.2、转移控制"></a>3.6.2、转移控制</h3><p>将控制从p转移到q只需要将PC设置成q代码起始地址，但仍要记得p当前指令地址</p>
@@ -552,60 +552,60 @@
 <p>对一个局部变量使用地址运算符‘&amp;’，因此必须要有地址</p>
 <p>某些局部变量是数组或者结构，因此必须能够通过数组或结构引用访问</p>
 <h3 id="3-6-5、寄存器中的局部存储空间"><a href="#3-6-5、寄存器中的局部存储空间" class="headerlink" title="3.6.5、寄存器中的局部存储空间"></a>3.6.5、寄存器中的局部存储空间</h3><p>寄存器是唯一被所有过程共享的资源，过程中的被调用者不会覆盖调用者稍后会使用寄存器</p>
-<h2 id="3-7、数组分配和访问"><a href="#3-7、数组分配和访问" class="headerlink" title="3.7、数组分配和访问"></a>3.7、数组分配和访问</h2><h3 id="3-7-1、基本原则"><a href="#3-7-1、基本原则" class="headerlink" title="3.7.1、基本原则"></a>3.7.1、基本原则</h3><p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309151916807.png"></p>
+<h2 id="3-7、数组分配和访问"><a href="#3-7、数组分配和访问" class="headerlink" title="3.7、数组分配和访问"></a>3.7、数组分配和访问</h2><h3 id="3-7-1、基本原则"><a href="#3-7-1、基本原则" class="headerlink" title="3.7.1、基本原则"></a>3.7.1、基本原则</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309151916807.png"></p>
 <h3 id="3-7-2、指针运算"><a href="#3-7-2、指针运算" class="headerlink" title="3.7.2、指针运算"></a>3.7.2、指针运算</h3><p>&amp;和*可以产生和间接引用指针，我们要知道的就是下面这个表</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309152719554.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309152719554.png"></p>
 <h3 id="3-7-3、嵌套的数组"><a href="#3-7-3、嵌套的数组" class="headerlink" title="3.7.3、嵌套的数组"></a>3.7.3、嵌套的数组</h3><p>对于二维数组</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309152817073.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309152817073.png"></p>
 <p>上面数组的以下面来解释：</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309152806881.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309152806881.png"></p>
 <p>我们从汇编求出来C就是列，L就是T的字节大小</p>
-<h3 id="3-7-4、定长数组"><a href="#3-7-4、定长数组" class="headerlink" title="3.7.4、定长数组"></a>3.7.4、定长数组</h3><p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309153035920.png"></p>
+<h3 id="3-7-4、定长数组"><a href="#3-7-4、定长数组" class="headerlink" title="3.7.4、定长数组"></a>3.7.4、定长数组</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309153035920.png"></p>
 <h3 id="3-7-5、变长数组"><a href="#3-7-5、变长数组" class="headerlink" title="3.7.5、变长数组"></a>3.7.5、变长数组</h3><h2 id="3-8、异质的数据结构"><a href="#3-8、异质的数据结构" class="headerlink" title="3.8、异质的数据结构"></a>3.8、异质的数据结构</h2><p>主要介绍struct和union</p>
 <h3 id="3-8-1、结构"><a href="#3-8-1、结构" class="headerlink" title="3.8.1、结构"></a>3.8.1、结构</h3><p>struct将不同类型的对象聚合到一个对象中，类似数组，一幅图直接理解</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309153400037.png"></p>
-<h3 id="3-8-2、联合"><a href="#3-8-2、联合" class="headerlink" title="3.8.2、联合"></a>3.8.2、联合</h3><p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309153435851.png"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309153441198.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309153400037.png"></p>
+<h3 id="3-8-2、联合"><a href="#3-8-2、联合" class="headerlink" title="3.8.2、联合"></a>3.8.2、联合</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309153435851.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309153441198.png"></p>
 <p>一个联合总的大小等于它最大字段的大小，总之联合可以带来的节省很小</p>
 <h3 id="3-8-3、数据对齐"><a href="#3-8-3、数据对齐" class="headerlink" title="3.8.3、数据对齐"></a>3.8.3、数据对齐</h3><p>主要就是一个处理器要是从内存取8字节，那么地址必须是8的倍数</p>
-<h2 id="3-9、安全漏洞"><a href="#3-9、安全漏洞" class="headerlink" title="3.9、安全漏洞"></a>3.9、安全漏洞</h2><h3 id="3-9-1、gdb操作"><a href="#3-9-1、gdb操作" class="headerlink" title="3.9.1、gdb操作"></a>3.9.1、gdb操作</h3><p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309153801221.png"></p>
+<h2 id="3-9、安全漏洞"><a href="#3-9、安全漏洞" class="headerlink" title="3.9、安全漏洞"></a>3.9、安全漏洞</h2><h3 id="3-9-1、gdb操作"><a href="#3-9-1、gdb操作" class="headerlink" title="3.9.1、gdb操作"></a>3.9.1、gdb操作</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309153801221.png"></p>
 <h3 id="3-9-2、内存越界和缓冲区溢出"><a href="#3-9-2、内存越界和缓冲区溢出" class="headerlink" title="3.9.2、内存越界和缓冲区溢出"></a>3.9.2、内存越界和缓冲区溢出</h3><p>这是pwn里的攻击方法,比如gets来输入字符串，超出输入范围那么就叫缓冲区溢出，当字符串边长，就会覆盖栈上存储的某些信息，比如未被使用的栈空间，返回地址，caller里保存的状态。。。当返回被破坏，那么我们完全可以ret到我们想要的地方，比如shell中</p>
 <h3 id="3-9-3、对抗缓冲区溢出"><a href="#3-9-3、对抗缓冲区溢出" class="headerlink" title="3.9.3、对抗缓冲区溢出"></a>3.9.3、对抗缓冲区溢出</h3><p>比如我们会在文件中加入防护措施。</p>
 <h4 id="1、栈随机化也叫ALSR"><a href="#1、栈随机化也叫ALSR" class="headerlink" title="1、栈随机化也叫ALSR"></a>1、栈随机化也叫ALSR</h4><p>这个很常见，原理：在程序开始时，在栈上分配一段0~n字节的随机大小空间，程序不需要这段空间，所以每次栈空间都是随机的。</p>
 <h4 id="2、栈破坏检测也叫canary"><a href="#2、栈破坏检测也叫canary" class="headerlink" title="2、栈破坏检测也叫canary"></a>2、栈破坏检测也叫canary</h4><p>我们尝试在数组即将越界时检测到它，其思想是在栈帧任何局部缓冲区与栈状态之间存储一个特殊的canary值，这个值随机产生，这个值是只读。</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309161412343.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309161412343.png"></p>
 <p>如果存贮值与canary值相同异或就为0，那么程序继续</p>
 <h4 id="3、限制可执行代码区域NX"><a href="#3、限制可执行代码区域NX" class="headerlink" title="3、限制可执行代码区域NX"></a>3、限制可执行代码区域NX</h4><p>这一招是消除攻击者插入代码的权力，只有保存在编译器产生的代码的那部分内存才是可执行的，其余只能读和写。</p>
 <h3 id="3-9-4、支持变长栈帧"><a href="#3-9-4、支持变长栈帧" class="headerlink" title="3.9.4、支持变长栈帧"></a>3.9.4、支持变长栈帧</h3><p>%rbp作为帧指针，或者叫做基地址.</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309163604767.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309163604767.png"></p>
 <h2 id="3-10、浮点代码"><a href="#3-10、浮点代码" class="headerlink" title="3.10、浮点代码"></a>3.10、浮点代码</h2><p>处理器的浮点体系结构包括多个方面：</p>
 <p>如何存储和访问浮点数值。通常是通过某种寄存器方式完成</p>
 <p>对浮点数据操作的指令</p>
 <p>向函数传递浮点数参数和从函数返回浮点数结果的规则</p>
 <p>函数调用过程中保存寄存器的规则：一些寄存器被指定为调用者保存，而其他的被指定为被调用者保存</p>
 <p>历史问题：</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309164838805.png"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309164845071.png"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309164852994.png"></p>
-<h3 id="3-10-1、浮点传送和转换操作"><a href="#3-10-1、浮点传送和转换操作" class="headerlink" title="3.10.1、浮点传送和转换操作"></a>3.10.1、浮点传送和转换操作</h3><p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309165031493.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309164838805.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309164845071.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309164852994.png"></p>
+<h3 id="3-10-1、浮点传送和转换操作"><a href="#3-10-1、浮点传送和转换操作" class="headerlink" title="3.10.1、浮点传送和转换操作"></a>3.10.1、浮点传送和转换操作</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309165031493.png"></p>
 <p>若把浮点数转换成整数时，指令进行截断，向0舍入。</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309165157591.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309165157591.png"></p>
 <p>上面忽略第二个操作数，因为他只会影响结果的高位字节，一半第二个操作数跟目的操作数是一样的。</p>
 <p>vunpcklps通常交叉放置来自两个xmm寄存器的值，储存在第三个寄存器</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309165457631.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309165457631.png"></p>
 <h3 id="3-10-2、过程中的浮点代码"><a href="#3-10-2、过程中的浮点代码" class="headerlink" title="3.10.2、过程中的浮点代码"></a>3.10.2、过程中的浮点代码</h3><p>过程：xmm寄存器用来向函数传参，然后返回值</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309165638590.png" alt="image-20220309165638590"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309165653801.png" alt="image-20220309165653801"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309165638590.png" alt="image-20220309165638590"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309165653801.png" alt="image-20220309165653801"></p>
 <p>若函数包含指针，整数和浮点数混合参数时，指针和整数通过寄存器传递，而浮点值通过xmm寄存器传递</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309165753954.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309165753954.png"></p>
 <h3 id="3-10-3、浮点数运算操作"><a href="#3-10-3、浮点数运算操作" class="headerlink" title="3.10.3、浮点数运算操作"></a>3.10.3、浮点数运算操作</h3><p>第一个源操作数可以是一个xmm寄存器或内存位置，第二个源操作数和目的操作数必须是xmm寄存器。每个操作都有一条针对单精度的指令和一条针对双精度的指令，结果存放在目的寄存器。</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309170014341.png" alt="image-20220309170014341"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309170014341.png" alt="image-20220309170014341"></p>
 <h3 id="3-10-4、定义和使用浮点数"><a href="#3-10-4、定义和使用浮点数" class="headerlink" title="3.10.4、定义和使用浮点数"></a>3.10.4、定义和使用浮点数</h3><p>与整数操作不同，AVX浮点操作不能以立即数作为操作数。</p>
-<h3 id="3-10-5、在浮点代码中使用位级操作"><a href="#3-10-5、在浮点代码中使用位级操作" class="headerlink" title="3.10.5、在浮点代码中使用位级操作"></a>3.10.5、在浮点代码中使用位级操作</h3><p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309170420708.png"></p>
+<h3 id="3-10-5、在浮点代码中使用位级操作"><a href="#3-10-5、在浮点代码中使用位级操作" class="headerlink" title="3.10.5、在浮点代码中使用位级操作"></a>3.10.5、在浮点代码中使用位级操作</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309170420708.png"></p>
 <h3 id="3-10-6、浮点比较操作"><a href="#3-10-6、浮点比较操作" class="headerlink" title="3.10.6、浮点比较操作"></a>3.10.6、浮点比较操作</h3><p>类似于cmp指令</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309170500224.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309170500224.png"></p>
 <p>也有三个条件码</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-3/image-20220309170518471.png"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-3/image-20220309170518471.png"></p>
 <p>结束：</p>
 <p>这篇学到了很多汇编知识，理解了底层的逻辑。</p>
 <p>收获很多，继续加油！</p>
@@ -615,26 +615,26 @@
 <h2 id="Bomb-Lab"><a href="#Bomb-Lab" class="headerlink" title="Bomb Lab"></a>Bomb Lab</h2><p>在gdb中进行反汇编调试，输入disas phase_1，出来第一关：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Dump of assembler code <span class="keyword">for</span> function phase_1:</span><br><span class="line">   <span class="number">0x0000000000400ee0</span> &lt;+<span class="number">0</span>&gt;:     sub    rsp,<span class="number">0x8</span><span class="comment">//开辟0x8的空间</span></span><br><span class="line">   <span class="number">0x0000000000400ee4</span> &lt;+<span class="number">4</span>&gt;:     mov    esi,<span class="number">0x402400</span><span class="comment">//将0x402400存到esi中，里面可能会有字符串</span></span><br><span class="line">   <span class="number">0x0000000000400ee9</span> &lt;+<span class="number">9</span>&gt;:     call   <span class="number">0x401338</span> &lt;strings_not_equal&gt;<span class="comment">//这个函数可能是对比函数</span></span><br><span class="line">   <span class="number">0x0000000000400eee</span> &lt;+<span class="number">14</span>&gt;:    test   eax,eax<span class="comment">//对比</span></span><br><span class="line">   <span class="number">0x0000000000400ef0</span> &lt;+<span class="number">16</span>&gt;:    je     <span class="number">0x400ef7</span> &lt;phase_1+<span class="number">23</span>&gt;<span class="comment">//如果eax=0，则进入phase2；否则爆炸</span></span><br><span class="line">   <span class="number">0x0000000000400ef2</span> &lt;+<span class="number">18</span>&gt;:    call   <span class="number">0x40143a</span> &lt;explode_bomb&gt;</span><br><span class="line">   <span class="number">0x0000000000400ef7</span> &lt;+<span class="number">23</span>&gt;:    add    rsp,<span class="number">0x8</span><span class="comment">//返回0x8大小的内存</span></span><br><span class="line">   <span class="number">0x0000000000400efb</span> &lt;+<span class="number">27</span>&gt;:    ret</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../../../blog/source/_posts/CSAPP-LAB/image-20220303172619689.png" alt="image-20220303172619689"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-LAB/image-20220303172619689.png" alt="image-20220303172619689"></p>
 <p>用ida看的话更清楚，就是一个对比函数：</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-LAB/image-20220303172745254.png" alt="image-20220303172745254"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-LAB/image-20220303172937753.png" alt="image-20220303172937753"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-LAB/image-20220303172745254.png" alt="image-20220303172745254"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-LAB/image-20220303172937753.png" alt="image-20220303172937753"></p>
 <p>拿下！</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Dump of assembler code <span class="keyword">for</span> function phase_2:</span><br><span class="line">   <span class="number">0x0000000000400efc</span> &lt;+<span class="number">0</span>&gt;:     push   rbp</span><br><span class="line">   <span class="number">0x0000000000400efd</span> &lt;+<span class="number">1</span>&gt;:     push   rbx</span><br><span class="line">   <span class="number">0x0000000000400efe</span> &lt;+<span class="number">2</span>&gt;:     sub    rsp,<span class="number">0x28</span><span class="comment">//开辟0x28空间</span></span><br><span class="line">   <span class="number">0x0000000000400f02</span> &lt;+<span class="number">6</span>&gt;:     mov    rsi,rsp</span><br><span class="line">   <span class="number">0x0000000000400f05</span> &lt;+<span class="number">9</span>&gt;:     call   <span class="number">0x40145c</span> &lt;read_six_numbers&gt;<span class="comment">//输入6个数</span></span><br><span class="line">   <span class="number">0x0000000000400f0a</span> &lt;+<span class="number">14</span>&gt;:    cmp    DWORD PTR [rsp],<span class="number">0x1</span><span class="comment">//与1对比</span></span><br><span class="line">   <span class="number">0x0000000000400f0e</span> &lt;+<span class="number">18</span>&gt;:    je     <span class="number">0x400f30</span> &lt;phase_2+<span class="number">52</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400f10</span> &lt;+<span class="number">20</span>&gt;:    call   <span class="number">0x40143a</span> &lt;explode_bomb&gt;</span><br><span class="line">   <span class="number">0x0000000000400f15</span> &lt;+<span class="number">25</span>&gt;:    jmp    <span class="number">0x400f30</span> &lt;phase_2+<span class="number">52</span>&gt;<span class="comment">//跳转到phase3</span></span><br><span class="line">   <span class="number">0x0000000000400f17</span> &lt;+<span class="number">27</span>&gt;:    mov    eax,DWORD PTR [rbx<span class="number">-0x4</span>]</span><br><span class="line">   <span class="number">0x0000000000400f1a</span> &lt;+<span class="number">30</span>&gt;:    add    eax,eax<span class="comment">//eax += eax</span></span><br><span class="line">   <span class="number">0x0000000000400f1c</span> &lt;+<span class="number">32</span>&gt;:    cmp    DWORD PTR [rbx],eax</span><br><span class="line">   <span class="number">0x0000000000400f1e</span> &lt;+<span class="number">34</span>&gt;:    je     <span class="number">0x400f25</span> &lt;phase_2+<span class="number">41</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400f20</span> &lt;+<span class="number">36</span>&gt;:    call   <span class="number">0x40143a</span> &lt;explode_bomb&gt;</span><br><span class="line">   <span class="number">0x0000000000400f25</span> &lt;+<span class="number">41</span>&gt;:    add    rbx,<span class="number">0x4</span><span class="comment">//rbx+4这个地址在循环</span></span><br><span class="line">   <span class="number">0x0000000000400f29</span> &lt;+<span class="number">45</span>&gt;:    cmp    rbx,rbp<span class="comment">//对比rbx。rbp</span></span><br><span class="line">   <span class="number">0x0000000000400f2c</span> &lt;+<span class="number">48</span>&gt;:    jne    <span class="number">0x400f17</span> &lt;phase_2+<span class="number">27</span>&gt;<span class="comment">//进入循环</span></span><br><span class="line">   <span class="number">0x0000000000400f2e</span> &lt;+<span class="number">50</span>&gt;:    jmp    <span class="number">0x400f3c</span> &lt;phase_2+<span class="number">64</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400f30</span> &lt;+<span class="number">52</span>&gt;:    lea    rbx,[rsp+<span class="number">0x4</span>]</span><br><span class="line">   <span class="number">0x0000000000400f35</span> &lt;+<span class="number">57</span>&gt;:    lea    rbp,[rsp+<span class="number">0x18</span>]</span><br><span class="line">   <span class="number">0x0000000000400f3a</span> &lt;+<span class="number">62</span>&gt;:    jmp    <span class="number">0x400f17</span> &lt;phase_2+<span class="number">27</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400f3c</span> &lt;+<span class="number">64</span>&gt;:    add    rsp,<span class="number">0x28</span></span><br><span class="line">   <span class="number">0x0000000000400f40</span> &lt;+<span class="number">68</span>&gt;:    pop    rbx</span><br><span class="line">   <span class="number">0x0000000000400f41</span> &lt;+<span class="number">69</span>&gt;:    pop    rbp</span><br><span class="line">   <span class="number">0x0000000000400f42</span> &lt;+<span class="number">70</span>&gt;:    ret</span><br><span class="line">End of assembler dump.</span><br></pre></td></tr></table></figure>
 
 <p>那么很清楚了，我们这个循环做的操作就是让eax*2，那么找到第一个值就行了，我们用ida反编译</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-LAB/image-20220303181512313.png" alt="image-20220303181512313"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-LAB/image-20220303181512313.png" alt="image-20220303181512313"></p>
 <p>所以6个数是1，2，4，8，16，32</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-LAB/image-20220303181600058.png" alt="image-20220303181600058"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-LAB/image-20220303181600058.png" alt="image-20220303181600058"></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">Dump of assembler code <span class="keyword">for</span> function phase_3:</span><br><span class="line">   <span class="number">0x0000000000400f43</span> &lt;+<span class="number">0</span>&gt;:     sub    rsp,<span class="number">0x18</span><span class="comment">//开辟0x18空间</span></span><br><span class="line">   <span class="number">0x0000000000400f47</span> &lt;+<span class="number">4</span>&gt;:     lea    rcx,[rsp+<span class="number">0xc</span>]<span class="comment">//将[rsp+0xc]的值存在rcx寄存器</span></span><br><span class="line">   <span class="number">0x0000000000400f4c</span> &lt;+<span class="number">9</span>&gt;:     lea    rdx,[rsp+<span class="number">0x8</span>]</span><br><span class="line">   <span class="number">0x0000000000400f51</span> &lt;+<span class="number">14</span>&gt;:    mov    esi,<span class="number">0x4025cf</span><span class="comment">//esi寄存器的值为0x4025cf</span></span><br><span class="line">   <span class="number">0x0000000000400f56</span> &lt;+<span class="number">19</span>&gt;:    mov    eax,<span class="number">0x0</span></span><br><span class="line">   <span class="number">0x0000000000400f5b</span> &lt;+<span class="number">24</span>&gt;:    call   <span class="number">0x400bf0</span> &lt;__isoc99_sscanf@plt&gt;<span class="comment">//scanf</span></span><br><span class="line">   <span class="number">0x0000000000400f60</span> &lt;+<span class="number">29</span>&gt;:    cmp    eax,<span class="number">0x1</span></span><br><span class="line">   <span class="number">0x0000000000400f63</span> &lt;+<span class="number">32</span>&gt;:    jg     <span class="number">0x400f6a</span> &lt;phase_3+<span class="number">39</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400f65</span> &lt;+<span class="number">34</span>&gt;:    call   <span class="number">0x40143a</span> &lt;explode_bomb&gt;</span><br><span class="line">   <span class="number">0x0000000000400f6a</span> &lt;+<span class="number">39</span>&gt;:    cmp    DWORD PTR [rsp+<span class="number">0x8</span>],<span class="number">0x7</span></span><br><span class="line">   <span class="number">0x0000000000400f6f</span> &lt;+<span class="number">44</span>&gt;:    ja     <span class="number">0x400fad</span> &lt;phase_3+<span class="number">106</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400f71</span> &lt;+<span class="number">46</span>&gt;:    mov    eax,DWORD PTR [rsp+<span class="number">0x8</span>]</span><br><span class="line">   <span class="number">0x0000000000400f75</span> &lt;+<span class="number">50</span>&gt;:    jmp    QWORD PTR [rax*<span class="number">8</span>+<span class="number">0x402470</span>]</span><br><span class="line">   <span class="number">0x0000000000400f7c</span> &lt;+<span class="number">57</span>&gt;:    mov    eax,<span class="number">0xcf</span></span><br><span class="line">   <span class="number">0x0000000000400f81</span> &lt;+<span class="number">62</span>&gt;:    jmp    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400f83</span> &lt;+<span class="number">64</span>&gt;:    mov    eax,<span class="number">0x2c3</span></span><br><span class="line">   <span class="number">0x0000000000400f88</span> &lt;+<span class="number">69</span>&gt;:    jmp    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400f8a</span> &lt;+<span class="number">71</span>&gt;:    mov    eax,<span class="number">0x100</span></span><br><span class="line">   <span class="number">0x0000000000400f8f</span> &lt;+<span class="number">76</span>&gt;:    jmp    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400f91</span> &lt;+<span class="number">78</span>&gt;:    mov    eax,<span class="number">0x185</span></span><br><span class="line">   <span class="number">0x0000000000400f96</span> &lt;+<span class="number">83</span>&gt;:    jmp    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400f98</span> &lt;+<span class="number">85</span>&gt;:    mov    eax,<span class="number">0xce</span></span><br><span class="line">   <span class="number">0x0000000000400f9d</span> &lt;+<span class="number">90</span>&gt;:    jmp    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400f9f</span> &lt;+<span class="number">92</span>&gt;:    mov    eax,<span class="number">0x2aa</span></span><br><span class="line">   <span class="number">0x0000000000400fa4</span> &lt;+<span class="number">97</span>&gt;:    jmp    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400fa6</span> &lt;+<span class="number">99</span>&gt;:    mov    eax,<span class="number">0x147</span></span><br><span class="line">   <span class="number">0x0000000000400fab</span> &lt;+<span class="number">104</span>&gt;:   jmp    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400fad</span> &lt;+<span class="number">106</span>&gt;:   call   <span class="number">0x40143a</span> &lt;explode_bomb&gt;</span><br><span class="line">   <span class="number">0x0000000000400fb2</span> &lt;+<span class="number">111</span>&gt;:   mov    eax,<span class="number">0x0</span></span><br><span class="line">   <span class="number">0x0000000000400fb7</span> &lt;+<span class="number">116</span>&gt;:   jmp    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400fb9</span> &lt;+<span class="number">118</span>&gt;:   mov    eax,<span class="number">0x137</span></span><br><span class="line">   <span class="number">0x0000000000400fbe</span> &lt;+<span class="number">123</span>&gt;:   cmp    eax,DWORD PTR [rsp+<span class="number">0xc</span>]</span><br><span class="line">   <span class="number">0x0000000000400fc2</span> &lt;+<span class="number">127</span>&gt;:   je     <span class="number">0x400fc9</span> &lt;phase_3+<span class="number">134</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400fc4</span> &lt;+<span class="number">129</span>&gt;:   call   <span class="number">0x40143a</span> &lt;explode_bomb&gt;</span><br><span class="line">   <span class="number">0x0000000000400fc9</span> &lt;+<span class="number">134</span>&gt;:   add    rsp,<span class="number">0x18</span></span><br><span class="line">   <span class="number">0x0000000000400fcd</span> &lt;+<span class="number">138</span>&gt;:   ret</span><br><span class="line">End of assembler dump.</span><br></pre></td></tr></table></figure>
 
 <p>我认为这个不太好看出来，下面是关键</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x0000000000400f6a</span> &lt;+<span class="number">39</span>&gt;:    cmp    DWORD PTR [rsp+<span class="number">0x8</span>],<span class="number">0x7</span></span><br><span class="line"> <span class="number">0x0000000000400f6f</span> &lt;+<span class="number">44</span>&gt;:    ja     <span class="number">0x400fad</span> &lt;phase_3+<span class="number">106</span>&gt;</span><br></pre></td></tr></table></figure>
 
 <p>ja是大于则跳转，跳转就爆炸了，所以不能大于7，给了我们许多选择，我们选0-7都行，第二个数就对应switch上的另一个值，用ida更好看出！</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-LAB/image-20220303185344874.png" alt="image-20220303185344874"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-LAB/image-20220303185344874.png" alt="image-20220303185344874"></p>
 <p>我选2，就必须对应707。</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-LAB/image-20220303185414142.png" alt="image-20220303185414142"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-LAB/image-20220303185414142.png" alt="image-20220303185414142"></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Dump of assembler code <span class="keyword">for</span> function phase_4:</span><br><span class="line">   <span class="number">0x000000000040100c</span> &lt;+<span class="number">0</span>&gt;:     sub    rsp,<span class="number">0x18</span><span class="comment">//开辟空间</span></span><br><span class="line">   <span class="number">0x0000000000401010</span> &lt;+<span class="number">4</span>&gt;:     lea    rcx,[rsp+<span class="number">0xc</span>]</span><br><span class="line">   <span class="number">0x0000000000401015</span> &lt;+<span class="number">9</span>&gt;:     lea    rdx,[rsp+<span class="number">0x8</span>]</span><br><span class="line">   <span class="number">0x000000000040101a</span> &lt;+<span class="number">14</span>&gt;:    mov    esi,<span class="number">0x4025cf</span></span><br><span class="line">   <span class="number">0x000000000040101f</span> &lt;+<span class="number">19</span>&gt;:    mov    eax,<span class="number">0x0</span></span><br><span class="line">   <span class="number">0x0000000000401024</span> &lt;+<span class="number">24</span>&gt;:    call   <span class="number">0x400bf0</span> &lt;__isoc99_sscanf@plt&gt;<span class="comment">//输入两个值</span></span><br><span class="line">   <span class="number">0x0000000000401029</span> &lt;+<span class="number">29</span>&gt;:    cmp    eax,<span class="number">0x2</span></span><br><span class="line">   <span class="number">0x000000000040102c</span> &lt;+<span class="number">32</span>&gt;:    jne    <span class="number">0x401035</span> &lt;phase_4+<span class="number">41</span>&gt;</span><br><span class="line">   <span class="number">0x000000000040102e</span> &lt;+<span class="number">34</span>&gt;:    cmp    DWORD PTR [rsp+<span class="number">0x8</span>],<span class="number">0xe</span></span><br><span class="line">   <span class="number">0x0000000000401033</span> &lt;+<span class="number">39</span>&gt;:    jbe    <span class="number">0x40103a</span> &lt;phase_4+<span class="number">46</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000401035</span> &lt;+<span class="number">41</span>&gt;:    call   <span class="number">0x40143a</span> &lt;explode_bomb&gt;</span><br><span class="line">   <span class="number">0x000000000040103a</span> &lt;+<span class="number">46</span>&gt;:    mov    edx,<span class="number">0xe</span></span><br><span class="line">   <span class="number">0x000000000040103f</span> &lt;+<span class="number">51</span>&gt;:    mov    esi,<span class="number">0x0</span></span><br><span class="line">   <span class="number">0x0000000000401044</span> &lt;+<span class="number">56</span>&gt;:    mov    edi,DWORD PTR [rsp+<span class="number">0x8</span>]</span><br><span class="line">   <span class="number">0x0000000000401048</span> &lt;+<span class="number">60</span>&gt;:    call   <span class="number">0x400fce</span> &lt;func4&gt;</span><br><span class="line">   <span class="number">0x000000000040104d</span> &lt;+<span class="number">65</span>&gt;:    test   eax,eax</span><br><span class="line">   <span class="number">0x000000000040104f</span> &lt;+<span class="number">67</span>&gt;:    jne    <span class="number">0x401058</span> &lt;phase_4+<span class="number">76</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000401051</span> &lt;+<span class="number">69</span>&gt;:    cmp    DWORD PTR [rsp+<span class="number">0xc</span>],<span class="number">0x0</span></span><br><span class="line">   <span class="number">0x0000000000401056</span> &lt;+<span class="number">74</span>&gt;:    je     <span class="number">0x40105d</span> &lt;phase_4+<span class="number">81</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000401058</span> &lt;+<span class="number">76</span>&gt;:    call   <span class="number">0x40143a</span> &lt;explode_bomb&gt;</span><br><span class="line">   <span class="number">0x000000000040105d</span> &lt;+<span class="number">81</span>&gt;:    add    rsp,<span class="number">0x18</span></span><br><span class="line">   <span class="number">0x0000000000401061</span> &lt;+<span class="number">85</span>&gt;:    ret</span><br><span class="line">End of assembler dump.</span><br></pre></td></tr></table></figure>
 
 <p>jbe小于等于则跳转，所以eax要≤ 14，第一个参数要≤ 14</p>
@@ -642,8 +642,8 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Dump of assembler code <span class="keyword">for</span> function func4:</span><br><span class="line">   <span class="number">0x0000000000400fce</span> &lt;+<span class="number">0</span>&gt;:     sub    rsp,<span class="number">0x8</span></span><br><span class="line">   <span class="number">0x0000000000400fd2</span> &lt;+<span class="number">4</span>&gt;:     mov    eax,edx</span><br><span class="line">   <span class="number">0x0000000000400fd4</span> &lt;+<span class="number">6</span>&gt;:     sub    eax,esi</span><br><span class="line">   <span class="number">0x0000000000400fd6</span> &lt;+<span class="number">8</span>&gt;:     mov    ecx,eax</span><br><span class="line">   <span class="number">0x0000000000400fd8</span> &lt;+<span class="number">10</span>&gt;:    shr    ecx,<span class="number">0x1f</span></span><br><span class="line">   <span class="number">0x0000000000400fdb</span> &lt;+<span class="number">13</span>&gt;:    add    eax,ecx</span><br><span class="line">   <span class="number">0x0000000000400fdd</span> &lt;+<span class="number">15</span>&gt;:    sar    eax,<span class="number">1</span></span><br><span class="line">   <span class="number">0x0000000000400fdf</span> &lt;+<span class="number">17</span>&gt;:    lea    ecx,[rax+rsi*<span class="number">1</span>]</span><br><span class="line">   <span class="number">0x0000000000400fe2</span> &lt;+<span class="number">20</span>&gt;:    cmp    ecx,edi</span><br><span class="line">   <span class="number">0x0000000000400fe4</span> &lt;+<span class="number">22</span>&gt;:    jle    <span class="number">0x400ff2</span> &lt;func4+<span class="number">36</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400fe6</span> &lt;+<span class="number">24</span>&gt;:    lea    edx,[rcx<span class="number">-0x1</span>]</span><br><span class="line">   <span class="number">0x0000000000400fe9</span> &lt;+<span class="number">27</span>&gt;:    call   <span class="number">0x400fce</span> &lt;func4&gt;</span><br><span class="line">   <span class="number">0x0000000000400fee</span> &lt;+<span class="number">32</span>&gt;:    add    eax,eax</span><br><span class="line">   <span class="number">0x0000000000400ff0</span> &lt;+<span class="number">34</span>&gt;:    jmp    <span class="number">0x401007</span> &lt;func4+<span class="number">57</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400ff2</span> &lt;+<span class="number">36</span>&gt;:    mov    eax,<span class="number">0x0</span></span><br><span class="line">   <span class="number">0x0000000000400ff7</span> &lt;+<span class="number">41</span>&gt;:    cmp    ecx,edi</span><br><span class="line">   <span class="number">0x0000000000400ff9</span> &lt;+<span class="number">43</span>&gt;:    jge    <span class="number">0x401007</span> &lt;func4+<span class="number">57</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400ffb</span> &lt;+<span class="number">45</span>&gt;:    lea    esi,[rcx+<span class="number">0x1</span>]</span><br><span class="line">   <span class="number">0x0000000000400ffe</span> &lt;+<span class="number">48</span>&gt;:    call   <span class="number">0x400fce</span> &lt;func4&gt;</span><br><span class="line">   <span class="number">0x0000000000401003</span> &lt;+<span class="number">53</span>&gt;:    lea    eax,[rax+rax*<span class="number">1</span>+<span class="number">0x1</span>]</span><br><span class="line">   <span class="number">0x0000000000401007</span> &lt;+<span class="number">57</span>&gt;:    add    rsp,<span class="number">0x8</span></span><br><span class="line">   <span class="number">0x000000000040100b</span> &lt;+<span class="number">61</span>&gt;:    ret</span><br><span class="line">End of assembler dump.</span><br></pre></td></tr></table></figure>
 
 <p>func4()函数的返回值(保存在寄存器eax中), 如果eax不是0的话, 则会跳转到引爆炸弹的地方. 因此函数func4()返回值eax必须是0</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-LAB/image-20220303194719642.png" alt="image-20220303194719642"></p>
-<p><img src="/../../../blog/source/_posts/CSAPP-LAB/image-20220303194725447.png" alt="image-20220303194725447"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-LAB/image-20220303194719642.png" alt="image-20220303194719642"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-LAB/image-20220303194725447.png" alt="image-20220303194725447"></p>
 <p>很明显，在我们选择第二个参数时，我们如果让第二个参数&#x3D;0，那么这些问题顺利解决，因为在func4函数中没有v3&#x3D;&#x3D;0这个选项，当a1&#x3D;7，a2&#x3D;0时非常完美的做到了上述一切。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">Dump of assembler code <span class="keyword">for</span> function phase_5:</span><br><span class="line">   <span class="number">0x0000000000401062</span> &lt;+<span class="number">0</span>&gt;:     push   rbx</span><br><span class="line">   <span class="number">0x0000000000401063</span> &lt;+<span class="number">1</span>&gt;:     sub    rsp,<span class="number">0x20</span></span><br><span class="line">   <span class="number">0x0000000000401067</span> &lt;+<span class="number">5</span>&gt;:     mov    rbx,rdi</span><br><span class="line">   <span class="number">0x000000000040106a</span> &lt;+<span class="number">8</span>&gt;:     mov    rax,QWORD PTR fs:<span class="number">0x28</span></span><br><span class="line">   <span class="number">0x0000000000401073</span> &lt;+<span class="number">17</span>&gt;:    mov    QWORD PTR [rsp+<span class="number">0x18</span>],rax</span><br><span class="line">   <span class="number">0x0000000000401078</span> &lt;+<span class="number">22</span>&gt;:    xor    eax,eax</span><br><span class="line">   <span class="number">0x000000000040107a</span> &lt;+<span class="number">24</span>&gt;:    call   <span class="number">0x40131b</span> &lt;string_length&gt;</span><br><span class="line">   <span class="number">0x000000000040107f</span> &lt;+<span class="number">29</span>&gt;:    cmp    eax,<span class="number">0x6</span><span class="comment">//flag长度为6</span></span><br><span class="line">   <span class="number">0x0000000000401082</span> &lt;+<span class="number">32</span>&gt;:    je     <span class="number">0x4010d2</span> &lt;phase_5+<span class="number">112</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000401084</span> &lt;+<span class="number">34</span>&gt;:    call   <span class="number">0x40143a</span> &lt;explode_bomb&gt;</span><br><span class="line">   <span class="number">0x0000000000401089</span> &lt;+<span class="number">39</span>&gt;:    jmp    <span class="number">0x4010d2</span> &lt;phase_5+<span class="number">112</span>&gt;</span><br><span class="line">   <span class="number">0x000000000040108b</span> &lt;+<span class="number">41</span>&gt;:    movzx  ecx,BYTE PTR [rbx+rax*<span class="number">1</span>]</span><br><span class="line">   <span class="number">0x000000000040108f</span> &lt;+<span class="number">45</span>&gt;:    mov    BYTE PTR [rsp],cl</span><br><span class="line">   <span class="number">0x0000000000401092</span> &lt;+<span class="number">48</span>&gt;:    mov    rdx,QWORD PTR [rsp]</span><br><span class="line">   <span class="number">0x0000000000401096</span> &lt;+<span class="number">52</span>&gt;:    and    edx,<span class="number">0xf</span></span><br><span class="line">   <span class="number">0x0000000000401099</span> &lt;+<span class="number">55</span>&gt;:    movzx  edx,BYTE PTR [rdx+<span class="number">0x4024b0</span>]</span><br><span class="line">   <span class="number">0x00000000004010a0</span> &lt;+<span class="number">62</span>&gt;:    mov    BYTE PTR [rsp+rax*<span class="number">1</span>+<span class="number">0x10</span>],dl</span><br><span class="line">   <span class="number">0x00000000004010a4</span> &lt;+<span class="number">66</span>&gt;:    add    rax,<span class="number">0x1</span></span><br><span class="line">   <span class="number">0x00000000004010a8</span> &lt;+<span class="number">70</span>&gt;:    cmp    rax,<span class="number">0x6</span></span><br><span class="line">   <span class="number">0x00000000004010ac</span> &lt;+<span class="number">74</span>&gt;:    jne    <span class="number">0x40108b</span> &lt;phase_5+<span class="number">41</span>&gt;</span><br><span class="line">   <span class="number">0x00000000004010ae</span> &lt;+<span class="number">76</span>&gt;:    mov    BYTE PTR [rsp+<span class="number">0x16</span>],<span class="number">0x0</span></span><br><span class="line">   <span class="number">0x00000000004010b3</span> &lt;+<span class="number">81</span>&gt;:    mov    esi,<span class="number">0x40245e</span></span><br><span class="line">   <span class="number">0x00000000004010b8</span> &lt;+<span class="number">86</span>&gt;:    lea    rdi,[rsp+<span class="number">0x10</span>]</span><br><span class="line">   <span class="number">0x00000000004010bd</span> &lt;+<span class="number">91</span>&gt;:    call   <span class="number">0x401338</span> &lt;strings_not_equal&gt;</span><br><span class="line">   <span class="number">0x00000000004010c2</span> &lt;+<span class="number">96</span>&gt;:    test   eax,eax</span><br><span class="line">   <span class="number">0x00000000004010c4</span> &lt;+<span class="number">98</span>&gt;:    je     <span class="number">0x4010d9</span> &lt;phase_5+<span class="number">119</span>&gt;</span><br><span class="line">   <span class="number">0x00000000004010c6</span> &lt;+<span class="number">100</span>&gt;:   call   <span class="number">0x40143a</span> &lt;explode_bomb&gt;</span><br><span class="line">   <span class="number">0x00000000004010cb</span> &lt;+<span class="number">105</span>&gt;:   nop    DWORD PTR [rax+rax*<span class="number">1</span>+<span class="number">0x0</span>]</span><br><span class="line">   <span class="number">0x00000000004010d0</span> &lt;+<span class="number">110</span>&gt;:   jmp    <span class="number">0x4010d9</span> &lt;phase_5+<span class="number">119</span>&gt;</span><br><span class="line">   <span class="number">0x00000000004010d2</span> &lt;+<span class="number">112</span>&gt;:   mov    eax,<span class="number">0x0</span></span><br><span class="line">   <span class="number">0x00000000004010d7</span> &lt;+<span class="number">117</span>&gt;:   jmp    <span class="number">0x40108b</span> &lt;phase_5+<span class="number">41</span>&gt;</span><br><span class="line">   <span class="number">0x00000000004010d9</span> &lt;+<span class="number">119</span>&gt;:   mov    rax,QWORD PTR [rsp+<span class="number">0x18</span>]</span><br><span class="line">   <span class="number">0x00000000004010de</span> &lt;+<span class="number">124</span>&gt;:   xor    rax,QWORD PTR fs:<span class="number">0x28</span></span><br><span class="line">   <span class="number">0x00000000004010e7</span> &lt;+<span class="number">133</span>&gt;:   je     <span class="number">0x4010ee</span> &lt;phase_5+<span class="number">140</span>&gt;</span><br><span class="line">   <span class="number">0x00000000004010e9</span> &lt;+<span class="number">135</span>&gt;:   call   <span class="number">0x400b30</span> &lt;__stack_chk_fail@plt&gt;</span><br><span class="line">   <span class="number">0x00000000004010ee</span> &lt;+<span class="number">140</span>&gt;:   add    rsp,<span class="number">0x20</span></span><br><span class="line">   <span class="number">0x00000000004010f2</span> &lt;+<span class="number">144</span>&gt;:   pop    rbx</span><br><span class="line">   <span class="number">0x00000000004010f3</span> &lt;+<span class="number">145</span>&gt;:   ret</span><br><span class="line">End of assembler dump.</span><br></pre></td></tr></table></figure>
 
@@ -658,10 +658,10 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">Dump of assembler code <span class="keyword">for</span> function phase_6:</span><br><span class="line">   <span class="number">0x00000000004010f4</span> &lt;+<span class="number">0</span>&gt;:     push   r14</span><br><span class="line">   <span class="number">0x00000000004010f6</span> &lt;+<span class="number">2</span>&gt;:     push   r13</span><br><span class="line">   <span class="number">0x00000000004010f8</span> &lt;+<span class="number">4</span>&gt;:     push   r12</span><br><span class="line">   <span class="number">0x00000000004010fa</span> &lt;+<span class="number">6</span>&gt;:     push   rbp</span><br><span class="line">   <span class="number">0x00000000004010fb</span> &lt;+<span class="number">7</span>&gt;:     push   rbx</span><br><span class="line">   <span class="number">0x00000000004010fc</span> &lt;+<span class="number">8</span>&gt;:     sub    rsp,<span class="number">0x50</span></span><br><span class="line">   <span class="number">0x0000000000401100</span> &lt;+<span class="number">12</span>&gt;:    mov    r13,rsp</span><br><span class="line">   <span class="number">0x0000000000401103</span> &lt;+<span class="number">15</span>&gt;:    mov    rsi,rsp</span><br><span class="line">   <span class="number">0x0000000000401106</span> &lt;+<span class="number">18</span>&gt;:    call   <span class="number">0x40145c</span> &lt;read_six_numbers&gt;<span class="comment">//读入6个数字</span></span><br><span class="line">   <span class="number">0x000000000040110b</span> &lt;+<span class="number">23</span>&gt;:    mov    r14,rsp</span><br><span class="line">   <span class="number">0x000000000040110e</span> &lt;+<span class="number">26</span>&gt;:    mov    r12d,<span class="number">0x0</span></span><br><span class="line">   <span class="number">0x0000000000401114</span> &lt;+<span class="number">32</span>&gt;:    mov    rbp,r13<span class="comment">//rsp赋值给rbp</span></span><br><span class="line">   <span class="number">0x0000000000401117</span> &lt;+<span class="number">35</span>&gt;:    mov    eax,DWORD PTR [r13+<span class="number">0x0</span>]<span class="comment">//取第一个参数</span></span><br><span class="line">   <span class="number">0x000000000040111b</span> &lt;+<span class="number">39</span>&gt;:    sub    eax,<span class="number">0x1</span><span class="comment">//参数1-1</span></span><br><span class="line">   <span class="number">0x000000000040111e</span> &lt;+<span class="number">42</span>&gt;:    cmp    eax,<span class="number">0x5</span><span class="comment">//参数1-1 =&lt; 5，所以参数一小于6</span></span><br><span class="line">   <span class="number">0x0000000000401121</span> &lt;+<span class="number">45</span>&gt;:    jbe    <span class="number">0x401128</span> &lt;phase_6+<span class="number">52</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000401123</span> &lt;+<span class="number">47</span>&gt;:    call   <span class="number">0x40143a</span> &lt;explode_bomb&gt;</span><br><span class="line">   <span class="number">0x0000000000401128</span> &lt;+<span class="number">52</span>&gt;:    add    r12d,<span class="number">0x1</span><span class="comment">//r12控制循环次数</span></span><br><span class="line">   <span class="number">0x000000000040112c</span> &lt;+<span class="number">56</span>&gt;:    cmp    r12d,<span class="number">0x6</span></span><br><span class="line">   <span class="number">0x0000000000401130</span> &lt;+<span class="number">60</span>&gt;:    je     <span class="number">0x401153</span> &lt;phase_6+<span class="number">95</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000401132</span> &lt;+<span class="number">62</span>&gt;:    mov    ebx,r12d</span><br><span class="line">   <span class="number">0x0000000000401135</span> &lt;+<span class="number">65</span>&gt;:    movsxd rax,ebx</span><br><span class="line">   <span class="number">0x0000000000401138</span> &lt;+<span class="number">68</span>&gt;:    mov    eax,DWORD PTR [rsp+rax*<span class="number">4</span>]<span class="comment">//这个循环是使后面的参数不能等于参数1</span></span><br><span class="line">   <span class="number">0x000000000040113b</span> &lt;+<span class="number">71</span>&gt;:    cmp    DWORD PTR [rbp+<span class="number">0x0</span>],eax</span><br><span class="line">   <span class="number">0x000000000040113e</span> &lt;+<span class="number">74</span>&gt;:    jne    <span class="number">0x401145</span> &lt;phase_6+<span class="number">81</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000401140</span> &lt;+<span class="number">76</span>&gt;:    call   <span class="number">0x40143a</span> &lt;explode_bomb&gt;</span><br><span class="line">   <span class="number">0x0000000000401145</span> &lt;+<span class="number">81</span>&gt;:    add    ebx,<span class="number">0x1</span><span class="comment">//又是循环</span></span><br><span class="line">   <span class="number">0x0000000000401148</span> &lt;+<span class="number">84</span>&gt;:    cmp    ebx,<span class="number">0x5</span></span><br><span class="line">   <span class="number">0x000000000040114b</span> &lt;+<span class="number">87</span>&gt;:    jle    <span class="number">0x401135</span> &lt;phase_6+<span class="number">65</span>&gt;</span><br><span class="line">   <span class="number">0x000000000040114d</span> &lt;+<span class="number">89</span>&gt;:    add    r13,<span class="number">0x4</span><span class="comment">//参数2</span></span><br><span class="line">   <span class="number">0x0000000000401151</span> &lt;+<span class="number">93</span>&gt;:    jmp    <span class="number">0x401114</span> &lt;phase_6+<span class="number">32</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000401153</span> &lt;+<span class="number">95</span>&gt;:    lea    rsi,[rsp+<span class="number">0x18</span>]<span class="comment">//这个是&#x27;\0&#x27;</span></span><br><span class="line">   <span class="number">0x0000000000401158</span> &lt;+<span class="number">100</span>&gt;:   mov    rax,r14</span><br><span class="line">   <span class="number">0x000000000040115b</span> &lt;+<span class="number">103</span>&gt;:   mov    ecx,<span class="number">0x7</span><span class="comment">//ecx永远是7</span></span><br><span class="line">   <span class="number">0x0000000000401160</span> &lt;+<span class="number">108</span>&gt;:   mov    edx,ecx</span><br><span class="line">   <span class="number">0x0000000000401162</span> &lt;+<span class="number">110</span>&gt;:   sub    edx,DWORD PTR [rax]<span class="comment">//7-当前参数</span></span><br><span class="line">   <span class="number">0x0000000000401164</span> &lt;+<span class="number">112</span>&gt;:   mov    DWORD PTR [rax],edx</span><br><span class="line">   <span class="number">0x0000000000401166</span> &lt;+<span class="number">114</span>&gt;:   add    rax,<span class="number">0x4</span><span class="comment">//地址+4，即下一个参数</span></span><br><span class="line">   <span class="number">0x000000000040116a</span> &lt;+<span class="number">118</span>&gt;:   cmp    rax,rsi</span><br><span class="line">   <span class="number">0x000000000040116d</span> &lt;+<span class="number">121</span>&gt;:   jne    <span class="number">0x401160</span> &lt;phase_6+<span class="number">108</span>&gt;</span><br><span class="line">   <span class="number">0x000000000040116f</span> &lt;+<span class="number">123</span>&gt;:   mov    esi,<span class="number">0x0</span></span><br><span class="line">   <span class="number">0x0000000000401174</span> &lt;+<span class="number">128</span>&gt;:   jmp    <span class="number">0x401197</span> &lt;phase_6+<span class="number">163</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000401176</span> &lt;+<span class="number">130</span>&gt;:   mov    rdx,QWORD PTR [rdx+<span class="number">0x8</span>]<span class="comment">//rdx是node1</span></span><br><span class="line">   <span class="number">0x000000000040117a</span> &lt;+<span class="number">134</span>&gt;:   add    eax,<span class="number">0x1</span><span class="comment">//内层循环</span></span><br><span class="line">   <span class="number">0x000000000040117d</span> &lt;+<span class="number">137</span>&gt;:   cmp    eax,ecx</span><br><span class="line">   <span class="number">0x000000000040117f</span> &lt;+<span class="number">139</span>&gt;:   jne    <span class="number">0x401176</span> &lt;phase_6+<span class="number">130</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000401181</span> &lt;+<span class="number">141</span>&gt;:   jmp    <span class="number">0x401188</span> &lt;phase_6+<span class="number">148</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000401183</span> &lt;+<span class="number">143</span>&gt;:   mov    edx,<span class="number">0x6032d0</span><span class="comment">//链表处</span></span><br><span class="line">   <span class="number">0x0000000000401188</span> &lt;+<span class="number">148</span>&gt;:   mov    QWORD PTR [rsp+rsi*<span class="number">2</span>+<span class="number">0x20</span>],rdx</span><br><span class="line">   <span class="number">0x000000000040118d</span> &lt;+<span class="number">153</span>&gt;:   add    rsi,<span class="number">0x4</span><span class="comment">//每次加4的进行循环到0x18循环结束</span></span><br><span class="line">   <span class="number">0x0000000000401191</span> &lt;+<span class="number">157</span>&gt;:   cmp    rsi,<span class="number">0x18</span></span><br><span class="line">   <span class="number">0x0000000000401195</span> &lt;+<span class="number">161</span>&gt;:   je     <span class="number">0x4011ab</span> &lt;phase_6+<span class="number">183</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000401197</span> &lt;+<span class="number">163</span>&gt;:   mov    ecx,DWORD PTR [rsp+rsi*<span class="number">1</span>]</span><br><span class="line">   <span class="number">0x000000000040119a</span> &lt;+<span class="number">166</span>&gt;:   cmp    ecx,<span class="number">0x1</span></span><br><span class="line">   <span class="number">0x000000000040119d</span> &lt;+<span class="number">169</span>&gt;:   jle    <span class="number">0x401183</span> &lt;phase_6+<span class="number">143</span>&gt;</span><br><span class="line">   <span class="number">0x000000000040119f</span> &lt;+<span class="number">171</span>&gt;:   mov    eax,<span class="number">0x1</span></span><br><span class="line">   <span class="number">0x00000000004011a4</span> &lt;+<span class="number">176</span>&gt;:   mov    edx,<span class="number">0x6032d0</span></span><br><span class="line">   <span class="number">0x00000000004011a9</span> &lt;+<span class="number">181</span>&gt;:   jmp    <span class="number">0x401176</span> &lt;phase_6+<span class="number">130</span>&gt;</span><br><span class="line">   <span class="number">0x00000000004011ab</span> &lt;+<span class="number">183</span>&gt;:   mov    rbx,QWORD PTR [rsp+<span class="number">0x20</span>]<span class="comment">//指针数组存在rsp中</span></span><br><span class="line">   <span class="number">0x00000000004011b0</span> &lt;+<span class="number">188</span>&gt;:   lea    rax,[rsp+<span class="number">0x28</span>]</span><br><span class="line">   <span class="number">0x00000000004011b5</span> &lt;+<span class="number">193</span>&gt;:   lea    rsi,[rsp+<span class="number">0x50</span>]</span><br><span class="line">   <span class="number">0x00000000004011ba</span> &lt;+<span class="number">198</span>&gt;:   mov    rcx,rbx</span><br><span class="line">   <span class="number">0x00000000004011bd</span> &lt;+<span class="number">201</span>&gt;:   mov    rdx,QWORD PTR [rax]</span><br><span class="line">   <span class="number">0x00000000004011c0</span> &lt;+<span class="number">204</span>&gt;:   mov    QWORD PTR [rcx+<span class="number">0x8</span>],rdx</span><br><span class="line">   <span class="number">0x00000000004011c4</span> &lt;+<span class="number">208</span>&gt;:   add    rax,<span class="number">0x8</span></span><br><span class="line">   <span class="number">0x00000000004011c8</span> &lt;+<span class="number">212</span>&gt;:   cmp    rax,rsi</span><br><span class="line">   <span class="number">0x00000000004011cb</span> &lt;+<span class="number">215</span>&gt;:   je     <span class="number">0x4011d2</span> &lt;phase_6+<span class="number">222</span>&gt;</span><br><span class="line">   <span class="number">0x00000000004011cd</span> &lt;+<span class="number">217</span>&gt;:   mov    rcx,rdx</span><br><span class="line">   <span class="number">0x00000000004011d0</span> &lt;+<span class="number">220</span>&gt;:   jmp    <span class="number">0x4011bd</span> &lt;phase_6+<span class="number">201</span>&gt;</span><br><span class="line">   <span class="number">0x00000000004011d2</span> &lt;+<span class="number">222</span>&gt;:   mov    QWORD PTR [rdx+<span class="number">0x8</span>],<span class="number">0x0</span></span><br><span class="line">   <span class="number">0x00000000004011da</span> &lt;+<span class="number">230</span>&gt;:   mov    ebp,<span class="number">0x5</span></span><br><span class="line">   <span class="number">0x00000000004011df</span> &lt;+<span class="number">235</span>&gt;:   mov    rax,QWORD PTR [rbx+<span class="number">0x8</span>]</span><br><span class="line">   <span class="number">0x00000000004011e3</span> &lt;+<span class="number">239</span>&gt;:   mov    eax,DWORD PTR [rax]</span><br><span class="line">   <span class="number">0x00000000004011e5</span> &lt;+<span class="number">241</span>&gt;:   cmp    DWORD PTR [rbx],eax</span><br><span class="line">   <span class="number">0x00000000004011e7</span> &lt;+<span class="number">243</span>&gt;:   jge    <span class="number">0x4011ee</span> &lt;phase_6+<span class="number">250</span>&gt;<span class="comment">//参数1&gt;参数2</span></span><br><span class="line">   <span class="number">0x00000000004011e9</span> &lt;+<span class="number">245</span>&gt;:   call   <span class="number">0x40143a</span> &lt;explode_bomb&gt;</span><br><span class="line">   <span class="number">0x00000000004011ee</span> &lt;+<span class="number">250</span>&gt;:   mov    rbx,QWORD PTR [rbx+<span class="number">0x8</span>]</span><br><span class="line">   <span class="number">0x00000000004011f2</span> &lt;+<span class="number">254</span>&gt;:   sub    ebp,<span class="number">0x1</span></span><br><span class="line">   <span class="number">0x00000000004011f5</span> &lt;+<span class="number">257</span>&gt;:   jne    <span class="number">0x4011df</span> &lt;phase_6+<span class="number">235</span>&gt;</span><br><span class="line">   <span class="number">0x00000000004011f7</span> &lt;+<span class="number">259</span>&gt;:   add    rsp,<span class="number">0x50</span></span><br><span class="line">   <span class="number">0x00000000004011fb</span> &lt;+<span class="number">263</span>&gt;:   pop    rbx</span><br><span class="line">   <span class="number">0x00000000004011fc</span> &lt;+<span class="number">264</span>&gt;:   pop    rbp</span><br><span class="line">   <span class="number">0x00000000004011fd</span> &lt;+<span class="number">265</span>&gt;:   pop    r12</span><br><span class="line">   <span class="number">0x00000000004011ff</span> &lt;+<span class="number">267</span>&gt;:   pop    r13</span><br><span class="line">   <span class="number">0x0000000000401201</span> &lt;+<span class="number">269</span>&gt;:   pop    r14</span><br><span class="line">   <span class="number">0x0000000000401203</span> &lt;+<span class="number">271</span>&gt;:   ret</span><br><span class="line">End of assembler dump.</span><br></pre></td></tr></table></figure>
 
 <p>在read_six_numbers函数中我们看出用rsp开辟了0x18空间，所以输入数在rsp中</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-LAB/image-20220303205629062.png" alt="image-20220303205629062"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-LAB/image-20220303205629062.png" alt="image-20220303205629062"></p>
 <p>我们发现这个就是对链表进行升序排序:{14C,1,A8,2,39C,3,2B3,4,1DD,5,1BB,6}</p>
 <p>所以答案是；4 3 2 1 6 5</p>
-<p><img src="/../../../blog/source/_posts/CSAPP-LAB/image-20220303212529967.png" alt="image-20220303212529967"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/CSAPP-LAB/image-20220303212529967.png" alt="image-20220303212529967"></p>
 <p>起飞！！！这个比datalab好玩多了</p>
 <h1 id="CSAPP-7-END"><a href="#CSAPP-7-END" class="headerlink" title="CSAPP-7-END"></a>CSAPP-7-END</h1><h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p>链接时将各种代码和数据片段收集并组合成为一个单一文件的过程，这个文件可以被加载到内存并执行。链接可以执行于编译时，也可以执行与加载时，甚至可以执行于运行时。在现代系统中，链接是由链接器程序自动执行。</p>
 <p>链接可以是软件开发中分离编译</p>
@@ -674,9 +674,9 @@
 <p>可执行文件：包含二进制和数据，其形式可以直接复制到内存中并执行</p>
 <p>共享目标文件：一种特殊的可重定位目标文件，可在加载或者运行时被动态的加载进内存并链接</p>
 <p>目标文件就是以文件形式存放再磁盘中的目标模块，而目标模块时一个字节序列</p>
-<h3 id="7-4、可重定位目标文件"><a href="#7-4、可重定位目标文件" class="headerlink" title="7.4、可重定位目标文件"></a>7.4、可重定位目标文件</h3><p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220317175712426.png" alt="image-20220317175712426"></p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220317175850287.png" alt="image-20220317175850287"></p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220317175859399.png" alt="image-20220317175859399"></p>
+<h3 id="7-4、可重定位目标文件"><a href="#7-4、可重定位目标文件" class="headerlink" title="7.4、可重定位目标文件"></a>7.4、可重定位目标文件</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220317175712426.png" alt="image-20220317175712426"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220317175850287.png" alt="image-20220317175850287"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220317175859399.png" alt="image-20220317175859399"></p>
 <h3 id="7-5、符号和符号表"><a href="#7-5、符号和符号表" class="headerlink" title="7.5、符号和符号表"></a>7.5、符号和符号表</h3><p>每个重定位的目标模块都存在一个符号表,其包括m定义和引用符号的消息.在链接器的上下文,存在三种符号</p>
 <p>由m定义并能被其他模块引用的全局符号.全局链接器符号对应于非静态的c函数和全局变量</p>
 <p>由其他模块定义并被m引用的全局符号.这些符号叫外部符号,对应其他模块中定义的非静态c函数和全局变量</p>
@@ -684,10 +684,10 @@
 <p>本地链接器符号和本地程序变量不同</p>
 <p>.symtab中的符号表不包括对应于本地非静态程序变量的任何符号,这些符号是在栈中管理的,也就是局部变量</p>
 <p>static的变量在.data或者.bss中为其分配空间</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220317185459019.png" alt="image-20220317185459019"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220317185459019.png" alt="image-20220317185459019"></p>
 <p>name是字符串表的字节偏移,指向符号以null结尾的字符串名字.value是符号地址,size是目标大小,type通常是数据或函数,blinging表明是全局还是本地。</p>
 <p>每个符号都被分配到某个节,由section字段表示。</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220317191156258.png" alt="image-20220317191156258"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220317191156258.png" alt="image-20220317191156258"></p>
 <h3 id="7-6、符号解析"><a href="#7-6、符号解析" class="headerlink" title="7.6、符号解析"></a>7.6、符号解析</h3><p>链接器解析符号引用的方法是将每个引用与它输入的可重定位目标文件的符号表中的一个确定的符号定义关联起来。</p>
 <p>对于全局符号解析采用假设法,如果不是就终止。</p>
 <p>重载:对于一些方法在源代码中有相同的名字,却有不同参数列表,c++和java使用重载函数.,是因为编译器将每一个唯一的方法和参数列表组合编码成一个,对链接器来说是唯一的名字,这就是重载,相反的过程叫恢复。</p>
@@ -704,44 +704,44 @@
 <p>2.重定位节的符号引用。链接器修改代码节和数据节中对每个符号的引用，使得她们指向正确的运行时地址，这一步依赖于可重定位目标模块中成为重定位条目的数据结构</p>
 <p>7.7.1、重定位条目</p>
 <p>重定位条目会告诉链接器在将目标文件合并成可执行文件时如何修改这个引用，代码重定位条目存放在.rel.text中，已初始化的放在.rel.data</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330144554826.png" alt="image-20220330144554826"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330144554826.png" alt="image-20220330144554826"></p>
 <h3 id="7-7-2、重定位符号引用"><a href="#7-7-2、重定位符号引用" class="headerlink" title="7.7.2、重定位符号引用"></a>7.7.2、重定位符号引用</h3><p>重定位算法：</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330150855839.png" alt="image-20220330150855839"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330150855839.png" alt="image-20220330150855839"></p>
 <p>汇编器会为每一个引用产生一个重定位条目，在引用后面的一行</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330151839295.png" alt="image-20220330151839295"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330151839295.png" alt="image-20220330151839295"></p>
 <p>1.重定位PC相对引用</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330152051016.png" alt="image-20220330152051016"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330152051016.png" alt="image-20220330152051016"></p>
 <p>sum正好处于第6行，而且是0xf位，在内存中运行时的地址&#x3D;基址+偏移&#x3D;0x4004d0 + 0xf</p>
 <p>这个等式，其中0x5就是第6行有5字节，执行完是0x5字节</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330195229301.png" alt="image-20220330195229301"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330195229301.png" alt="image-20220330195229301"></p>
 <p>2.重定位绝对引用</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330195407058.png" alt="image-20220330195407058"></p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330195411404.png" alt="image-20220330195411404"></p>
-<h3 id="7-8、可执行目标文件"><a href="#7-8、可执行目标文件" class="headerlink" title="7.8、可执行目标文件"></a>7.8、可执行目标文件</h3><p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330161638664.png" alt="image-20220330161638664"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330195407058.png" alt="image-20220330195407058"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330195411404.png" alt="image-20220330195411404"></p>
+<h3 id="7-8、可执行目标文件"><a href="#7-8、可执行目标文件" class="headerlink" title="7.8、可执行目标文件"></a>7.8、可执行目标文件</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330161638664.png" alt="image-20220330161638664"></p>
 <p>.init节定义了小函数，会被藏东西的，程序初始化代码会调用它，因为可执行文件是完全链接的，已经重定位，所以不需要.rel节</p>
 <p>可执行文件的连续的片（chunk）被映射到连续的内存段，程序头部表描述映射关系</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330161932306.png" alt="image-20220330161932306"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330161932306.png" alt="image-20220330161932306"></p>
 <p>第2行的大小0x69c，包含ELF头和程序头部表，init，text，rodata节</p>
 <p>3，4行存储.data节和.bss节</p>
 <h3 id="7-9、加载可执行目标文件"><a href="#7-9、加载可执行目标文件" class="headerlink" title="7.9、加载可执行目标文件"></a>7.9、加载可执行目标文件</h3><p>我们用加载器来加载可执行文件，运行时存在内存映像，从0x400000开始，后面是数据段，运行时堆在数据段后，通过调用malloc库向上增长，用户栈总是从最大合法用户地址2的48次幂-1开始，想较小内存地址增长。栈上区域从地址2d的48次幂开始，是为内核kernel中的代码和数据进行保留的，内核就是操作系统驻留在内存的部分</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330164410397.png" alt="image-20220330164410397"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330164410397.png" alt="image-20220330164410397"></p>
 <h3 id="7-10、动态链接共享库"><a href="#7-10、动态链接共享库" class="headerlink" title="7.10、动态链接共享库"></a>7.10、动态链接共享库</h3><p>共享库是致力于解决静态库缺陷的一个现代产物，运行加载时可以加载到任意模块，并和一个在内存中的程序链接起来，可以加载到任何内存地址，并和内存中的程序连接起来，这个过程称为动态链接，是由动态链接器执行的。共享库也叫做共享目标，在linux中用.so文件，微软使用的共享库成为dll</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330182320641.png" alt="image-20220330182320641"></p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330182504346.png" alt="image-20220330182504346"></p>
-<h3 id="7-11、从应用程序中加载和链接共享库"><a href="#7-11、从应用程序中加载和链接共享库" class="headerlink" title="7.11、从应用程序中加载和链接共享库"></a>7.11、从应用程序中加载和链接共享库</h3><p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330184616086.png" alt="image-20220330184616086"></p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330184631787.png" alt="image-20220330184631787"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330182320641.png" alt="image-20220330182320641"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330182504346.png" alt="image-20220330182504346"></p>
+<h3 id="7-11、从应用程序中加载和链接共享库"><a href="#7-11、从应用程序中加载和链接共享库" class="headerlink" title="7.11、从应用程序中加载和链接共享库"></a>7.11、从应用程序中加载和链接共享库</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330184616086.png" alt="image-20220330184616086"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330184631787.png" alt="image-20220330184631787"></p>
 <h3 id="7-12、位置无关代码"><a href="#7-12、位置无关代码" class="headerlink" title="7.12、位置无关代码"></a>7.12、位置无关代码</h3><p>共享库是为了节约内存资源而诞生的，如果多个进程共用一个库，那么再每个内存的位置，甚至大小都不同，那么就应该使用：位置无关代码PIC，可以加载无需重定位的代码叫做PIC，这个东西可以把库加载到内存任何位置且不用修改链接器。</p>
 <p>1、PIC数据引用</p>
 <p>无论我们在内存加载什么模块，数据段和代码段的距离一直不变，即，代码段任何指令与数据段的变量之间的距离在运行时都是一个常量，与二者的绝对内存位置是无关的。PIC在数据段的开始处创建一个表，即全局偏移量表GOT。在GOT中，每个被这个目标module引用的全局数据目标都有一个8字节的条目。编译器还为GOT中的条目生成重定位记录，加载时动态链接器重定位每个条目并使其包含正确的绝对地址</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330190117921.png" alt="image-20220330190117921"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330190117921.png" alt="image-20220330190117921"></p>
 <p>2、PIC函数调用</p>
 <p>程序调用一个共享库中的函数，该函数可以存在于内存中任何地址，这就很折磨了，但通过延迟绑定，我们将过程地址的绑定推迟到第一次调用该过程时。</p>
 <p>延迟绑定是通过GOT和过程链接表PLT，这两个数据结构完成的、GOT属于数据段，PLT属于代码段</p>
 <p>PLT：是个数组，每个条目是16字节代码，PLT【0】很特殊，器跳转到动态链接器中，每个库函数都有自己的条目</p>
 <p>GOT：是个数组，每个条目是8字节代码，GOT[0]和GOT[1]是加载时的函数，其余的会与PLT一一对应</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330191054571.png" alt="image-20220330191054571"></p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330192218540.png" alt="image-20220330192218540"></p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220330192224264.png" alt="image-20220330192224264"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330191054571.png" alt="image-20220330191054571"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330192218540.png" alt="image-20220330192218540"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220330192224264.png" alt="image-20220330192224264"></p>
 <h3 id="7-13、库打桩机制"><a href="#7-13、库打桩机制" class="headerlink" title="7.13、库打桩机制"></a>7.13、库打桩机制</h3><p>简单来说就是欺骗系统调用的包装函数，插入自己的函数进去，想拿到什么值都可以。</p>
 <h1 id="异常控制流"><a href="#异常控制流" class="headerlink" title="异常控制流"></a>异常控制流</h1><p>异常控制流指的是：现代系统通过使控制流繁盛突变来对这些情况做出反应，这些突变叫做异常控制流（ECF）。异常控制流发生在计算机的每个层次上，在硬件层上会发生，在操作系统层上，内核通过上下文切换进行进程的切换，在应用层中，一个进程可以发送信号到另一个进程</p>
 <h2 id="8-1、异常"><a href="#8-1、异常" class="headerlink" title="8.1、异常"></a>8.1、异常</h2><p>异常是异常控制流的一种形式，一部分由硬件实现，一部分由操作系统实现。</p>
@@ -750,9 +750,9 @@
 <p>2.返回给原指令，没异常就执行下一条指令</p>
 <p>3.终止被中断的程序</p>
 <h3 id="8-1-1、异常处理"><a href="#8-1-1、异常处理" class="headerlink" title="8.1.1、异常处理"></a>8.1.1、异常处理</h3><p>系统中每种异常都有一个唯一的非负整数的异常号</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220407161312042.png" alt="image-20220407161312042"></p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220407161502198.png" alt="image-20220407161502198"></p>
-<h3 id="8-1-2、异常的类别"><a href="#8-1-2、异常的类别" class="headerlink" title="8.1.2、异常的类别"></a>8.1.2、异常的类别</h3><p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220407161528243.png" alt="image-20220407161528243"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220407161312042.png" alt="image-20220407161312042"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220407161502198.png" alt="image-20220407161502198"></p>
+<h3 id="8-1-2、异常的类别"><a href="#8-1-2、异常的类别" class="headerlink" title="8.1.2、异常的类别"></a>8.1.2、异常的类别</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220407161528243.png" alt="image-20220407161528243"></p>
 <p>1.中断</p>
 <p>中断是异步，硬件中断的异常处理程序通常称为中断处理程序，</p>
 <p>中断处理将控制返回给应用程序的下一条指令。</p>
@@ -763,16 +763,16 @@
 <p>故障由错误引起，当发生故障时，交给故障处理程序。它会返回引起故障的指令，重新执行</p>
 <p>4.终止</p>
 <p>终止是不可恢复的致命错误造成的结果，通常是硬件错误。直接终止应用程序</p>
-<h3 id="8-1-3、linux-x2F-x86-64的异常"><a href="#8-1-3、linux-x2F-x86-64的异常" class="headerlink" title="8.1.3、linux&#x2F;x86-64的异常"></a>8.1.3、linux&#x2F;x86-64的异常</h3><p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220407164830759.png" alt="image-20220407164830759"></p>
+<h3 id="8-1-3、linux-x2F-x86-64的异常"><a href="#8-1-3、linux-x2F-x86-64的异常" class="headerlink" title="8.1.3、linux&#x2F;x86-64的异常"></a>8.1.3、linux&#x2F;x86-64的异常</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220407164830759.png" alt="image-20220407164830759"></p>
 <p>对于linux的系统调用，每个应用想要请求内核服务时，都有唯一一个整数号对应于一个内核中的跳转表的偏移量，c语言用syscall函数来调用系统调用，但实际上对于大多数系统调用，c语言采用包装函数，包装函数将参数打包在一起，以适当系统调用使指令陷入内核。</p>
 <p>系统调用和包装函数统称为系统级函数。在linux的系统调用通常使用寄存器不通过栈传递。</p>
 <p>%rax为系统调用号，剩下rdi，rsi，rdx，r10，r8，r9当参数，rax还返回返回值，-4095到-1的负数返回值表示出错</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220407165613175.png" alt="image-20220407165613175"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220407165613175.png" alt="image-20220407165613175"></p>
 <h3 id="8-2、进程"><a href="#8-2、进程" class="headerlink" title="8.2、进程"></a>8.2、进程</h3><p>异常是允许操纵系统内核提供进程概念的基本构造块。</p>
 <p>在一个执行中程序的实例就是进程，系统的每个程序都运行在某个进程的上下文中。</p>
 <p>上下文是由程序正确运行所需的状态组成的。这个状态包括放在内存中的程序的代码和数据，它的栈，通用目的寄存器的内容，程序技术器，环境变量以及打开文件描述符号的集合。</p>
 <h3 id="8-2-1、逻辑控制流"><a href="#8-2-1、逻辑控制流" class="headerlink" title="8.2.1、逻辑控制流"></a>8.2.1、逻辑控制流</h3><p>不多解释，已经很清楚</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220407171051825.png" alt="image-20220407171051825"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220407171051825.png" alt="image-20220407171051825"></p>
 <h3 id="8-2-2、并发流"><a href="#8-2-2、并发流" class="headerlink" title="8.2.2、并发流"></a>8.2.2、并发流</h3><p>一个逻辑流的执行在时间上与另一个流重叠，这个就是字面意思，并发运行就是两个程序运行有时间上的交错。</p>
 <h3 id="8-2-3、私有地址空间"><a href="#8-2-3、私有地址空间" class="headerlink" title="8.2.3、私有地址空间"></a>8.2.3、私有地址空间</h3><p>在一个程序中，进程为其提供自己的私有地址空间，这个空间是不能被别的进程进行r or w。</p>
 <h3 id="8-2-4用户模式和内核模式"><a href="#8-2-4用户模式和内核模式" class="headerlink" title="8.2.4用户模式和内核模式"></a>8.2.4用户模式和内核模式</h3><p>为了使操作系统内核提供一个无懈可击的进程抽象，处理器必须提供一种机制，限制一个应用可以执行的指令以及它可以访问的地址空间范围</p>
@@ -796,15 +796,15 @@
 <p>2.并发执行：先返回父进程再返回子进程，但实际上来说并不一定，在另一台机器上就可能不是这样的情况</p>
 <p>3.相同但是独立的地址空间：子进程和父进程的地址空间以及值什么的都相同，我们发现x的值并无变化，所以再两个进程中是独立的过程，不互相影响</p>
 <p>4.共享文件：输出都在屏幕上</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220407190742632.png" alt="image-20220407190742632"></p>
-<h3 id="8-3-3、回收子进程"><a href="#8-3-3、回收子进程" class="headerlink" title="8.3.3、回收子进程"></a>8.3.3、回收子进程</h3><p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220407190946484.png" alt="image-20220407190946484"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220407190742632.png" alt="image-20220407190742632"></p>
+<h3 id="8-3-3、回收子进程"><a href="#8-3-3、回收子进程" class="headerlink" title="8.3.3、回收子进程"></a>8.3.3、回收子进程</h3><p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220407190946484.png" alt="image-20220407190946484"></p>
 <p>如果父进程终止了，内核会安排init进程成为其父进程。init的PID为1，其不会终止时所有进程的祖先。一个进程可以通过waitpid函数来等待其子进程终止或停止。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pid_t</span> <span class="title function_">waitpid</span><span class="params">(<span class="type">pid_t</span> pid, <span class="type">int</span> *statusp, <span class="type">int</span> options)</span></span><br></pre></td></tr></table></figure>
 
 <p>1.pid &#x3D; -1 ,等待的集合就是父进程的所有子进程</p>
 <p>pid&gt;0，单独子进程，进程ID为pid</p>
 <p>2.修改默认行为</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220407194955709.png" alt="image-20220407194955709"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220407194955709.png" alt="image-20220407194955709"></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pid_t</span> <span class="title function_">wait</span> <span class="params">(<span class="type">int</span> *statusp)</span></span><br><span class="line"><span class="title function_">wait</span><span class="params">(&amp;s)</span> 完全等价于 <span class="title function_">waitpid</span><span class="params">(<span class="number">-1</span>, &amp;s, <span class="number">0</span>)</span></span><br></pre></td></tr></table></figure>
 
 <p>回收顺序时这台电脑的特殊属性，不确定</p>
@@ -818,7 +818,7 @@
 
 <p>该函数加载运行可执行文件filename，且带参数argv和环境变量列表envp，找不到filename就返回其调用程序，这个函数调用一次从不返回。</p>
 <h2 id="8-4、信号"><a href="#8-4、信号" class="headerlink" title="8.4、信号"></a>8.4、信号</h2><p>Linux信号属于软件形式的异常，一个信号就是一个小消息，其通知进程系统种发生了某件类型的事件，如下图：</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220409213205635.png" alt="image-20220409213205635"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220409213205635.png" alt="image-20220409213205635"></p>
 <p>低层的硬件异常是由内核异常处理程序处理的</p>
 <h3 id="8-4-1、信号术语"><a href="#8-4-1、信号术语" class="headerlink" title="8.4.1、信号术语"></a>8.4.1、信号术语</h3><p>传送一个信号到目的进程由两个步骤组成：</p>
 <p>发送信号：内核通过更新目的进程上下文的状态来发送一个信号给目的进程，或者一个进程调用kill函数，显示的要求内核发信号给目的进程。</p>
@@ -835,8 +835,8 @@
 
 <p>pid的进程改为pidg,若pid为0，使用当前进程PID，弱pgid为0，用pid的PID为进程组ID，如果进程15213是调用进程，再把两个参数设为0，会创建新的进程组，其ID是15213，并把这个进程加到新进程组中。</p>
 <p>2.用&#x2F;bin&#x2F;kill程序来发送信号</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220409214918203.png" alt="image-20220409214918203"></p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220409215023731.png" alt="image-20220409215023731"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220409214918203.png" alt="image-20220409214918203"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220409215023731.png" alt="image-20220409215023731"></p>
 <p>4.调用kill函数发送信号</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">kill</span><span class="params">(<span class="type">pid_t</span> pid, <span class="type">int</span> sig)</span>;</span><br></pre></td></tr></table></figure>
 
@@ -847,16 +847,16 @@
 <p>该函数安排内核在secs秒后发送SIGALARM信号给调用进程</p>
 <h3 id="8-4-3、接收信号"><a href="#8-4-3、接收信号" class="headerlink" title="8.4.3、接收信号"></a>8.4.3、接收信号</h3><p>当内核模式变成用户模式时，进程检查未被阻塞的待处理信号的集合，若不为空，该进程接收某个信号，每个信号都有一个预定义默认行为：</p>
 <p>进程终止，进程终止并转储内存，进程挂起直到被SIGCONT信号重启，进程忽略该信号</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220409220108931.png" alt="image-20220409220108931"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220409220108931.png" alt="image-20220409220108931"></p>
 <h3 id="8-4-4、阻塞和解除阻塞信号"><a href="#8-4-4、阻塞和解除阻塞信号" class="headerlink" title="8.4.4、阻塞和解除阻塞信号"></a>8.4.4、阻塞和解除阻塞信号</h3><p>隐式阻塞机制。内核默认阻塞任何当前处理程序正在处理信号类型的待处理的信号。</p>
 <p>显式阻塞机制。调用函数，来明确阻塞信号</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220410205254755.png" alt="image-20220410205254755"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220410205254755.png" alt="image-20220410205254755"></p>
 <h3 id="8-4-5、编写信号处理程序"><a href="#8-4-5、编写信号处理程序" class="headerlink" title="8.4.5、编写信号处理程序"></a>8.4.5、编写信号处理程序</h3><p>1.安全的信号处理</p>
 <p>信号处理程序回合主程序和其他信号处理程序并发运行，要注意以下事项：</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220410205657029.png" alt="image-20220410205657029"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220410205657029.png" alt="image-20220410205657029"></p>
 <p>输出的唯一安全方法是write，还有一些专门开发函数：</p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220410205814914.png" alt="image-20220410205814914"></p>
-<p><img src="/../../../blog/source/_posts/csapp-s2e/image-20220410210008538.png" alt="image-20220410210008538"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220410205814914.png" alt="image-20220410205814914"></p>
+<p><img src="/2022/01/26/CSAPP/../../blog/source/_posts/csapp-s2e/image-20220410210008538.png" alt="image-20220410210008538"></p>
 <p>2.正常信号处理</p>
 <p>未处理的信号是不排队的，直接被丢弃了。</p>
 <p>3.可移植的信号处理</p>
@@ -967,7 +967,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
