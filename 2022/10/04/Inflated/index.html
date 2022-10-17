@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bitbug_favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bitbug_favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jonathanbest7.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Inflated这个题是很久以前ACTF的一道题了，但由于最近打ctf经常遇到混淆，所以先从简单的ollvm搞起，顺便仔细学习一下异常类。 Exception首先是异常，c++异常我们基本上是通过手动patch块来找到catch块，如何分辩可以通过rdx的值。 当前函数抛出异常后，如果在该函数没有找到catch块，那么就继续向上找catch块，出现两种情况 第一：找到catch块 第二：没有找到c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Inflated">
+<meta property="og:url" content="https://jonathanbest7.github.io/2022/10/04/Inflated/index.html">
+<meta property="og:site_name" content="bj777的blog">
+<meta property="og:description" content="Inflated这个题是很久以前ACTF的一道题了，但由于最近打ctf经常遇到混淆，所以先从简单的ollvm搞起，顺便仔细学习一下异常类。 Exception首先是异常，c++异常我们基本上是通过手动patch块来找到catch块，如何分辩可以通过rdx的值。 当前函数抛出异常后，如果在该函数没有找到catch块，那么就继续向上找catch块，出现两种情况 第一：找到catch块 第二：没有找到c">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-04T11:33:35.000Z">
+<meta property="article:modified_time" content="2022-10-04T12:25:51.184Z">
+<meta property="article:author" content="bj777">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://jonathanbest7.github.io/2022/10/04/Inflated/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Inflated | bj777的blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bj777的blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录学习每一瞬间</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">32</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonathanbest7.github.io/2022/10/04/Inflated/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/bitbug_favicon.ico">
+      <meta itemprop="name" content="bj777">
+      <meta itemprop="description" content="一位逆向菜狗">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bj777的blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Inflated
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-10-04 19:33:35 / 修改时间：20:25:51" itemprop="dateCreated datePublished" datetime="2022-10-04T19:33:35+08:00">2022-10-04</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Inflated"><a href="#Inflated" class="headerlink" title="Inflated"></a>Inflated</h1><p>这个题是很久以前ACTF的一道题了，但由于最近打ctf经常遇到混淆，所以先从简单的ollvm搞起，顺便仔细学习一下异常类。</p>
+<h2 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h2><p>首先是异常，c++异常我们基本上是通过手动patch块来找到catch块，如何分辩可以通过rdx的值。</p>
+<p>当前函数抛出异常后，如果在该函数没有找到catch块，那么就继续向上找catch块，出现两种情况</p>
+<p>第一：找到catch块</p>
+<p>第二：没有找到catch块，调用std::terminal（），即把程序abort掉</p>
+<p>当找到catch块后，会执行对应操作。</p>
+<p>程序中代码块有个专有名词：landing pad，从抛异常到开始，再到执行landing pad代码，这整个过程叫做Stack unwind</p>
+<p>Stack unwind主要作用是：沿着链向上找catch块，且清理调用链上栈中的局部变量</p>
+<p>其中 stack unwind库在intel平台上，属于Itanium ABI接口中的一部分，由系统实现，跟语言无关，任何上层语言都能通过接口的基础实现各自异常处理</p>
+<p>Itanium ABI定义了数据结构来建立异常处理流程和框架</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">_Unwind_RaiseException</span>,<span class="comment">//用于stack unwind</span></span><br><span class="line"><span class="variable">_Unwind_Resume</span>,</span><br><span class="line"><span class="variable">_Unwind_DeleteException</span>,</span><br><span class="line"><span class="variable">_Unwind_GetGR</span>,</span><br><span class="line"><span class="variable">_Unwind_SetGR</span>,</span><br><span class="line"><span class="variable">_Unwind_GetIP</span>,</span><br><span class="line"><span class="variable">_Unwind_SetIP</span>,</span><br><span class="line"><span class="variable">_Unwind_GetRegionStart</span>,</span><br><span class="line"><span class="variable">_Unwind_GetLanguageSpecificData</span>,</span><br><span class="line"><span class="variable">_Unwind_ForcedUnwind</span></span><br></pre></td></tr></table></figure>
+
+<p>_Unwind_RaiseException（）函数用于进行stack unwind，它在用户执行throw时候被调用，主要功能就是从当前函数开始，对调用链上的每个函数都调用一个personality routine函数</p>
+<p>当我们在代码中写下throw xxx，编译器会分配一个数据结构**__cxa_exception**来表示该异常，异常头部：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> __<span class="title">cxa_exception</span> </span></span><br><span class="line"><span class="class">&#123;</span> </span><br><span class="line">  <span class="built_in">std</span>::type_info *    exceptionType;</span><br><span class="line">  <span class="type">void</span> (*exceptionDestructor) (<span class="type">void</span> *); </span><br><span class="line">  unexpected_handler    unexpectedHandler;</span><br><span class="line">  terminate_handler    terminateHandler;</span><br><span class="line">  __cxa_exception *    nextException;</span><br><span class="line"></span><br><span class="line">  <span class="type">int</span>     handlerCount;</span><br><span class="line">  <span class="type">int</span>     handlerSwitchValue;</span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> *     actionRecord;</span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> *     languageSpecificData;</span><br><span class="line">  <span class="type">void</span> *     catchTemp;</span><br><span class="line">  <span class="type">void</span> *     adjustedPtr;</span><br><span class="line"></span><br><span class="line">  _Unwind_Exception    unwindHeader;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>整个头部下面才是exception obj。</p>
+<p>所以当我们在程序里执行了抛出异常的操作，编译器为我们做了如下的事情：</p>
+<ol>
+<li>调用 __cxa_allocate_exception 函数，分配一个异常对象（__cxa_exception，数据结构如上）</li>
+<li>调用 __cxa_throw 函数，这个函数会将异常对象做一些初始化</li>
+<li>__cxa_throw() 调用 Itanium ABI 里的 _Unwind_RaiseException() 从而开始 unwind</li>
+<li>_Unwind_RaiseException() 对调用链上的函数进行 unwind 时，调用 personality routine()</li>
+<li>该异常如能被处理(有相应的 catch)，则 personality routine 会依次对调用链上的函数进行清理</li>
+<li><strong>_Unwind_RaiseException() 将控制权转到相应的catch代码</strong></li>
+<li>unwind 完成，用户代码继续执行</li>
+</ol>
+<p>这个题最骚的是把exception源码给改了，我们找到__gxx_personality_v0，点Y修改其函数类型</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">_Unwind_Reason_Code __fastcall _gxx_personality_v0(</span><br><span class="line">        <span class="type">int</span> Version,</span><br><span class="line">        _Unwind_Action actions,</span><br><span class="line">        __int64 exceptionClass,</span><br><span class="line">        _Unwind_Exception *exceptionObject,</span><br><span class="line">        _Unwind_Context *context)</span><br></pre></td></tr></table></figure>
+
+<p>然后看scan_eh_tab()，这里面有两个关键值被魔改了，先shift+F1存入参数结构体，然后点Y修改scan_eh_tab</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">scan_results</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="type">int64_t</span> ttypeIndex; </span><br><span class="line"><span class="type">const</span> <span class="type">uint8_t</span>* actionRecord; </span><br><span class="line"><span class="type">const</span> <span class="type">uint8_t</span>* languageSpecificData; </span><br><span class="line"><span class="type">uintptr_t</span> landingPad; </span><br><span class="line"><span class="type">void</span>* adjustedPtr; </span><br><span class="line">_Unwind_Reason_Code reason; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">scan_eh_tab</span><span class="params">(scan_results *results, _Unwind_Action actions, <span class="type">bool</span> native_exception, _Unwind_Exception *unwind_exception, _Unwind_Context *context)</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( v33 &lt;= (<span class="type">unsigned</span> __int64)v22 )</span><br><span class="line">      call_terminate(native_exception, unwind_exception);</span><br><span class="line">    v35 = readEncodedPointer(&amp;v22, v19);</span><br><span class="line">    v36 = readEncodedPointer(&amp;v22, v19);</span><br><span class="line">    v10 = readEncodedPointer(&amp;v22, v19);</span><br><span class="line">    v37 = (<span class="number">13</span> * (_BYTE)v22 + <span class="number">95</span>) &amp; <span class="number">0x3F</span> ^ <span class="number">0x33</span>u ^ (<span class="type">unsigned</span> __int64)v10;<span class="comment">//landing pad</span></span><br><span class="line">    v38 = readULEB128(&amp;v22);</span><br><span class="line">    <span class="keyword">if</span> ( v35 &lt;= v30 &amp;&amp; v30 &lt; v35 + v36 )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">if</span> ( v30 &lt; v35 )</span><br><span class="line">      call_terminate(native_exception, unwind_exception);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>此处landing pad被修改，所以catch分发处的地址已经被魔改了</p>
+<p>第二处</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( v47 == &amp;`typeinfo <span class="keyword">for</span><span class="number">&#x27;</span>StdObfException )</span><br><span class="line">          &#123;</span><br><span class="line">            v48 = thrown_object_ptr;</span><br><span class="line">            v27 = <span class="number">27</span> * (<span class="number">42</span> * (<span class="type">char</span>)*thrown_object_ptr + (<span class="type">int</span>)v27) % <span class="number">0x61</span>u;</span><br><span class="line">          &#125;</span><br><span class="line">          results-&gt;ttypeIndex = v27;</span><br><span class="line">          results-&gt;actionRecord = v39;</span><br><span class="line">          results-&gt;adjustedPtr = thrown_object_ptr;</span><br><span class="line">          results-&gt;reason = _URC_HANDLER_FOUND;</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">goto</span> LABEL_54;</span><br></pre></td></tr></table></figure>
+
+<p><strong>v27是ttypeindex，最后的ttypeIndex由 thrown_object_ptr（由我们的第一段输入所决定的thrown_object_ptr） 和 原始固定固定typeIndex 决定</strong></p>
+<h2 id="OLLVM"><a href="#OLLVM" class="headerlink" title="OLLVM"></a>OLLVM</h2><p>这篇文章写的还是不错的：<a target="_blank" rel="noopener" href="https://bluesadi.github.io/0x401RevTrain-Tools/angr/10_%E5%88%A9%E7%94%A8angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E5%8E%BB%E9%99%A4%E6%8E%A7%E5%88%B6%E6%B5%81%E5%B9%B3%E5%9D%A6%E5%8C%96/">https://bluesadi.github.io/0x401RevTrain-Tools/angr/10_%E5%88%A9%E7%94%A8angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E5%8E%BB%E9%99%A4%E6%8E%A7%E5%88%B6%E6%B5%81%E5%B9%B3%E5%9D%A6%E5%8C%96/</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/01/Bytectf2022/" rel="prev" title="Bytectf2022">
+      <i class="fa fa-chevron-left"></i> Bytectf2022
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/17/WEIRD-VM/" rel="next" title="WEIRD_VM">
+      WEIRD_VM <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Inflated"><span class="nav-text">Inflated</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Exception"><span class="nav-text">Exception</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OLLVM"><span class="nav-text">OLLVM</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bj777"
+      src="/images/bitbug_favicon.ico">
+  <p class="site-author-name" itemprop="name">bj777</p>
+  <div class="site-description" itemprop="description">一位逆向菜狗</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jonathanbest7" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jonathanbest7" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/506611735@qq.com" title="E-Mail → 506611735@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/bang-ji-1" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;bang-ji-1" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bj777</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bitbug_favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bitbug_favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jonathanbest7.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Bytectf2022题的质量都很高，而且绝大部分知识点都是我不会的，所以接下来一个月，抽时间就来复现。 OhMySolidity这个题是一个智能合约题，第一次接触这种类型的题，发现反编译出来的东西很抽象。 给了一个txt文件 我们将第一段input输入https:&#x2F;&#x2F;ethervm.io&#x2F;这个网站就可以得到反编译后的样子： 123456789101112131415161718192021222">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bytectf2022">
+<meta property="og:url" content="https://jonathanbest7.github.io/2022/10/01/Bytectf2022/index.html">
+<meta property="og:site_name" content="bj777的blog">
+<meta property="og:description" content="Bytectf2022题的质量都很高，而且绝大部分知识点都是我不会的，所以接下来一个月，抽时间就来复现。 OhMySolidity这个题是一个智能合约题，第一次接触这种类型的题，发现反编译出来的东西很抽象。 给了一个txt文件 我们将第一段input输入https:&#x2F;&#x2F;ethervm.io&#x2F;这个网站就可以得到反编译后的样子： 123456789101112131415161718192021222">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20221001101445496.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20221001101725520.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20221001142814162.png">
+<meta property="article:published_time" content="2022-10-01T02:01:26.000Z">
+<meta property="article:modified_time" content="2022-10-01T08:51:15.183Z">
+<meta property="article:author" content="bj777">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20221001101445496.png">
+
+<link rel="canonical" href="https://jonathanbest7.github.io/2022/10/01/Bytectf2022/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Bytectf2022 | bj777的blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bj777的blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录学习每一瞬间</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">32</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonathanbest7.github.io/2022/10/01/Bytectf2022/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/bitbug_favicon.ico">
+      <meta itemprop="name" content="bj777">
+      <meta itemprop="description" content="一位逆向菜狗">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bj777的blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Bytectf2022
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-10-01 10:01:26 / 修改时间：16:51:15" itemprop="dateCreated datePublished" datetime="2022-10-01T10:01:26+08:00">2022-10-01</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Bytectf2022"><a href="#Bytectf2022" class="headerlink" title="Bytectf2022"></a>Bytectf2022</h1><p>题的质量都很高，而且绝大部分知识点都是我不会的，所以接下来一个月，抽时间就来复现。</p>
+<h2 id="OhMySolidity"><a href="#OhMySolidity" class="headerlink" title="OhMySolidity"></a>OhMySolidity</h2><p>这个题是一个智能合约题，第一次接触这种类型的题，发现反编译出来的东西很抽象。</p>
+<p>给了一个txt文件</p>
+<p>我们将第一段input输入<a target="_blank" rel="noopener" href="https://ethervm.io/%E8%BF%99%E4%B8%AA%E7%BD%91%E7%AB%99%E5%B0%B1%E5%8F%AF%E4%BB%A5%E5%BE%97%E5%88%B0%E5%8F%8D%E7%BC%96%E8%AF%91%E5%90%8E%E7%9A%84%E6%A0%B7%E5%AD%90%EF%BC%9A">https://ethervm.io/这个网站就可以得到反编译后的样子：</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br></pre></td><td class="code"><pre><span class="line">contract Contract &#123;</span><br><span class="line">    function main() &#123;</span><br><span class="line">        memory[0x40:0x60] = 0x80;</span><br><span class="line">        var var0 = msg.value;</span><br><span class="line">    </span><br><span class="line">        if (var0) &#123; revert(memory[0x00:0x00]); &#125;</span><br><span class="line">    </span><br><span class="line">        if (msg.data.length &lt; 0x04) &#123; revert(memory[0x00:0x00]); &#125;</span><br><span class="line">    </span><br><span class="line">        var0 = msg.data[0x00:0x20] &gt;&gt; 0xe0;</span><br><span class="line">    </span><br><span class="line">        if (var0 == 0x14edb54d) &#123;</span><br><span class="line">            // Dispatch table entry for k1()</span><br><span class="line">            var var1 = 0x006f;</span><br><span class="line">            var var2 = k1();</span><br><span class="line">            var temp0 = memory[0x40:0x60];</span><br><span class="line">            memory[temp0:temp0 + 0x20] = var2 &amp; 0xffffffff;</span><br><span class="line">            var temp1 = memory[0x40:0x60];</span><br><span class="line">            return memory[temp1:temp1 + (temp0 + 0x20) - temp1];</span><br><span class="line">        &#125; else if (var0 == 0x58f5382e) &#123;</span><br><span class="line">            // Dispatch table entry for challenge(string)</span><br><span class="line">            var1 = 0x014a;</span><br><span class="line">            var2 = 0x04;</span><br><span class="line">            var var3 = msg.data.length - var2;</span><br><span class="line">        </span><br><span class="line">            if (var3 &lt; 0x20) &#123; revert(memory[0x00:0x00]); &#125;</span><br><span class="line">        </span><br><span class="line">            var1 = challenge(var2, var3);</span><br><span class="line">            var temp2 = memory[0x40:0x60];</span><br><span class="line">            var2 = temp2;</span><br><span class="line">            var3 = var2;</span><br><span class="line">            var temp3 = var3 + 0x20;</span><br><span class="line">            memory[var3:var3 + 0x20] = temp3 - var3;</span><br><span class="line">            var temp4 = var1;</span><br><span class="line">            memory[temp3:temp3 + 0x20] = memory[temp4:temp4 + 0x20];</span><br><span class="line">            var var4 = temp3 + 0x20;</span><br><span class="line">            var var6 = memory[temp4:temp4 + 0x20];</span><br><span class="line">            var var5 = temp4 + 0x20;</span><br><span class="line">            var var7 = var6;</span><br><span class="line">            var var8 = var4;</span><br><span class="line">            var var9 = var5;</span><br><span class="line">            var var10 = 0x00;</span><br><span class="line">        </span><br><span class="line">            if (var10 &gt;= var7) &#123;</span><br><span class="line">            label_018A:</span><br><span class="line">                var temp5 = var6;</span><br><span class="line">                var4 = temp5 + var4;</span><br><span class="line">                var5 = temp5 &amp; 0x1f;</span><br><span class="line">            </span><br><span class="line">                if (!var5) &#123;</span><br><span class="line">                    var temp6 = memory[0x40:0x60];</span><br><span class="line">                    return memory[temp6:temp6 + var4 - temp6];</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    var temp7 = var5;</span><br><span class="line">                    var temp8 = var4 - temp7;</span><br><span class="line">                    memory[temp8:temp8 + 0x20] = ~(0x0100 ** (0x20 - temp7) - 0x01) &amp; memory[temp8:temp8 + 0x20];</span><br><span class="line">                    var temp9 = memory[0x40:0x60];</span><br><span class="line">                    return memory[temp9:temp9 + (temp8 + 0x20) - temp9];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">            label_0178:</span><br><span class="line">                var temp10 = var10;</span><br><span class="line">                memory[var8 + temp10:var8 + temp10 + 0x20] = memory[var9 + temp10:var9 + temp10 + 0x20];</span><br><span class="line">                var10 = temp10 + 0x20;</span><br><span class="line">            </span><br><span class="line">                if (var10 &gt;= var7) &#123; goto label_018A; &#125;</span><br><span class="line">                else &#123; goto label_0178; &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else if (var0 == 0x93eed093) &#123;</span><br><span class="line">            // Dispatch table entry for 0x93eed093 (unknown)</span><br><span class="line">            var1 = 0x01cd;</span><br><span class="line">            var2 = func_056F();</span><br><span class="line">            var temp11 = memory[0x40:0x60];</span><br><span class="line">            memory[temp11:temp11 + 0x20] = var2 &amp; 0xffffffff;</span><br><span class="line">            var temp12 = memory[0x40:0x60];</span><br><span class="line">            return memory[temp12:temp12 + (temp11 + 0x20) - temp12];</span><br><span class="line">        &#125; else if (var0 == 0x9577a145) &#123;</span><br><span class="line">            // Dispatch table entry for 0x9577a145 (unknown)</span><br><span class="line">            var1 = 0x0251;</span><br><span class="line">            var2 = 0x04;</span><br><span class="line">            var3 = msg.data.length - var2;</span><br><span class="line">        </span><br><span class="line">            if (var3 &lt; 0x80) &#123; revert(memory[0x00:0x00]); &#125;</span><br><span class="line">        </span><br><span class="line">            func_0205(var2, var3);</span><br><span class="line">            stop();</span><br><span class="line">        &#125; else if (var0 == 0xa7f81e6a) &#123;</span><br><span class="line">            // Dispatch table entry for k2()</span><br><span class="line">            var1 = 0x025b;</span><br><span class="line">            var2 = k2();</span><br><span class="line">            var temp13 = memory[0x40:0x60];</span><br><span class="line">            memory[temp13:temp13 + 0x20] = var2 &amp; 0xffffffff;</span><br><span class="line">            var temp14 = memory[0x40:0x60];</span><br><span class="line">            return memory[temp14:temp14 + (temp13 + 0x20) - temp14];</span><br><span class="line">        &#125; else if (var0 == 0xf0407ca7) &#123;</span><br><span class="line">            // Dispatch table entry for 0xf0407ca7 (unknown)</span><br><span class="line">            var1 = 0x0285;</span><br><span class="line">            var2 = func_0623();</span><br><span class="line">            var temp15 = memory[0x40:0x60];</span><br><span class="line">            memory[temp15:temp15 + 0x20] = var2 &amp; 0xffffffff;</span><br><span class="line">            var temp16 = memory[0x40:0x60];</span><br><span class="line">            return memory[temp16:temp16 + (temp15 + 0x20) - temp16];</span><br><span class="line">        &#125; else &#123; revert(memory[0x00:0x00]); &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function challenge(var arg0, var arg1) returns (var r0) &#123;</span><br><span class="line">        var temp0 = arg0;</span><br><span class="line">        arg0 = temp0 + arg1;</span><br><span class="line">        arg1 = temp0;</span><br><span class="line">        var var1 = msg.data[arg1:arg1 + 0x20];</span><br><span class="line">        var var0 = arg1 + 0x20;</span><br><span class="line">    </span><br><span class="line">        if (var1 &gt; 0x0100000000) &#123; revert(memory[0x00:0x00]); &#125;</span><br><span class="line">    </span><br><span class="line">        var temp1 = arg1 + var1;</span><br><span class="line">        var1 = temp1;</span><br><span class="line">    </span><br><span class="line">        if (var1 + 0x20 &gt; arg0) &#123; revert(memory[0x00:0x00]); &#125;</span><br><span class="line">    </span><br><span class="line">        var temp2 = var1;</span><br><span class="line">        var temp3 = msg.data[temp2:temp2 + 0x20];</span><br><span class="line">        var1 = temp3;</span><br><span class="line">        var temp4 = var0;</span><br><span class="line">        var0 = temp2 + 0x20;</span><br><span class="line">        var var2 = temp4;</span><br><span class="line">    </span><br><span class="line">        if ((var1 &gt; 0x0100000000) | (var0 + var1 &gt; arg0)) &#123; revert(memory[0x00:0x00]); &#125;</span><br><span class="line">    </span><br><span class="line">        var temp5 = var1;</span><br><span class="line">        var temp6 = memory[0x40:0x60];</span><br><span class="line">        memory[0x40:0x60] = temp6 + (temp5 + 0x1f) / 0x20 * 0x20 + 0x20;</span><br><span class="line">        memory[temp6:temp6 + 0x20] = temp5;</span><br><span class="line">        var temp7 = temp6 + 0x20;</span><br><span class="line">        memory[temp7:temp7 + temp5] = msg.data[var0:var0 + temp5];</span><br><span class="line">        memory[temp7 + temp5:temp7 + temp5 + 0x20] = 0x00;</span><br><span class="line">        arg0 = temp6;</span><br><span class="line">        arg1 = 0x60;</span><br><span class="line">        var0 = arg0;</span><br><span class="line">        var1 = 0x00;</span><br><span class="line">        var2 = 0x08;</span><br><span class="line">        var var3 = memory[var0:var0 + 0x20];</span><br><span class="line">    </span><br><span class="line">        if (!var2) &#123; assert(); &#125;</span><br><span class="line">    </span><br><span class="line">        if (var3 % var2 != var1) &#123; revert(memory[0x00:0x00]); &#125;</span><br><span class="line">    </span><br><span class="line">        var1 = 0x60;</span><br><span class="line">        var temp8 = memory[var0:var0 + 0x20];</span><br><span class="line">        var temp9 = memory[0x40:0x60];</span><br><span class="line">        var2 = temp9;</span><br><span class="line">        var3 = temp8;</span><br><span class="line">        memory[var2:var2 + 0x20] = var3;</span><br><span class="line">        memory[0x40:0x60] = var2 + (var3 + 0x1f &amp; ~0x1f) + 0x20;</span><br><span class="line">    </span><br><span class="line">        if (!var3) &#123;</span><br><span class="line">            var1 = var2;</span><br><span class="line">            var2 = 0xdeadbeef;</span><br><span class="line">            var3 = 0x00;</span><br><span class="line">        </span><br><span class="line">            if (var3 &gt;= memory[var0:var0 + 0x20]) &#123;</span><br><span class="line">            label_0563:</span><br><span class="line">                return var1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">            label_032D:</span><br><span class="line">                var var4 = 0x00;</span><br><span class="line">                var var5 = 0x00;</span><br><span class="line">                var var6 = 0x00;</span><br><span class="line">                var var7 = 0x00;</span><br><span class="line">            </span><br><span class="line">                if (var7 &amp; 0xff &gt;= 0x04) &#123;</span><br><span class="line">                label_03CD:</span><br><span class="line">                    var7 = 0x00;</span><br><span class="line">                </span><br><span class="line">                    if (var7 &amp; 0xff &gt;= 0x20) &#123;</span><br><span class="line">                    label_047F:</span><br><span class="line">                        var7 = 0x00;</span><br><span class="line">                    </span><br><span class="line">                        if (var7 &amp; 0xff &gt;= 0x04) &#123;</span><br><span class="line">                        label_0554:</span><br><span class="line">                            var3 = var3 + 0x08;</span><br><span class="line">                        </span><br><span class="line">                            if (var3 &gt;= memory[var0:var0 + 0x20]) &#123; goto label_0563; &#125;</span><br><span class="line">                            else &#123; goto label_032D; &#125;</span><br><span class="line">                        &#125; else &#123;</span><br><span class="line">                        label_0493:</span><br><span class="line">                            var temp10 = var7;</span><br><span class="line">                            var var8 = (((var5 &amp; 0xffffffff) &gt;&gt; (0x03 - temp10 * 0x08 &amp; 0xff)) &amp; 0xff) &lt;&lt; 0xf8;</span><br><span class="line">                            var var9 = var1;</span><br><span class="line">                            var var10 = var3 + (temp10 &amp; 0xff);</span><br><span class="line">                        </span><br><span class="line">                            if (var10 &gt;= memory[var9:var9 + 0x20]) &#123; assert(); &#125;</span><br><span class="line">                        </span><br><span class="line">                            memory[var10 + 0x20 + var9:var10 + 0x20 + var9 + 0x01] = byte(var8 &amp; ~0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff, 0x00);</span><br><span class="line">                            var temp11 = var7;</span><br><span class="line">                            var8 = (((var6 &amp; 0xffffffff) &gt;&gt; (0x03 - temp11 * 0x08 &amp; 0xff)) &amp; 0xff) &lt;&lt; 0xf8;</span><br><span class="line">                            var9 = var1;</span><br><span class="line">                            var10 = var3 + (temp11 &amp; 0xff) + 0x04;</span><br><span class="line">                        </span><br><span class="line">                            if (var10 &gt;= memory[var9:var9 + 0x20]) &#123; assert(); &#125;</span><br><span class="line">                        </span><br><span class="line">                            memory[var10 + 0x20 + var9:var10 + 0x20 + var9 + 0x01] = byte(var8 &amp; ~0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff, 0x00);</span><br><span class="line">                            var7 = var7 + 0x01;</span><br><span class="line">                        </span><br><span class="line">                            if (var7 &amp; 0xff &gt;= 0x04) &#123; goto label_0554; &#125;</span><br><span class="line">                            else &#123; goto label_0493; &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                    label_03E1:</span><br><span class="line">                        var temp12 = var4 + var2;</span><br><span class="line">                        var4 = temp12;</span><br><span class="line">                        var temp13 = var6;</span><br><span class="line">                        var temp14 = var5 + (((temp13 &amp; 0xffffffff) &lt;&lt; 0x04) + (storage[0x00] &amp; 0xffffffff) ~ temp13 + var4 ~ ((temp13 &amp; 0xffffffff) &gt;&gt; 0x05) + (storage[0x00] / 0x0100 ** 0x04 &amp; 0xffffffff));</span><br><span class="line">                        var5 = temp14;</span><br><span class="line">                        var6 = temp13 + (((var5 &amp; 0xffffffff) &lt;&lt; 0x04) + (storage[0x00] / 0x0100 ** 0x08 &amp; 0xffffffff) ~ var5 + var4 ~ ((var5 &amp; 0xffffffff) &gt;&gt; 0x05) + (storage[0x00] / 0x0100 ** 0x0c &amp; 0xffffffff));</span><br><span class="line">                        var7 = var7 + 0x01;</span><br><span class="line">                    </span><br><span class="line">                        if (var7 &amp; 0xff &gt;= 0x20) &#123; goto label_047F; &#125;</span><br><span class="line">                        else &#123; goto label_03E1; &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                label_034E:</span><br><span class="line">                    var temp15 = var7;</span><br><span class="line">                    var8 = 0x03 - temp15 * 0x08 &amp; 0xff;</span><br><span class="line">                    var9 = var0;</span><br><span class="line">                    var10 = var3 + (temp15 &amp; 0xff);</span><br><span class="line">                </span><br><span class="line">                    if (var10 &gt;= memory[var9:var9 + 0x20]) &#123; assert(); &#125;</span><br><span class="line">                </span><br><span class="line">                    var5 = var5 + (((((memory[var10 + 0x20 + var9:var10 + 0x20 + var9 + 0x20] &gt;&gt; 0xf8) &lt;&lt; 0xf8) &gt;&gt; 0xf8) &amp; 0xff) &lt;&lt; var8);</span><br><span class="line">                    var temp16 = var7;</span><br><span class="line">                    var8 = 0x03 - temp16 * 0x08 &amp; 0xff;</span><br><span class="line">                    var9 = var0;</span><br><span class="line">                    var10 = var3 + (temp16 &amp; 0xff) + 0x04;</span><br><span class="line">                </span><br><span class="line">                    if (var10 &gt;= memory[var9:var9 + 0x20]) &#123; assert(); &#125;</span><br><span class="line">                </span><br><span class="line">                    var6 = var6 + (((((memory[var10 + 0x20 + var9:var10 + 0x20 + var9 + 0x20] &gt;&gt; 0xf8) &lt;&lt; 0xf8) &gt;&gt; 0xf8) &amp; 0xff) &lt;&lt; var8);</span><br><span class="line">                    var7 = var7 + 0x01;</span><br><span class="line">                </span><br><span class="line">                    if (var7 &amp; 0xff &gt;= 0x04) &#123; goto label_03CD; &#125;</span><br><span class="line">                    else &#123; goto label_034E; &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            var temp17 = var3;</span><br><span class="line">            memory[var2 + 0x20:var2 + 0x20 + temp17] = code[code.length:code.length + temp17];</span><br><span class="line">            var1 = var2;</span><br><span class="line">            var2 = 0xdeadbeef;</span><br><span class="line">            var3 = 0x00;</span><br><span class="line">        </span><br><span class="line">            if (var3 &gt;= memory[var0:var0 + 0x20]) &#123; goto label_0563; &#125;</span><br><span class="line">            else &#123; goto label_032D; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function func_0205(var arg0, var arg1) &#123;</span><br><span class="line">        var temp0 = arg0;</span><br><span class="line">        var temp1 = temp0 + 0x20;</span><br><span class="line">        arg0 = msg.data[temp0:temp0 + 0x20] &amp; 0xffffffff;</span><br><span class="line">        var temp2 = temp1 + 0x20;</span><br><span class="line">        arg1 = msg.data[temp1:temp1 + 0x20] &amp; 0xffffffff;</span><br><span class="line">        var var0 = msg.data[temp2:temp2 + 0x20] &amp; 0xffffffff;</span><br><span class="line">        var var1 = msg.data[temp2 + 0x20:temp2 + 0x20 + 0x20] &amp; 0xffffffff;</span><br><span class="line">        storage[0x00] = (arg0 &amp; 0xffffffff) | (storage[0x00] &amp; ~0xffffffff);</span><br><span class="line">        storage[0x00] = (arg1 &amp; 0xffffffff) * 0x0100 ** 0x04 | (storage[0x00] &amp; ~(0xffffffff * 0x0100 ** 0x04));</span><br><span class="line">        storage[0x00] = (var0 &amp; 0xffffffff) * 0x0100 ** 0x08 | (storage[0x00] &amp; ~(0xffffffff * 0x0100 ** 0x08));</span><br><span class="line">        storage[0x00] = (var1 &amp; 0xffffffff) * 0x0100 ** 0x0c | (storage[0x00] &amp; ~(0xffffffff * 0x0100 ** 0x0c));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function k1() returns (var r0) &#123; return storage[0x00] / 0x0100 ** 0x04 &amp; 0xffffffff; &#125;</span><br><span class="line">    </span><br><span class="line">    function func_056F() returns (var r0) &#123; return storage[0x00] &amp; 0xffffffff; &#125;</span><br><span class="line">    </span><br><span class="line">    function k2() returns (var r0) &#123; return storage[0x00] / 0x0100 ** 0x08 &amp; 0xffffffff; &#125;</span><br><span class="line">    </span><br><span class="line">    function func_0623() returns (var r0) &#123; return storage[0x00] / 0x0100 ** 0x0c &amp; 0xffffffff; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>看这个东西，要看if中的语句，比如下面，当输入0x93eed093时，会调用func_056F函数</p>
+<p><img src="/../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20221001101445496.png" alt="image-20221001101445496"></p>
+<p>我们的第二段输入</p>
+<p>0x9577a1450000000000000000000000000000000000000000000000000000000010000000000000000000000000000876543210000000000000002345678000000000000000000000000000000000000000000000000000000000000000000000aabbccdd0000000000000000000000000000000000000000000000000000000044332211</p>
+<p>我们直接看func_0205函数</p>
+<p><img src="/../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20221001101725520.png" alt="image-20221001101725520"></p>
+<p>这就要猜了，能看出是赋值了4个值到storage，四个值分别对应0x12345678、0x87654321、0xaabbccdd、0x44332211</p>
+<p>第三次输入时challenge方法：输入0x59f5382e，并输出了0xa625e97482f83d2b7fc5125763dcbbffd8115b208c4754eee8711bdfac9e3377622bbf0cbb785e612b82c7f5143d5333</p>
+<p>challeng函数是一个魔改的tea</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="comment">//加密函数</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">encrypt</span> <span class="params">(<span class="type">uint32_t</span>* v, <span class="type">uint32_t</span>* k)</span> &#123;</span><br><span class="line">    <span class="type">uint32_t</span> v0=v[<span class="number">0</span>], v1=v[<span class="number">1</span>], sum=<span class="number">0</span>, i;           <span class="comment">/* set up */</span></span><br><span class="line">    <span class="type">uint32_t</span> delta=<span class="number">0x9e3779b9</span>;                     <span class="comment">/* a key schedule constant */</span></span><br><span class="line">    <span class="type">uint32_t</span> k0=k[<span class="number">0</span>], k1=k[<span class="number">1</span>], k2=k[<span class="number">2</span>], k3=k[<span class="number">3</span>];   <span class="comment">/* cache key */</span></span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;                       <span class="comment">/* basic cycle start */</span></span><br><span class="line">        sum += delta;</span><br><span class="line">        v0 += ((v1&lt;&lt;<span class="number">4</span>) + k0) ^ (v1 + sum) ^ ((v1&gt;&gt;<span class="number">5</span>) + k1);</span><br><span class="line">        v1 += ((v0&lt;&lt;<span class="number">4</span>) + k2) ^ (v0 + sum) ^ ((v0&gt;&gt;<span class="number">5</span>) + k3);</span><br><span class="line">    &#125;                                              <span class="comment">/* end cycle */</span></span><br><span class="line">    v[<span class="number">0</span>]=v0; v[<span class="number">1</span>]=v1;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//解密函数</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">decrypt</span> <span class="params">(<span class="type">uint32_t</span>* v, <span class="type">uint32_t</span>* k)</span> &#123;</span><br><span class="line">    <span class="type">uint32_t</span> v0=v[<span class="number">0</span>], v1=v[<span class="number">1</span>], sum=<span class="number">0xdeadbeef</span>*<span class="number">32</span>, i;  <span class="comment">/* set up */</span></span><br><span class="line">    <span class="type">uint32_t</span> delta=<span class="number">0xdeadbeef</span>;                     <span class="comment">/* a key schedule constant */</span></span><br><span class="line">    <span class="type">uint32_t</span> k0=k[<span class="number">0</span>], k1=k[<span class="number">1</span>], k2=k[<span class="number">2</span>], k3=k[<span class="number">3</span>];   <span class="comment">/* cache key */</span></span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;<span class="number">32</span>; i++) &#123;                         <span class="comment">/* basic cycle start */</span></span><br><span class="line">        v1 -= ((v0&lt;&lt;<span class="number">4</span>) + k2) ^ (v0 + sum) ^ ((v0&gt;&gt;<span class="number">5</span>) + k3);</span><br><span class="line">        v0 -= ((v1&lt;&lt;<span class="number">4</span>) + k0) ^ (v1 + sum) ^ ((v1&gt;&gt;<span class="number">5</span>) + k1);</span><br><span class="line">        sum -= delta;</span><br><span class="line">    &#125;                                              <span class="comment">/* end cycle */</span></span><br><span class="line">    v[<span class="number">0</span>]=v0; v[<span class="number">1</span>]=v1;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint32_t</span> v[<span class="number">12</span>]=&#123;<span class="number">0xa625e974</span>,<span class="number">0x82f83d2b</span>,<span class="number">0x7fc51257</span>,<span class="number">0x63dcbbff</span>,<span class="number">0xd8115b20</span>,<span class="number">0x8c4754ee</span>,<span class="number">0xe8711bdf</span>,<span class="number">0xac9e3377</span>,<span class="number">0x622bbf0c</span>,<span class="number">0xbb785e61</span>,<span class="number">0x2b82c7f5</span>,<span class="number">0x143d5333</span>&#125;,k[<span class="number">4</span>]=&#123;<span class="number">0x12345678</span>,<span class="number">0x87654321</span>,<span class="number">0xaabbccdd</span>,<span class="number">0x44332211</span>&#125;;</span><br><span class="line">    <span class="comment">// v为要加密的数据是两个32位无符号整数</span></span><br><span class="line">    <span class="comment">// k为加密解密密钥，为4个32位无符号整数，即密钥长度为128位</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">6</span>; i+=<span class="number">2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        decrypt(v + i, k);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;decode:%x %x\n&quot;</span>,v[i],v[i + <span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">bytectf</span>&#123;f2d9e0b6-<span class="number">274</span>d-<span class="number">47</span>e0-bc4c-<span class="number">40967015</span>ba79273&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="maze6d"><a href="#maze6d" class="headerlink" title="maze6d"></a>maze6d</h2><p>这个混淆看了一天，里面涉及到好多不清楚的地方，还有很多之前没搞明白的地方。</p>
+<p>第一个点是GOT和PLT表：</p>
+<p>GOT表是一个存储外部函数地址的表，PLT表是一个代码片段组成的表，每一个都能跳到GOT表项。众所周知，链接时要进行一个重定位，链接做的事情：对同名section进行合并，对代码段和数据段进行地址分配，进行重定位。</p>
+<p>重定位是这样的：如果时在中间文件中定义好的函数，连接时直接可以重定位到函数地址，如果是动态链接库中的函数，只能生成额外的小段代码，就是PLT表，然后重定位到该代码片段。</p>
+<p>运行时重定位：运行后加载动态库，把动态库中的相应函数地址填入GOT表</p>
+<p>延迟重定位：只有动态库被调用时才会进行地址解析和重定位工作，这时候动态库函数地址被写到GOT表项中。</p>
+<p>第一步由函数跳到PLT表中，第二步PLT表跳到GOT表（jmp），第三步GOT跳到PLT(push)，并进行压栈，把代表函数的id压栈，第四步跳到公共PLT表项中（jmp），第五步进入GOT表，然后_dl_runtime_resolve对动态函数进行地址解析和重定位，第七步把动态函数真实的地址写入GOT表项，然后执行函数并retn。</p>
+<p><img src="/../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20221001142814162.png" alt="image-20221001142814162"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/18/%E6%9F%8F%E9%B9%AD%E3%80%81MT%E3%80%81DASCTF/" rel="prev" title="柏鹭、MT、DASCTF">
+      <i class="fa fa-chevron-left"></i> 柏鹭、MT、DASCTF
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/04/Inflated/" rel="next" title="Inflated">
+      Inflated <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Bytectf2022"><span class="nav-text">Bytectf2022</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#OhMySolidity"><span class="nav-text">OhMySolidity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maze6d"><span class="nav-text">maze6d</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bj777"
+      src="/images/bitbug_favicon.ico">
+  <p class="site-author-name" itemprop="name">bj777</p>
+  <div class="site-description" itemprop="description">一位逆向菜狗</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jonathanbest7" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jonathanbest7" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/506611735@qq.com" title="E-Mail → 506611735@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/bang-ji-1" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;bang-ji-1" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bj777</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
