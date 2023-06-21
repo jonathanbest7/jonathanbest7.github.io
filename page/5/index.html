@@ -133,7 +133,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">41</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">43</span></a>
 
   </li>
   </ul>
@@ -159,6 +159,533 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonathanbest7.github.io/2021/12/13/BuildWLS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/bitbug_favicon.ico">
+      <meta itemprop="name" content="bj777">
+      <meta itemprop="description" content="一位逆向菜狗">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bj777的blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/13/BuildWLS/" class="post-title-link" itemprop="url">BuildWLS2</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-13 14:13:28" itemprop="dateCreated datePublished" datetime="2021-12-13T14:13:28+08:00">2021-12-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-18 00:19:58" itemprop="dateModified" datetime="2022-07-18T00:19:58+08:00">2022-07-18</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​                      最讨厌搭环境了，记录一下自己在搭wsl2的方法踩过的坑。</p>
+<p>一、WSL2的安装</p>
+<p>进入<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/wsl/install-manual">https://docs.microsoft.com/zh-cn/windows/wsl/install-manual</a>官网有详细教程，不要直接用：wsl –install  这个命令，就算下载好重启后也会报错。</p>
+<p>我们采用旧版本的方法，先用管理员模式打开powershell输入：</p>
+<p><code>dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart</code></p>
+<p> 再用下面的命令，用完后重启电脑：</p>
+<p><code>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart</code></p>
+<p>当然如果你的电脑版本不行，得先升级，我没有遇到这种情况。</p>
+<p>再执行：</p>
+<p><code>wsl --set-default-version 2</code></p>
+<p>接下来去微软商店下载一款虚拟机，我选择的是ubuntu 20.04的版本，下载后点启动：</p>
+<p><img src="/2021/12/13/BuildWLS/image-20211213142530322.png"></p>
+<p>接下来能看到下面的图，然后是让你注册你的账号和密码，但如果有报错：“参考的对象类型不支持尝试的操作”，建议用管理员命令：</p>
+<p><code>netsh winsock reset</code></p>
+<p>然后重启，接下来就行了，不行就重新下载。</p>
+<p><img src="/2021/12/13/BuildWLS/image-20211213142658552.png"></p>
+<p>如果成功到这一步，就已经配置成功了。</p>
+<p>二、与VScode的共用</p>
+<p>我们首先下一个Windows Terminal，这个终端看起来很好看的，我们在这个终端中也可以打开linux终端，所以很方便。</p>
+<p>先下一个vscode，可以先不用配置，先在vscode中下一个Remote-WSL的插件，然后在linux下的终端来连接vscode，</p>
+<p>先用mkdir创一个文件夹，cd进入，再code .</p>
+<p>这个时候等待一会就可以连接了。我们在vscode下创建文件是，可以直接在linux中运行的。</p>
+<p>三、docker安装</p>
+<p>我们采用脚本安装，用<a target="_blank" rel="noopener" href="https://gist.github.com/xiaopeng163/f3e72bb1990860859076985d5a723cba#file-install-docker-sh">https://gist.github.com/xiaopeng163/f3e72bb1990860859076985d5a723cba#file-install-docker-sh</a>下的脚本进行安装，如图：</p>
+<p><img src="/2021/12/13/BuildWLS/image-20211213144815510.png"></p>
+<p>接下来重启终端，输入：</p>
+<p><code>sudo service docker start</code></p>
+<p>是让docker启动，输入完成就基本成功了，</p>
+<p>再输入，是为了不让每次都重新启动：</p>
+<p><code>sudo systemctl enable docker</code></p>
+<p>三、插件+美化</p>
+<p>oh-my-zsh <a target="_blank" rel="noopener" href="https://github.com/ohmyzsh/ohmyzsh">https://github.com/ohmyzsh/ohmyzsh</a> </p>
+<p>oh-my-zsh plugins <a target="_blank" rel="noopener" href="https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins">https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins</a> </p>
+<p>oh-my-zsh theme <a target="_blank" rel="noopener" href="https://github.com/ohmyzsh/ohmyzsh/wiki/Themes">https://github.com/ohmyzsh/ohmyzsh/wiki/Themes</a> </p>
+<p>zsh-autosuggestions <a href>https://github.com/zsh-users/zsh-autosuggestions</a></p>
+<p>采用zsh美化比较简单：</p>
+<p>先用第一个连接：选择curl或者wget命令进行下载就行，如果出现：[Ubuntu] 关于ohmyzsh下载被443拒绝连接：</p>
+<p><code>sh -c &quot;$(curl -fsSL https://gitee.com/shmhlsy/oh-my-zsh-install.sh/raw/master/install.sh)&quot;</code></p>
+<p>或者</p>
+<p><code>sh -c &quot;$(wget -O- https://gitee.com/shmhlsy/oh-my-zsh-install.sh/raw/master/install.sh)&quot;</code></p>
+<p>就行了。</p>
+<p>安装好会出现下图。</p>
+<p><img src="/2021/12/13/BuildWLS/image-20211213181706619.png"></p>
+<p>先cd，再ls -la找到.zshrc文件</p>
+<p><img src="/2021/12/13/BuildWLS/image-20211213195702447.png"></p>
+<p>在zshrc文件下有plugins插件我们可以安装使用。</p>
+<p>用code .zshrc可以打开文件，在ZSH_THEME中修改主题，在plugins装插件</p>
+<p><img src="/2021/12/13/BuildWLS/image-20211213195842156.png"></p>
+<p>我们可以定位到plugins目录下看有什么插件</p>
+<p><img src="/2021/12/13/BuildWLS/image-20211213200034155.png"></p>
+<p>我们可以加上第4个插件，是可以帮我们显示想要输的字符。</p>
+<p>到此应该就结束了。</p>
+<p>四、配置python环境</p>
+<p>我们不在细说，只说如何运行python，需要一个环境。</p>
+<p><code>cd</code></p>
+<p><code>source env/bin/activate</code></p>
+<p>这样就能写脚本了！</p>
+<p>总结：图形界面就不整了，我觉得不太好看，后面有需要再整！</p>
+<p>开启虚拟机</p>
+<p><code>bcdedit /set hypervisorlaunchtype off</code></p>
+<p>开启wls2</p>
+<p><code>bcdedit /set hypervisorlaunchtype auto</code></p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explorer.exe .</span><br></pre></td></tr></table></figure>
+
+<p>打开本地的文件</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonathanbest7.github.io/2021/12/12/ReverseCorePrinciple/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/bitbug_favicon.ico">
+      <meta itemprop="name" content="bj777">
+      <meta itemprop="description" content="一位逆向菜狗">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bj777的blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/12/ReverseCorePrinciple/" class="post-title-link" itemprop="url">ReverseCorePrinciple1</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-12 17:40:03" itemprop="dateCreated datePublished" datetime="2021-12-12T17:40:03+08:00">2021-12-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-18 00:51:53" itemprop="dateModified" datetime="2022-07-18T00:51:53+08:00">2022-07-18</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="逆向工程核心原理"><a href="#逆向工程核心原理" class="headerlink" title="逆向工程核心原理"></a>逆向工程核心原理</h1><h2 id="第一章-代码逆向技术基础"><a href="#第一章-代码逆向技术基础" class="headerlink" title="第一章 代码逆向技术基础"></a>第一章 代码逆向技术基础</h2><p>先对hello，world进行分析</p>
+<p>代码窗口：对于反汇编的呈现</p>
+<p>寄存器窗口：显示且可以修改寄存器的值</p>
+<p>数据窗口：以unicode&#x2F;ascii&#x2F;hex显示地址，可修改</p>
+<p>栈窗口：显示ESP指向的栈内存，可改</p>
+<p>ESP：栈指针寄存器，其内存放着一个指针，该指针永远指向系统栈最上面</p>
+<p>启动函数与所用的编译器是有关的，所以不同编译器的启动函数是不同的。我们的目标是找到用户代码的start处，也就是main函数处，我们可以通过一直点F7,遇到函数就步入，来查看是否又api调用。</p>
+<p>当然这显然不如查找字符串那么快。</p>
+<p>对于栈为什么会存在，有一篇文章写的很好；<a target="_blank" rel="noopener" href="https://blog.csdn.net/yu132563/article/details/51598185?ops_request_misc=%7B&quot;request_id&quot;:&quot;163877204316780269837356&quot;,&quot;scm&quot;:&quot;20140713.130102334..&quot;%7D&amp;request_id=163877204316780269837356&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-51598185.pc_search_mgc_flag&amp;utm_term=%E6%A0%88%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8&amp;spm=1018.2226.3001.4187">https://blog.csdn.net/yu132563/article/details/51598185?ops_request_misc={&quot;request_id&quot;%3A&quot;163877204316780269837356&quot;%2C&quot;scm&quot;%3A&quot;20140713.130102334..&quot;}&amp;request_id=163877204316780269837356&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-51598185.pc_search_mgc_flag&amp;utm_term=栈有什么用&amp;spm=1018.2226.3001.4187</a> 简单的说有几点存在的意义：</p>
+<p>1.传参的问题，cpu的寄存器是有限的，当函数内再想调用子函数的时候，再使用原有的cpu寄存器就会冲突了。想利用寄存器传参，就必须在调用子函数前吧寄存器存储起来，然后当函数退出的时候再恢复。</p>
+<p>2.函数嵌套，子函数的参数存在什么位置，需要考虑。</p>
+<p>3.多线程操作，有了栈对于数据的存储，能够在多线程中来回切换！</p>
+<p>API解析；API（Application Programming Interface,应用程序编程接口）是一些预先定义的函数，目的是提供应用程序与开发人员基于某软件或硬件得以访问一组例程的能力，而又无需访问源码，或理解内部工作机制的细节。</p>
+<p>就是运用别人写的函数或程序。。。。可以在网上查阅各种API函数的作用</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple1/image-20211212173230608.png"></p>
+<p>常用指令汇总：</p>
+<p>ctrl+F2 ，重启调试</p>
+<p>F8： 步过</p>
+<p>F7： 步进</p>
+<p>F9：运行</p>
+<p>ctrl+F9： 循环到return，跳出</p>
+<p>“；”  ：添加注释</p>
+<p>F2：设置或者取消断点</p>
+<p>ctrl+g ：跳转地址</p>
+<p>ctrl +E : 编辑数据</p>
+<p>常用汇编：</p>
+<p>call：调用函数；</p>
+<p>jmp： 跳转，eg：jmp 004034243</p>
+<p>INC：值+1</p>
+<p>DEC：值-1</p>
+<p>XOR：异或，常用两个相同的值进行初始化，也用作return 0；</p>
+<p>JMP：跳转指定地址</p>
+<p>CMP：只比较，不改变数值，但EFLAGS改变，其中ZF为1，则跳转</p>
+<p>JE：ZF为1跳转</p>
+<p>SUB：前面的参数减后面的参数，一般是ESP-X为了给参数开辟空间</p>
+<p>TEST：逻辑比较</p>
+<p>1、lea eax，[addr]</p>
+<p>就是将表达式addr的值放入eax寄存器，示例如下：</p>
+<p>lea eax,[401000h]; 将值401000h写入eax寄存器中</p>
+<p>lea指令右边的操作数表示一个精指针，上述指令和mov eax，401000h是等价的</p>
+<p>2、lea eax，dword ptr [ebx];将ebx的值赋值给eax</p>
+<p>3、lea eax，c；其中c为一个int型的变量，该条语句的意思是把c的地址赋值给eax；</p>
+<p>push寄存器：将一个寄存器中的数据入栈</p>
+<p>pop寄存器：出栈用一个寄存器接收数据</p>
+<p>push 源数据 &#x2F;&#x2F;push指令可以分解为两条更基本的汇编指令: &#x2F;&#x2F;–sub $指针移动长度 %rsp		&#x2F;&#x2F;栈指下移 &#x2F;&#x2F;–mov 源数据 （%rsp）	&#x2F;&#x2F;推入数据至栈顶</p>
+<p>pop 目标地址 &#x2F;&#x2F;pop指令等同于： &#x2F;&#x2F;–mov （%rsp）目标地址		&#x2F;&#x2F;数据出栈 &#x2F;&#x2F;–add $指针移动长度 %rsp    &#x2F;&#x2F;指针上移</p>
+<p>四种查找指定代码的方式： 第一种：代码执行法，就是一直F8直到弹出交互框，但这种方法缺点很明显，对于长代码无能为力。</p>
+<p>第二种：字符串检索法，这个已经很熟悉了，打开程序看有什么字符串，在定位到指定位置，相当方便。</p>
+<p>第三种：API调用1：右键——》search for——-》ALL intermodular call</p>
+<p>查找对应API函数。</p>
+<p>第四种：API调用2：右键——》search for——-》Name in all modules</p>
+<p>用于未能调用出API函数的情况，即有压缩器等情况，与so文件调试有点相似</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple1/image-20211212173311038.png"></p>
+<p>函数在40100E被调用，执行完返回401014</p>
+<p>如何打补丁，我尝试过用c32asm打过补丁，学一下怎么用od来修改：</p>
+<p>两种方法：</p>
+<p>第一种：修改字符串缓冲区</p>
+<p>我们在数据窗口对指定字符串用ctrl+E进行修改，但字符串过长，就有溢出风险。</p>
+<p>004092A0  48 00 65 00 6C 00 6C 00 6F 00 20 00 52 00 65 00  H.e.l.l.o. .R.e. 004092B0  76 00 65 00 72 00 73 00 69 00 6E 00 67 00 21 00  v.e.r.s.i.n.g.!. 004092C0  48 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  H…………… 004092D0  00 00 00 00 00 00 00 00 00 00 00 00 00 00        …………..</p>
+<p>第二种: 传递字符串：</p>
+<p>我们采用间接方法，我们找到调用原字符串的指令，push 0x4092A0，然后再找到一个NULL区域，我们将NULL区域填充字符串，将push处调用该NULL字符串首地址即可。</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple1/image-20211212173347402.png"></p>
+<p>大端序和小端序针对1字节以上的才有区分，1字节时没有区别，比如char ch []&#x3D;”adfsaf”,大端序和小端序没有区别!</p>
+<p>大端序：内存低地址存在高位，内存高地址存储在低位。</p>
+<p>小端序，低地址在低位，高地址在低位。</p>
+<p>在输出flag时常常遇到这种问题，我们的解决方法有两种，在网上找反转的网址，或者使用print(flag[::-1])，将flag倒置。</p>
+<p>寄存器：</p>
+<p>一、通用寄存器</p>
+<p>为了让在我们存储时能更加方便的保留有效的空间做其他事，</p>
+<p>比如EAX—-》32位，AX——-》EAX的低16位，AH——》AX的高8位，AL——&gt;AX的低8位</p>
+<p>寄存器类型：</p>
+<p>EAX：累加器（针对操作数和结果数据的）</p>
+<p>EBX：基址寄存器（DS段的数据指针，DS段是用来存放访问数据的段地址.)</p>
+<p>ECX：计数器(字符串和循环操作)</p>
+<p>EDX：数据寄存器(I&#x2F;O指针)</p>
+<p>EBP：扩展基址指针寄存器（SS段中栈内数据指针）</p>
+<p>ESI：源变址寄存器（字符串操作源指针）</p>
+<p>EDI：目的变址寄存器（字符串操作目标指针）</p>
+<p>ESP：栈指针寄存器（SS中栈指针）</p>
+<p>ECX在循环中运用，每次循环一轮后减1，EAX在函数返回值出现。</p>
+<p>ESP指向当前栈顶，EBP表是栈的基地址，比如，调用函数先保留ESP，函数结束再返回ESP,即栈帧技术。在深入理解一下ESP,EBP,在栈寄存器中前两列是有意义的，EBP在进入下一个函数前会push ebp，就是备份储存在第二列，第一列是当前函数esp。而esp的第一列保存其第一列的值，而第二列是在第一列的值下存储的地址，而该地址存储数据。</p>
+<p>二、段寄存器（比较难理解）</p>
+<p>段是用来保护内存的一种技术。可以结合paging将虚拟内存转换为物理内存。段记录再SDT，段寄存器中有记录的索引。</p>
+<p>CS：代码段寄存器（存放应用程序代码所在段的段基址）</p>
+<p>SS：栈段寄存器（存放栈段段基址）</p>
+<p>DS：数据段寄存器（存放段基址）</p>
+<p>ES：附加段寄存器</p>
+<p>FS：数据段寄存器（处理SEH，TEB,PEB)</p>
+<p>GS：数据段寄存器</p>
+<p>三、程序状态与控制寄存器</p>
+<p>EFLAGS：标志寄存器（32位)</p>
+<p>其中代表ZF，当判断结果为0，那么ZF&#x3D;1，反之。</p>
+<p>OF有整数符号溢出，值为1；CF无整数符号溢出，值为1.</p>
+<p>四、指令指针寄存器</p>
+<p>EIP：指令指针寄存器（凡是缩写前面带E的多为，16为转变成的32位）</p>
+<p>执行过程：cpu读取EIP中指令，指令进入缓冲区，存储在eip的值增加，增加的大小是指令字节大小，进行下一条指令读取。</p>
+<p>栈</p>
+<p>栈是栈顶在上，栈底在下，栈是有高地址到低地址，从上往下运行，ESP开始指向栈底，被push后就往栈顶走。当参数被压入栈时，在前的参数后压入栈。（FILO）</p>
+<p>函数执行完，栈中的函数是不用清除的，当下一个函数中的·参数进入时，直接覆盖掉。</p>
+<p>栈帧技术：是在调用函数时，先将ESP的值交给EBP，让EBP来储存一个标准，也就是函数返回地址，但这样写很容易被栈溢出修改return的地址！</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple1/image-20211212173413635.png"></p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple1/image-20211212173427292.png"></p>
+<p>上图代表：local 1有一块内存，就跟指针一样。dword是4字节，word是2字节，byte是1字节。可以理解为创造两个变量a,b。</p>
+<p>调用函数时，先将上面a，b两个参数放在寄存器中，然后push，push后再call函数，进入函数先把返回地址压入，汇编有一点时很奇怪的·，它将用完的全局变量也会即使清除，我想这是因为寄存器少的原因吧。</p>
+<p>Visual  Basic文件，一般vb文件的运行是需要调用其dll库中的函数，所以该exe文件中有dll文件。</p>
+<p>*<a target="_blank" rel="noopener" href="http://www.eepw.com.cn/news/listbylabel/label/GUI">GUI</a>*的全称为Graphical User Interface，图形化界面或图形用户接口，是指采用图形方式显示的计算机操作环境用户接口。</p>
+<p>ESP的清理，当函数执行完毕，ESP要恢复到调用前的值，这样栈的大小不会改变。</p>
+<p>三种方法：</p>
+<p>1、cdecl，调用者处理栈，比如main中有参数，main来处理参数</p>
+<p>2、stdcall，也是调用者处理栈，如果想用：int _stdcall add(int x,int y),有点是兼容性比cdecl强。</p>
+<p>3、fastcall，是通过寄存器来清除，因为寄存器是比内存快的</p>
+<h2 id="PE文件"><a href="#PE文件" class="headerlink" title="PE文件"></a>PE文件</h2><p>一、PE文件是指win下32位可执行文件，64位的PE文件叫做PE32+，PE文件包括：可执行文件exe，scr；库文件dll，ocx，cpl，drv；驱动程序系列：sys，vxd；对象文件系列：obj。除了obj其他都是可执行文件。PE文件分为头和体，从DOS头到节区头Section 属于头部，剩下是体。在文件中用offset偏移表示地址，在内存中用VA表示，这两个的运算很重要。文件的内容是有代码.text，数据.data，资源.rsrc节，分别保存。注意，在PE头和各节区尾部存在NULL区域，这是为了遵守最小基本单位原则，因为要让文件或者内存节的起始位置在最小单位的倍数上，所以需要NULL填充。</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple2/Untitled.png"></p>
+<p>二、VA和RVA</p>
+<p>VA 是虚拟内存绝对地址   RVA是相对虚拟地址   ImageBase是基准地址</p>
+<p>所以有RVA+ImageBase&#x3D;VA</p>
+<p>PE头文件中一般都是RVA，因为dll文件的调用会占位置，正如调试so文件一样，需要算真实地址。</p>
+<p>三、PE头</p>
+<p>1、DOS头</p>
+<p>IMAGE_DOS_HEADER结构体位于PE文件最前面，大小64位</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple2/image-20211218193756591.png"></p>
+<p>e_magic是签名，e_lfanew指示了NT头的offset，在intel中采用小端序</p>
+<p>2、DOS存根</p>
+<p>DOS存根（stub），是由代码和数据组成，可有可无。</p>
+<p>3、NT头</p>
+<p>IMAGE_NT_HEADERS</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple2/image-20211218193827675.png"></p>
+<p>signature签名，File Header文件头，Optional Header可选头</p>
+<p>3.1、NT头，文件头</p>
+<p>IMAGE_FILE_HEADER</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple2/image-20211218193854482.png"></p>
+<p>四个成员：Machine，每个cpu有独有的Machine码；NumberOfSections，文件中节区数量；SizeOfOptionalHeader，指出可选头结构体长度，PE32+用64位的结构体，所以需要查看其长度；Characteristics，查看文件属性。</p>
+<p>TimeDataStamp:时间戳</p>
+<p>3.2、NT头，可选头</p>
+<p>该头是32位PE文件中最大的</p>
+<p>Magic，32位是10B，64位是20B;AddressOfEntryPoint，含有EP的RVA;ImageBase，</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple2/image-20211218193912587.png"></p>
+<p>SectionAlignment，指定节区在内存中的最小单位；</p>
+<p>FileAlignment，指定节区在磁盘文件中最小单位；</p>
+<p>SizeOfImage，指定PE Image在虚拟内存中占空间大小；</p>
+<p>SizeOfHeaders，指出PE头大小；</p>
+<p>Subsystem，其值用来区分系统驱动文件.sys与普通可执行文件 .exe .dll；</p>
+<p>NumberOfRvaAndSizes，指出DataDirectory的数组大小；</p>
+<p>DataDirectory这个数组中比较重要的是：IMPORT和EXPORT Directory、</p>
+<p>4、节区头：存有各个节区的属性IMAGE_SECTION_HEADER</p>
+<p>VA,PTRD由NT中的可选头定义在SectionAlignment和FileAlignment</p>
+<p>VirtualSize和SizeOfRawData的值不同，因为磁盘文件节区大小和内存中的是不一样的</p>
+<p>NAME字段，不用以NULL结尾，不用限制是ascii，所以只作为参考</p>
+<p>RAW &#x3D; RVA - VA+ PTRD</p>
+<p>求RAW的过程：先用RVA+ImageBase来判断RVA在内存的哪个节区，算VA，VA&#x3D;内存起始地址-ImageBase，再算PTRD&#x3D;文件偏移。最后套公式算出RAW（偏移量）。</p>
+<p>按理说VA指的是在OD里能看到的地址,但这里应该是省去了VA&#x3D;内存起始地址-ImageBase这一步，该处的VA并不是用RVA加出来的，而是用该段的VA-基址</p>
+<p><strong>RVA，VA:</strong></p>
+<p>RVA:(RelativeVirtual Address简称RVA),RVA只是内存中的一个简单的相对于PE文件装入地址的偏移位置，或称为偏移量。</p>
+<p>公式: VA(401000h) - 装入地址(Imagebase)400000h&#x3D;RVA1000h</p>
+<p>建议参考这篇文章</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/oBuYiSeng/article/details/50419081?ops_request_misc=%7B%22request_id%22:%22163919453216780271510153%22,%22scm%22:%2220140713.130102334..%22%7D&amp;request_id=163919453216780271510153&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-2-50419081.pc_search_insert_es_download_v2&amp;utm_term=RVA&amp;spm=1018.2226.3001.4187">https://blog.csdn.net/oBuYiSeng/article/details/50419081?ops_request_misc=%7B%22request%5Fid%22%3A%22163919453216780271510153%22%2C%22scm%22%3A%2220140713.130102334..%22%7D&amp;request_id=163919453216780271510153&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-2-50419081.pc_search_insert_es_download_v2&amp;utm_term=RVA&amp;spm=1018.2226.3001.4187</a></p>
+<p>1.判断指定的RVA在那个节中</p>
+<p>2.求得该节的起始地址RVA</p>
+<p>3.求出偏移量Offset&#x3D;RVA-节起始RVA</p>
+<p>4.FOA &#x3D; Offset+该节在磁盘中的起始地址</p>
+<p>数据的文件偏移&#x3D;(数据RVA - 节RVA) + 节的文件偏移</p>
+<p>5、IAT：导入地址表</p>
+<p>5.1、DLL：动态链接库</p>
+<p>DLL单独，不包含在程序中，两种加载方式：</p>
+<p>第一种，显示链接，使用时加载，使用完释放</p>
+<p>第二种，隐式链接，程序一开始就加载，终止释放内存</p>
+<p>有一个小问题，我们再执行一些库函数时，是先跳转到一个地址，然后再用该地址的值跳转到该函数，为什么不直接跳转到该函数？因为再系统和执行环境不同时，那个函数的地址是不准确的，所以我们要规定一个地方来存储那个函数的值！</p>
+<p>另外PE头中不使用VA，而是用RVA.</p>
+<p>5.2、IMAGE_IMPORT_DESCRIPTOR</p>
+<p>记录该程序导出哪些库文件</p>
+<p>该结构体被称为IMPORT Directory Table，查找位置在PE头，而存在于PE体！</p>
+<p>1、Name：显示函数所属库文件名称</p>
+<p>2、OriginalFirstThunk-INT：导入函数信息的指针数组</p>
+<p>3、IMAGE_IMPORT_BY_NAME:INT每个地址都指向该结构体</p>
+<p>4、FirstThunk-IAT：IAT的第一个值会被真实地址所替代</p>
+<p>6、EAT</p>
+<p>它使不同的程序调用库文件提供的函数。</p>
+<p>压缩：</p>
+<p>压缩分为无损和有损</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple2/image-20211218193938507.png"></p>
+<p>UPX也属于压缩器，保护器还能防止逆向分析</p>
+<p>基本知识补充：</p>
+<p>在程序开头，call edi是获取ImageBase，ctrl+F8快速F8，点F7退出</p>
+<p>如何查找upx加密过的EP代码，有以下几种方法：</p>
+<p>1、一步一步跟进，ctrl+F8找到循环，用F2下断点退出循环，再找到jmp大幅度的地方，基本锁定是EP。IAT的恢复过程：</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple2/image-20211218193958778.png"></p>
+<p>2、ESP定律，设置硬件断点：</p>
+<p>进入程序直接定位到，pushad。</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple2/image-20211218194013069.png"></p>
+<p>我们F8，pushad将eax到edi寄存器的值全部存储过去，我们用寄存器的ESP，右键数据窗口显示，</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple2/image-20211218194040726.png"></p>
+<p>选中数据右键设硬件断点，硬件访问—》word，设置完然后F9，找到jmpF8就行了</p>
+<p>这就是常用的方法。</p>
+<p>原理：UPX的特征之一，其EP代码包含在pushad和popad之间，并且jmp的命令出现在popad之后。</p>
+<p>硬编码:  硬编码是将数据直接嵌入到程序或其他可执行对象的源代码中的软件开发实践，与从外部获取数据或在运行时生成数据不同。</p>
+<p>PE重定位，其实和so文件在ida中定位是一样的：</p>
+<p>我们使用010editor来查看文件内部ImageBase的值，在nt头的option下查看，在option下data结构体中的第6项查看IMAGE_BASE_RELOCATION（基址重定位表）的RVA，那么怎么找到这个结构体呢？</p>
+<p>我们用PEview打开文件找到RVA值对应的段，一般都在.reloc</p>
+<p>找到后，我们发现VA和TypeOffset（16位），TypeOffset前4位是类型，后12位才是偏移： VA+OFFSET&#x3D;RVA,求出RVA后看内存中的ImageBase加起来就是我们在OD中的地址！</p>
+<p>删除.reloc节：</p>
+<p>exe文件删不删都没问题，但dll和sys删了就出事了。</p>
+<p>先在PEview中NT下查看IMAGE_SECTION_HEADER.reloc:</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple2/image-20211218194058963.png"></p>
+<p>注意270处是.reloc节区头，其大小是到294，PTRD的数据是.reloc的节区，我们用hexo editor直接找到位置删除就行，或者用nop填充.接下来还需要进行数据的修改,要把file头中的Number of Sections项减去1,因为少了1个节区,还要修改IMAGE_OPTIONAL_HEADER的size of image,我们找到.reloc节区头的SectionAlignment,用size of image-&#x3D;SectionAlignment就行了</p>
+<p>UPack的·PE头特征：</p>
+<p>1、重叠文件头nt头的位置是由e_lfanew决定，在压缩中值为10，会导致DOS和NT头重合。</p>
+<p>2、FILE头的SizeOfOptionalHeader（为了计算optional头的偏移）,UPACK将文件头下的OPTIONAL头的结构体改大，为了在Optional头和Section头中添加一段解码代码。</p>
+<p>3、OPTIONAL头中的NumberOfRvaAndSizes代表结构体数组的数量，正常数组是有10h，但改完有A个，就是少了5个，所以从A后的数组全部被改为UPACK自己的代码。</p>
+<p>4、在SECTION头中，如果有不需要用的数据，Upack是可以将其改成自己的代码，与第3点相似。</p>
+<p>5、第5点通过语言不好描述：简单来说就是节区重叠，看似违反PE规定，但在内存中又重新恢复，所以并不违反。</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple2/image-20211218194120770.png"></p>
+<p>6、RVA to RAW是一个bug，正常来说PTRD是FileAlignment的整数倍，但FileAlignment为200，PTRD却只有10，那么如果要是整数倍，PTRD就要等于0。这就导致算RAW时算错。</p>
+<p>7、导入表：PE的规范是，导入表由IMPORT结构体和最后一个内容NULL组成，但在Upack中第一个结构体后不是结构体，也不是NULL，但在映射到内存的时候，又会出现NULL，也就符合了规范。</p>
+<p>内嵌补丁：在难以修改指定代码的时候，比如代码被压缩等情况下，插入”洞穴代码“并运行补丁代码。</p>
+<p>我们知道，在这种动态压缩的情况下，我们如果直接查找要修改的字符串，很大可能是不行的，因为我们并没有让压缩的文件进行解码，所以我们必须让程序运行到解码区。</p>
+<p>内嵌补丁打法：</p>
+<p>1、寻找补丁设置位置，三种方法：（1）设置文件空白区域（2）拓展最后节区后设置（3）添加新节区后设置</p>
+<p>代码少的时候用方法（1），其他时候用法（2）或者（3）</p>
+<p>法一：</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple2/image-20211218194142497.png"></p>
+<p>那么对应内存上的地址，如图：</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple2/image-20211218194204300.png"></p>
+<p>2、在od中找到需要patch的地方401280，在该处进行下列操作：</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple2/image-20211218194224699.png"></p>
+<p>3、执行补丁</p>
+<p>将jmp跳转到该处即可，但我们还需要将jmp处的加密区域的字符改为加密前的字符，我们可以通过动态调试将源码找到，这样经过解码后就是我们想要的了！</p>
+<p>总结：本章节晦涩难懂，需要反复学习，要懂得怎么操作！</p>
+<h2 id="DLL注入"><a href="#DLL注入" class="headerlink" title="DLL注入"></a>DLL注入</h2><p>一、windows消息勾取</p>
+<p>HOOK：泛指钓取所需东西而使用的一切工具，我们可以通过hook来钓取我们所想要获得的信息。</p>
+<p>GUI：图形用户界面，以event驱动，比如移动鼠标，选择菜单都属于event</p>
+<p>正常的windows获取键盘上输入的过程：</p>
+<p>键盘输入，存入OS message queue</p>
+<p>OS判断，从OS中取出信息，存入application message queue</p>
+<p>app发现application message queue，准备处理。</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled.png"></p>
+<p>根据上图，我们可以采用hook，勾取消息在app接收之前</p>
+<p>SetwindowsHookEx函数</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled2.png"></p>
+<p>实例句柄：实例句抦用来标识一个程序的一个具体的进程，他的值实际上是这个实例被加载到进程空间的地址。</p>
+<p>实例——在windows环境下，不但可以运行多个应用程序，还可以运行多个应用程序的多份拷贝，每个拷贝叫做一个实例，并且有不同的<strong>实例句柄</strong>。一个<strong>实例句柄</strong>是windows可以单独运行的副本，是唯一可以标志此实例的整数。</p>
+<p>hook procedure是由操作系统调用的回调函数，hook的安装是需要存在于dll文件内部。</p>
+<p>通过实例来了解，如何运作，打开hook的exe程序，我们再打开需要键盘输入的程序，发现无法输入，关闭hook后可以输入。</p>
+<p>这是hook的源码</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled3.png"></p>
+<p>hook的源码中的keyhook文件</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled4.png"></p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled5.png"></p>
+<p>hook的源码中的keyhook文件</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled6.png"></p>
+<p>wParam是用户键盘按下的虚拟按键，lParam根据不同位有很多含义，用ToAscii函数得到按键的ascii</p>
+<p>总结</p>
+<p>如何通过实操进行信息勾取：</p>
+<p>先用OD打开应用，并运行，或者用attach打开；</p>
+<p>开启options中的each栏中的Break on new module(DLL）选项；</p>
+<p>运行hook，在键盘输入；</p>
+<p>在executable modules中找到keyhook.dll，双击进入设置断点。</p>
+<p>DLL注入</p>
+<p>DLL：程序的动态链接库，我们通过dll注入，将dll文件注入我们想获取软件的动态链接库里，这样就可以轻松获取信息。</p>
+<p>我们通过使用LoadLibrary（）API来加载dll文件，dll注入的原理就是从外部促使目标进程调用LoadLibrary（）API，强制执行DllMain（）函数。</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled7.png"></p>
+<p>notepad的PID为17136</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled8.png"></p>
+<p>书上说的注入方法已经完全不适用于win10系统了，我们一定要将两个文件拖入c盘中但不能创建文件夹，然后我们用管理员模式打开，定位到C:\，输入下面的指令.</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled9.png" alt="Untitled9"></p>
+<p>接下来我们主要看一下注入的cpp文件源码.</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled10.png"></p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled11.png"></p>
+<p>从第二张图片开头说起：</p>
+<p>hProcess &#x3D; OpenProcess(PROCESS_ALL_ACCES , FALSE ,dwPID)用该api先接收到PID然后在获取将要注入软件的句柄（PROCESS_ALL_ACCES权限）,我们采用句柄来控制进程。</p>
+<p>pRemoteBuf &#x3D; VirtualAllocEx(hProcess ,NULL, dwBufSize,MEM_COMMIT, PAGE_READWRITE)</p>
+<p>分配缓冲区</p>
+<p>WriteProcessMemory(hProcess, pRemoteBuf,(LPVOID)szDllName ,dwBufSize, NULL)</p>
+<p>将路径分配给缓冲区</p>
+<p>hMod&#x3D;GetModuleHandle(”kernel32.dll)</p>
+<p>pThreadProc&#x3D;(IPTHREAD_START_ROUNTINE)GetProcAddress(hMod,”LoadLibraryW”)</p>
+<p>上面两条指令是为了获取LoadLibraryW()的api，我们的意图是加载到软件的kernel32文件，但此处加载到了我们注入程序的kernel，所以在windows系统中kernel32.dll的加载地址一样。</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled12.png"></p>
+<p>最后进行远程线程，主要是让软件通过LoadLibrary()进行api调用，来启动dll文件</p>
+<p>其中CreateRemoteThread函数就是用来调用LoadLibrary()的一个线程。</p>
+<p>如果用注册表进行注入，我认为是简单的。</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled13.png"></p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled14.png"></p>
+<p>DLL卸载，很显然要完成这个操作，我们需要调用api函数FreeLibrary()进行将卸载dll的句柄穿给软件</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled15.png"></p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled16.png"></p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled17.png"></p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled18.png"></p>
+<p>该函数就是用来调用FreeLibrary()函数的</p>
+<p>其中hSnapshot&#x3D;CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,dwPID)用来加载进程dll的信息，</p>
+<p>hProcess&#x3D;OpenProcess（PROCESS_ALL_ACCESS ,FALSE ,dwPID)，获取句柄。</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled19.png"></p>
+<p>此处是获取api地址的地方，就想上面注入时的操作一样。</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled20.png"></p>
+<p>此处调动api函数</p>
+<p>注入指令：</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled21.png"></p>
+<p>删除指令：</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled22.png"></p>
+<p>通过PE文件加载DLL文：</p>
+<p>这也是一个最直接的办法，但是很难操作。先介绍两个api函数：</p>
+<p>DownloadURL()</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled23.png"></p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled24.png"></p>
+<p>其中szURL参数指定网页文件，并保存到szFILE目录。</p>
+<p>DropFile（）</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled25.png"></p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled26.png"></p>
+<p>该函数获取程序运行的句柄，再调用postMessage的api将消息放进消息列表。dummy（），该函数时为dll文件向外部提供服务的导出函数，实际上没用，但为了保持形式的完整性，就有其存在的必要！</p>
+<p>修改步骤：</p>
+<p>1、查看IDT中是否有足够空间，我们在PEview中查看dll加载起始位置</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled27.png"></p>
+<p>又因为每个dll’文件都对应一个IID结构体，一个结构体大小为14.所以我们需要的位置大小为84CC—852F</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled28.png"></p>
+<p>2、移动IDT</p>
+<p>首先查看文件的空白区域，基本上时.rdate节区末尾，再增加文件最后节区大小，最后再文件末尾添加新节区。</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled29.png"></p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled30.png"></p>
+<p>然后我们要进行删除导入表，导入表可以加速dll的载入，再IMAGE_OPTIONAL_HEADER中的BOUND IMPORT TABLE找地址，然后修改为0即可。</p>
+<p>3、创建IDT</p>
+<p>在文件末尾修改如下：这是在修改IID</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled31.png"></p>
+<p>4、设置Name，INT,IAT</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled32.png"></p>
+<p>对应上个步骤修改的意义。</p>
+<p>下图修改RAW：7F00处</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled33.png"></p>
+<p>下图修改RVA处数据</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled34.png"></p>
+<p>INT是RVA数组，每个元素都是地址</p>
+<p>Name是dll名称</p>
+<p>IAT是RVA数组，可以与INT一致，也可以不同。</p>
+<p>5、我们在用10edit打开文件时，发现是可读，不可写，所以要改成write，这样，我们修改的数据PE装载器才会改。</p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled35.png"></p>
+<p><img src="/2021/12/12/ReverseCorePrinciple/../../blog/source/_posts/ReverseCorePrinciple3/Untitled36.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1379,7 +1906,7 @@ print(long_to_bytes(int(flag, 2)))
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
